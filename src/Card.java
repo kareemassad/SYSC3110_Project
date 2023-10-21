@@ -3,7 +3,7 @@ package src;
 public class Card {
 
     public enum Color {RED, GREEN, BLUE, YELLOW, WILD}
-    public enum Type {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, SKIP, REVERSE, DRAW_ONE, WILD, WILD_DRAW_TWO}
+    public enum Type {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, SKIP, REVERSE, DRAW_ONE, WILD, WILD_DRAW_TWO}
     private Color color;
     private Type type;
     private boolean used = false;

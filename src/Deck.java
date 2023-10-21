@@ -6,14 +6,14 @@ public class Deck {
     private ArrayList<Card> deck;
 
     public Deck(){
-        this.deck = new ArrayList<Card>();
+        this.deck = new ArrayList<>();
         newDeck();
     }
 
     private void newDeck(){
         //Adds cards of each colour for numbers 0-9
         Card.Type[] cardNum = Card.Type.values();
-        for (int i = 0; i < 10; i++){
+        for (int i = 0; i < 9; i++){
             deck.add(new Card(Card.Color.RED, cardNum[i]));
             deck.add(new Card(Card.Color.RED, cardNum[i]));
             deck.add(new Card(Card.Color.GREEN, cardNum[i]));

@@ -22,8 +22,8 @@ public class Player {
     public int getScore() { return score; }
 
     public void updateScore(Card card) {
-        if (card.getType() == Card.Type.ZERO || card.getType() == Card.Type.ONE || card.getType() == Card.Type.TWO || card.getType() == Card.Type.THREE || card.getType() == Card.Type.FOUR || card.getType() == Card.Type.FIVE || card.getType() == Card.Type.SIX || card.getType() == Card.Type.SEVEN || card.getType() == Card.Type.EIGHT || card.getType() == Card.Type.NINE) {
-            this.score += card.getType().ordinal();
+        if (card.getType() == Card.Type.ONE || card.getType() == Card.Type.TWO || card.getType() == Card.Type.THREE || card.getType() == Card.Type.FOUR || card.getType() == Card.Type.FIVE || card.getType() == Card.Type.SIX || card.getType() == Card.Type.SEVEN || card.getType() == Card.Type.EIGHT || card.getType() == Card.Type.NINE) {
+            this.score += (card.getType().ordinal() + 1);
         } else if (card.getType() == Card.Type.DRAW_ONE) {
             this.score += 10;
         } else if (card.getType() == Card.Type.REVERSE || card.getType() == Card.Type.SKIP) {
