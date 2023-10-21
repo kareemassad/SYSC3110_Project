@@ -5,13 +5,13 @@ The SYSC 3110 project is to basically create a simplified version of the card ga
 lesser functionalities. In Milestone 1, the game is developed as text-based, allowing players to engage through the console using keyboard input.
 
 ## Project members and authors
-Our group, Group #11, consists of 4 memebers: Mehedi Mostofa, Rayat Md Kibria, Evan Baldwin and Kareem El Assad. The contributions of the memebers are listed below:
+Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Evan Baldwin and Kareem El Assad. The contributions of the memebers are listed below:
 
 | Member | Student number | Contributions |
 | ------ |----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Mehedi | 101154128 | Players, Uno, All unit tests |
-| Rayat | 101151001 | Card, Uno, All uni tests |
-| Evan | | |
+| Mehedi | 101154128 | Player, Uno, Unit tests |
+| Rayat | 101151001 | Card, Uno, Unit tests |
+| Evan | | Deck, Uno, Unit tests |
 | Kareem | | |
 
 ## Deliverables
