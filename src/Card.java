@@ -1,16 +1,23 @@
 package src;
 public class Card {
-    private final String color;
-    private final String value;
 
-    public Card(String color, String value) {
+    enum Color {
+        RED, GREEN, BLUE, YELLOW, WILD
+    }
+    enum Value {
+        ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, SKIP, REVERSE, DRAW_TWO, WILD
+    }
+    private final Color color;
+    private final Value value;
+
+    public Card(Color color, Value value) {
         this.color = color;
         this.value = value;
     }
-    public String getColor() {
+    public Color getColor() {
         return color;
     }
-    public String getValue() {
+    public Value getValue() {
         return value;
     }
     public String toString() {
