@@ -18,7 +18,6 @@ public class Player {
 /**
  * Default constructor for Player
  */
-
     public Player(String name) {
         this.name = name;
         cards = new ArrayList<>();

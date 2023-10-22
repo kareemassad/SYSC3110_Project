@@ -83,4 +83,13 @@ public class Deck {
     public int getDeckSize() {
         return deck.size();
     }
+
+    public boolean contains(Card.Color color, Card.Type type){
+        for (Card c : deck){
+            if (c.getColor() == color && c.getType() == type){
+                return true;
+            }
+        }
+        return false;
+    }
 }
