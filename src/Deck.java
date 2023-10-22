@@ -1,12 +1,13 @@
 package src;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static java.sql.Types.NULL;
 
 public class Deck {
 
-    private ArrayList<Card> deck;
+    private List<Card> deck;
 
     public Deck(){
         deck = new ArrayList<>();
