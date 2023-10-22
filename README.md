@@ -7,12 +7,12 @@ lesser functionalities. In Milestone 1, the game is developed as text-based, all
 ## Project members and authors
 Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Evan Baldwin and Kareem El Assad. The contributions of the memebers are listed below:
 
-| Member | Student number | Contributions |
-| ------ |----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Mehedi | 101154128 | Player, Uno, Unit tests |
-| Rayat | 101151001 | Card, Uno, Unit tests |
-| Evan | | Deck, Uno, Unit tests |
-| Kareem | | |
+| Member | Student number | Contributions                          |
+|--------|----------------|----------------------------------------|
+| Mehedi | 101154128      | Player, Uno, Unit tests, Class diagram |
+| Rayat  | 101151001      | Card, Uno, Unit tests                  |
+| Evan   |                | Deck, Uno, Unit tests                  |
+| Kareem |                | Uno, Unit tests                        |
 
 ## Deliverables
 The following is a list of deliverable that were required in the milestone:

@@ -1,7 +1,6 @@
 package src;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -37,6 +36,6 @@ public class Uno {
     }
 
     public static void main(String[] args) {
-
+        Uno uno = new Uno();
     }
 }
