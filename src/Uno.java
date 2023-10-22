@@ -30,9 +30,9 @@ public class Uno {
         }
 
         for (int i = 1; i <= playerCount; i++) {
+            System.out.println("Enter name for Player " + i + ": ");
             String name = sc.nextLine();
             players.add(new Player(name));
-            System.out.println("Enter name for Player " + i + ": " + name);
         }
     }
 
