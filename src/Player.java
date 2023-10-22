@@ -3,27 +3,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    private String name;
+    private List<Player> players;
     private List<Card> cards;
     private int score;
 
     public Player(String name) {
-        this.name = name;
+        this.players = new ArrayList<>();
         this.cards = new ArrayList<>();
         this.score = 0;
     }
 
-    public String getName() {
-        return this.name;
+    public List<Player> getPlayers() {
+        return this.players;
     }
 
-    public void setName(String name) { this.name = name; }
+    public void setPlayers(Player players) {
+        this.players.add(players);
+    }
 
     public int getScore() { return score; }
 
     public void updateScore(Card card) {
-        if (card.getType() == Card.Type.ZERO || card.getType() == Card.Type.ONE || card.getType() == Card.Type.TWO || card.getType() == Card.Type.THREE || card.getType() == Card.Type.FOUR || card.getType() == Card.Type.FIVE || card.getType() == Card.Type.SIX || card.getType() == Card.Type.SEVEN || card.getType() == Card.Type.EIGHT || card.getType() == Card.Type.NINE) {
-            this.score += card.getType().ordinal();
+        if (card.getType() == Card.Type.ONE || card.getType() == Card.Type.TWO || card.getType() == Card.Type.THREE || card.getType() == Card.Type.FOUR || card.getType() == Card.Type.FIVE || card.getType() == Card.Type.SIX || card.getType() == Card.Type.SEVEN || card.getType() == Card.Type.EIGHT || card.getType() == Card.Type.NINE) {
+            this.score += (card.getType().ordinal() + 1);
         } else if (card.getType() == Card.Type.DRAW_ONE) {
             this.score += 10;
         } else if (card.getType() == Card.Type.REVERSE || card.getType() == Card.Type.SKIP) {
@@ -51,7 +53,7 @@ public class Player {
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder("Your Score: " + getScore() + "\nYour cards:\n");
+        StringBuilder s = new StringBuilder("Your Score: " + getScore() + "\n" + getPlayers() + "'s cards:\n");
         int count = 1;
 
         for (Card c : cards) {
