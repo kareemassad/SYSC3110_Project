@@ -1,8 +1,5 @@
-package src;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import static java.sql.Types.NULL;
+
+import java.util.*;
 
 /**
  *This is the Deck Class. This builds a deck with the required cards and draws them.
@@ -26,14 +23,15 @@ public class Deck {
         //If deck being drawn from has no cards, shuffle a new deck.
         if (deck.isEmpty()){
             newDeck();
+            shuffle();
         }
         //Get random card from within deck, check to ensure not null.
-        int givenCard = card.nextInt(deck.size());
+        int givenCardIndex = card.nextInt(deck.size());
+        //TODO: Should we be getting the next int or a random int? I suppose depends on if deck is shuffled or not
+        //TODO: random.nextInt(deck.size());
 
-        if (givenCard != NULL) {
-            given = deck.get(givenCard);
-            deck.remove(givenCard);//Remove drawn card from deck
-        }
+        given = deck.get(givenCardIndex);
+        deck.remove(givenCardIndex);
 
         return given;
     }
@@ -74,6 +72,19 @@ public class Deck {
             deck.add(new Card(Card.Color.WILD, Card.Type.WILD));
             deck.add(new Card(Card.Color.WILD, Card.Type.WILD_DRAW_TWO));
         }
+    }
+
+    public void shuffle(){
+        Collections.shuffle(deck);
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        for(Card card : deck){
+            sb.append(card).append("\n");
+        }
+        return sb.toString();
     }
 
     /**
