@@ -20,7 +20,7 @@ public class Deck {
      * This method shows how a deck functions when cards are drawn or cards are over. It shuffles a new deck and gives
      * out a random card.
      */
-    private Card drawCard(){
+    public Card drawCard(){
         Random card = new Random();
         Card given = null;
         //If deck being drawn from has no cards, shuffle a new deck.
@@ -41,7 +41,7 @@ public class Deck {
     /**
      * Method for making a deck with cards of every color and type(numbers, special and wild).
      */
-    private void newDeck(){
+    public void newDeck(){
         //Adds cards of each colour for numbers 0-9
         Card.Type[] cardNum = Card.Type.values();
         for (int i = 0; i < 9; i++){
@@ -74,5 +74,13 @@ public class Deck {
             deck.add(new Card(Card.Color.WILD, Card.Type.WILD));
             deck.add(new Card(Card.Color.WILD, Card.Type.WILD_DRAW_TWO));
         }
+    }
+
+
+    /**
+     * This method returns the size of the deck.
+     */
+    public int getDeckSize() {
+        return deck.size();
     }
 }
