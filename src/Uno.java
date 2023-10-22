@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Uno {
@@ -121,6 +122,10 @@ public class Uno {
                     if(currentPlayer.getSize() == 0){
                         gameRunning = false;
                         System.out.println(currentPlayer.getName() +  " wins!");
+                        for (Player player : players) {
+                            for (int i = 0; i < player.getSize(); i++)
+                                currentPlayer.updateScore(player.getCard(i));
+                        }
                         return;
                     }
                 } else {
