@@ -14,14 +14,14 @@ public class Card {
     }
 
     public Color getColor() {
-        return this.color;
+        return color;
     }
 
     public Type getType() {
-        return this.type;
+        return type;
     }
 
-    public boolean getUsed() { return this.used; }
+    public boolean getUsed() { return used; }
 
     public void setColor(Color color) { this.color = color; }
 

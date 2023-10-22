@@ -9,7 +9,7 @@ public class Deck {
     private ArrayList<Card> deck;
 
     public Deck(){
-        this.deck = new ArrayList<>();
+        deck = new ArrayList<>();
         newDeck();
     }
 
@@ -22,12 +22,15 @@ public class Deck {
         }
         //Get random card from within deck, check to ensure not null.
         int givenCard = card.nextInt(deck.size());
+
         if (givenCard != NULL) {
             given = deck.get(givenCard);
             deck.remove(givenCard);                   //Remove drawn card from deck
         }
+
         return given;
     }
+
     private void newDeck(){
         //Adds cards of each colour for numbers 0-9
         Card.Type[] cardNum = Card.Type.values();
@@ -61,8 +64,5 @@ public class Deck {
             deck.add(new Card(Card.Color.WILD, Card.Type.WILD));
             deck.add(new Card(Card.Color.WILD, Card.Type.WILD_DRAW_TWO));
         }
-    }
-    public ArrayList<Card> getDeck() {
-        return deck;
     }
 }

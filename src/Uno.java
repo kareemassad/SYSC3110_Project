@@ -6,8 +6,16 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Uno {
+    private Deck deck;
+    private List<Player> players;
+    private Card topCard;
 
-    public static void main(String[] args) {
+    public Uno() {
+        deck = new Deck();
+        players = new ArrayList<>();
+    }
+
+    public void addPlayers() {
         Scanner sc = new Scanner(System.in);
         int playerCount = 0;
 
@@ -17,23 +25,18 @@ public class Uno {
 
             if (playerCount < 2 || playerCount > 4) {
                 System.out.println("Invalid number of players. Please enter a number between 2 and 4.");
+                playerCount = sc.nextInt();
             }
         }
 
-        Deck deck = new Deck();
-        List<Card> gameDeck = deck.getDeck();
-        Collections.shuffle(gameDeck);
-
-        List<Player> players = new ArrayList<>();
         for (int i = 1; i <= playerCount; i++) {
-            players.add(new Player("Player " + i));
+            String name = sc.nextLine();
+            players.add(new Player(name));
+            System.out.println("Enter name for Player " + i + ": " + name);
         }
+    }
 
-        for (Player player : players) {
-            for (int i = 0; i < 7; i++) {
-                Card card = gameDeck.remove(0);
-                player.addCards(card);
-            }
-        }
+    public static void main(String[] args) {
+
     }
 }

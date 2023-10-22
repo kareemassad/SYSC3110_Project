@@ -3,23 +3,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
-    private List<Player> players;
+    private String name;
     private List<Card> cards;
     private int score;
 
     public Player(String name) {
-        this.players = new ArrayList<>();
-        this.cards = new ArrayList<>();
-        this.score = 0;
+        this.name = name;
+        cards = new ArrayList<>();
+        score = 0;
     }
 
-    public List<Player> getPlayers() {
-        return this.players;
-    }
-
-    public void setPlayers(Player players) {
-        this.players.add(players);
-    }
+    public String getName() { return name; }
 
     public int getScore() { return score; }
 
@@ -38,22 +32,22 @@ public class Player {
     }
 
     public Card getCard(int index) {
-        return this.cards.get(index);
+        return cards.get(index);
     }
 
     public void addCards(Card c) {
-        this.cards.add(c);
+        cards.add(c);
     }
 
     public void removeCards(int i) {
-        this.cards.remove(i);
+        cards.remove(i);
     }
 
     public int getSize() {return this.cards.size(); }
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder("Your Score: " + getScore() + "\n" + getPlayers() + "'s cards:\n");
+        StringBuilder s = new StringBuilder("Your Score: " + getScore() + "\nYour cards:\n");
         int count = 1;
 
         for (Card c : cards) {
