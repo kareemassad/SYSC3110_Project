@@ -39,8 +39,8 @@ public class PlayerTest {
      */
     @Test
     public void testDrawCards(){
-        player.addCards(c1);
-        player.addCards(c2);
+        player.addCard(c1);
+        player.addCard(c2);
 
         assertEquals(2,player.getSize());
         assertEquals(c1,player.getCard(0));
@@ -52,10 +52,10 @@ public class PlayerTest {
      */
     @Test
     public void testDropCards(){
-        player.addCards(c1);
-        player.addCards(c2);
+        player.addCard(c1);
+        player.addCard(c2);
 
-        player.removeCards(0);
+        player.removeCard(0);
 
         assertEquals(1,player.getSize());
         assertEquals(c2,player.getCard(0));
