@@ -3,9 +3,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
+    /**
+     This is the Player class.
+
+     These are the players that get cards from the deck and play the game.
+     @attribute name is the name of the Player
+     @attribute  card is the list of cards a player has on hand.
+     @attribute score is the score of the player.
+     */
     private String name;
     private List<Card> cards;
     private int score;
+
+/**
+ * Default constructor for Player
+ */
 
     public Player(String name) {
         this.name = name;
@@ -13,10 +25,19 @@ public class Player {
         score = 0;
     }
 
+    /**
+     * Default getter for name
+     */
     public String getName() { return name; }
 
+    /**
+     * Default getter for score
+     */
     public int getScore() { return score; }
 
+    /**
+     * Method to update the score of the player depending on the type of the card
+     */
     public void updateScore(Card card) {
         if (card.getType() == Card.Type.ONE || card.getType() == Card.Type.TWO || card.getType() == Card.Type.THREE || card.getType() == Card.Type.FOUR || card.getType() == Card.Type.FIVE || card.getType() == Card.Type.SIX || card.getType() == Card.Type.SEVEN || card.getType() == Card.Type.EIGHT || card.getType() == Card.Type.NINE) {
             this.score += (card.getType().ordinal() + 1);
@@ -31,20 +52,35 @@ public class Player {
         }
     }
 
+    /**
+     * This method retrieves card from the player for any given index.
+     */
     public Card getCard(int index) {
         return cards.get(index);
     }
 
+    /**
+     * This method adds card to the player when card is being drawn.
+     */
     public void addCards(Card c) {
         cards.add(c);
     }
 
+    /**
+     * This method removes card from the player when card is being played.
+     */
     public void removeCards(int i) {
         cards.remove(i);
     }
 
+    /**
+     * This method shows how  many cards a player has.
+     */
     public int getSize() {return this.cards.size(); }
 
+    /**
+     * toString method to represent the player's status, name, cards and score in a readable text format
+     */
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder("Your Score: " + getScore() + "\nYour cards:\n");
