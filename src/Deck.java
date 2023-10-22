@@ -66,10 +66,16 @@ public class Deck {
         }
     }
 
+    /**
+     * Shuffles the deck.
+     */
     public void shuffle(){
         Collections.shuffle(deck);
     }
 
+    /**
+     * toString method to rearrange text data
+     */
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();
@@ -86,6 +92,9 @@ public class Deck {
         return deck.size();
     }
 
+    /**
+     *Checks if a deck contains a certain card with specific type and color
+     */
     public boolean contains(Card.Color color, Card.Type type){
         for (Card c : deck){
             if (c.getColor() == color && c.getType() == type){
