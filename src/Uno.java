@@ -87,7 +87,8 @@ public class Uno {
                     winner = true;
                     break;
                 }
-            } gameRunning = true;
+            } dealInitialCards();
+            gameRunning = true;
         }
          System.out.println("The winner is " + winningPlayer);
 
