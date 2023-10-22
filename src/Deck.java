@@ -44,4 +44,7 @@ public class Deck {
             deck.add(new Card(Card.Color.WILD, Card.Type.WILD_DRAW_TWO));
         }
     }
+    public ArrayList<Card> getDeck() {
+        return deck;
+    }
 }
