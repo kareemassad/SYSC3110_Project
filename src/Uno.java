@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Uno {
@@ -13,7 +12,6 @@ public class Uno {
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 4;
     private static final String[] VALID_COLORS = {"RED", "BLUE", "GREEN", "YELLOW"};
-
 
     public Uno() {
         deck = new Deck();
@@ -67,7 +65,7 @@ public class Uno {
             System.out.println("Top card is wild. " + players.get(0).getName() + ", choose a color: ");
             chooseColorForWildCard();
         }
-        System.out.println("Top Card: " + topCard);
+        System.out.println("Starting Card: " + topCard);
     }
 
     private void playGame(){
@@ -134,7 +132,7 @@ public class Uno {
             } else if (cardIndex == -1){
                 Card drawnCard = deck.drawCard();
                 currentPlayer.addCard(drawnCard);
-                System.out.println("You drew a " + drawnCard);
+                System.out.println("Played: " + drawnCard);
                 validCardChoice=true;
             } else {
                 System.out.println("Invalid choice. Try again.");
@@ -144,28 +142,22 @@ public class Uno {
     }
 
     private void executeSpecialCardAction() {
-        switch (topCard.getType()){
-            case REVERSE :
-                isReversed = !isReversed;
-                break;
-            case DRAW_ONE:
+        switch (topCard.getType()) {
+            case REVERSE -> isReversed = !isReversed;
+            case DRAW_ONE -> {
                 nextPlayer();
                 currentPlayer.addCard(deck.drawCard());
-                break;
-            case WILD_DRAW_TWO:
+            }
+            case WILD_DRAW_TWO -> {
                 chooseColorForWildCard();
                 nextPlayer();
                 currentPlayer.addCard(deck.drawCard());
                 currentPlayer.addCard(deck.drawCard());
-                break;
-            case SKIP:
-                nextPlayer();
-                break;
-            case WILD:
-                chooseColorForWildCard();
-                break;
-            default:
-                break;
+            }
+            case SKIP -> nextPlayer();
+            case WILD -> chooseColorForWildCard();
+            default -> {
+            }
         }
     }
 
