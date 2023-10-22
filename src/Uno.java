@@ -62,6 +62,10 @@ public class Uno {
             }
         }
         topCard = deck.drawCard();
+        if(topCard.getType() == Card.Type.WILD || topCard.getType() == Card.Type.WILD_DRAW_TWO){
+            System.out.println("Top card is wild. " + players.get(0).getName() + ", choose a color: ");
+            chooseColorForWildCard();
+        }
         System.out.println("Top Card: " + topCard);
     }
 
