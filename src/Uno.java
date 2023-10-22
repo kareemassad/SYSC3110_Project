@@ -1,5 +1,8 @@
 import java.util.*;
 
+/**
+ * This is the main class. It shows the implementation of the game.
+ */
 public class Uno {
     private Deck deck;
     private List<Player> players;
@@ -20,12 +23,18 @@ public class Uno {
         runGame();
     }
 
+    /**
+     * Runs the Uno Game.
+     */
     private void runGame() {
         addPlayers();
         dealInitialCards();
         playGame();
     }
 
+    /**
+     * Adds players to the Uno Game.
+     */
     private void addPlayers() {
         int playerCount = 0;
 
@@ -54,6 +63,9 @@ public class Uno {
         System.out.println("-------------------------");
     }
 
+    /**
+     * Distributes initial cards to players and sets the Starting Card for the game.
+     */
     private void dealInitialCards(){
         for (Player player : players){
             for(int i =0; i<7; i++){
@@ -68,6 +80,9 @@ public class Uno {
         System.out.println("Starting Card: " + topCard);
     }
 
+    /**
+     * Starts the Uno game and handles the turn of each player.
+     */
     private void playGame(){
         deck.shuffle();
 
@@ -78,10 +93,16 @@ public class Uno {
 
     }
 
+    /**
+     * Checks if a card can be played on the current card.
+     */
     private boolean isPlayable(Card card){
         return card.getType()==Card.Type.WILD || card.getType()==Card.Type.WILD_DRAW_TWO || card.getType()== topCard.getType() || card.getColor() == topCard.getColor();
     }
 
+    /**
+     * Moves to the next player's turn.
+     */
     private void nextPlayer(){
         int currentPlayerIndex = players.indexOf(currentPlayer);
         int nextPlayerIndex;
@@ -93,6 +114,9 @@ public class Uno {
         currentPlayer = players.get(nextPlayerIndex);
     }
 
+    /**
+     * Handles the current player's turn, allowing them to play or draw cards and checks valid card play.
+     */
     private void playTurn(){
         System.out.println("-------------------------");
         System.out.println(currentPlayer.getName() + "'s Turn");
@@ -141,6 +165,10 @@ public class Uno {
         nextPlayer();
     }
 
+    /**
+     *  Executes a special action on current card, such as reversing the game,
+     *  drawing cards, skipping or choosing a color for wild cards
+     */
     private void executeSpecialCardAction() {
         switch (topCard.getType()) {
             case REVERSE -> isReversed = !isReversed;
@@ -161,6 +189,9 @@ public class Uno {
         }
     }
 
+    /**
+     * Allows the player to choose the color for Wild Card.
+     */
     private void chooseColorForWildCard() {
         System.out.println("Choose a color (RED, BLUE, GREEN, YELLOW): ");
         while (true){
