@@ -20,10 +20,11 @@ public class Deck {
         if (deck.isEmpty()){
             newDeck();
         }
+        //Get random card from within deck, check to ensure not null.
         int givenCard = card.nextInt(deck.size());
         if (givenCard != NULL) {
             given = deck.get(givenCard);
-            deck.remove(givenCard);
+            deck.remove(givenCard);                   //Remove drawn card from deck
         }
         return given;
     }
