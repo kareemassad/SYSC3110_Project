@@ -1,4 +1,4 @@
-package src;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class DeckTest {
     @Before
     public void setUp(){
         deck = new Deck();
-        Card dCard = deck.drawCard();
+        dCard = deck.drawCard();
     }
 
     /**

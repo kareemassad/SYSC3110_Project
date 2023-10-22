@@ -1,4 +1,3 @@
-package src;
 
 /**
  * This is the Card Class. Card class represents the number and special cards along with their colors using Enumeration.
