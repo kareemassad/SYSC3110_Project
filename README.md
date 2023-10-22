@@ -11,7 +11,7 @@ Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Ev
 |--------|----------------|--------------------------------------------------|
 | Mehedi | 101154128      | Player, Uno, Unit tests,Java Docs, Class diagram |
 | Rayat  | 101151001      | Card, Uno, Unit tests                            |
-| Evan   |                | Deck, Uno, Unit tests                            |
+| Evan   | 101222276      | Deck, Uno, Unit tests, Sequence diagram          |
 | Kareem |                | Uno, Unit tests                                  |
 
 ## Deliverables
