@@ -74,7 +74,7 @@ public class Uno {
     }
 
     private boolean isPlayable(Card card){
-        return card.getColor() == topCard.getColor() || card.getType() == topCard.getType();
+        return card.getType()==Card.Type.WILD || card.getType()==Card.Type.WILD_DRAW_TWO || card.getType()== topCard.getType() || card.getColor() == topCard.getColor();
     }
 
     private void nextPlayer(){
@@ -111,6 +111,7 @@ public class Uno {
                     currentPlayer.removeCards(cardIndex);
                     validCardChoice=true;
                     System.out.println("Played: " + topCard);
+                    executeSpecialCardAction();
                     if(currentPlayer.getSize() == 0){
                         gameRunning = false;
                         System.out.println(currentPlayer.getName() +  " wins!");
@@ -129,6 +130,47 @@ public class Uno {
             }
         } while (!validCardChoice);
         nextPlayer();
+    }
+
+    private void executeSpecialCardAction() {
+        switch (topCard.getType()){
+            case REVERSE :
+                isReversed = !isReversed;
+                break;
+            case DRAW_ONE:
+                nextPlayer();
+                currentPlayer.addCards(deck.drawCard());
+                break;
+            case WILD_DRAW_TWO:
+                chooseColorForWildCard();
+                nextPlayer();
+                currentPlayer.addCards(deck.drawCard());
+                currentPlayer.addCards(deck.drawCard());
+                break;
+            case SKIP:
+                nextPlayer();
+                break;
+            case WILD:
+                chooseColorForWildCard();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void chooseColorForWildCard() {
+        System.out.println("Choose a color (RED, BLUE, GREEN, YELLOW): ");
+        String chosenColor;
+
+        while (true){
+            chosenColor = sc.nextLine().toUpperCase();
+            if(chosenColor.equals("RED") || chosenColor.equals("BLUE") || chosenColor.equals("GREEN") || chosenColor.equals("YELLOW")){
+                topCard.setColor(Card.Color.valueOf(chosenColor));
+                break;
+            } else {
+                System.out.println("Invalid color. Please choose again (RED, BLUE, GREEN, YELLOW): ");
+            }
+        }
     }
 
     public static void main(String[] args) {

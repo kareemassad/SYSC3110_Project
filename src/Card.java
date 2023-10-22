@@ -18,6 +18,26 @@ public class Card {
         this.type = type;
     }
 
+    public boolean isDrawOne() {
+        return type == Type.DRAW_ONE;
+    }
+
+    public boolean isDrawTwo() {
+        return type == Type.WILD_DRAW_TWO;
+    }
+
+    public boolean isReverse() {
+        return type == Type.REVERSE;
+    }
+
+    public boolean isSkip() {
+        return type == Type.SKIP;
+    }
+
+    public boolean isWild() {
+        return type == Type.WILD;
+    }
+
     /**
      * Default getter for card's color.
      */
