@@ -87,8 +87,6 @@ public class Deck {
         return sb.toString();
     }
 
-
-
     /**
      * This method returns the size of the deck.
      */

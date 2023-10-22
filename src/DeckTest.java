@@ -47,6 +47,8 @@ public class DeckTest {
     @Test
     public void testCardsColorAndTypes() {
         assertTrue(deck.contains(Card.Color.RED, Card.Type.ONE));
+        assertTrue(deck.contains(Card.Color.BLUE, Card.Type.SEVEN));
+        assertTrue(deck.contains(Card.Color.BLUE, Card.Type.NINE));
         assertTrue(deck.contains(Card.Color.GREEN, Card.Type.DRAW_ONE));
         assertTrue(deck.contains(Card.Color.BLUE, Card.Type.REVERSE));
         assertTrue(deck.contains(Card.Color.YELLOW, Card.Type.SKIP));
