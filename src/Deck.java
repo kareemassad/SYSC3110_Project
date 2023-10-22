@@ -2,9 +2,11 @@ package src;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import static java.sql.Types.NULL;
 
+/**
+ *This is the Deck Class. This builds a deck with the required cards and draws them.
+ */
 public class Deck {
 
     private List<Card> deck;
@@ -14,6 +16,10 @@ public class Deck {
         newDeck();
     }
 
+    /**
+     * This method shows how a deck functions when cards are drawn or cards are over. It shuffles a new deck and gives
+     * out a random card.
+     */
     private Card drawCard(){
         Random card = new Random();
         Card given = null;
@@ -26,12 +32,15 @@ public class Deck {
 
         if (givenCard != NULL) {
             given = deck.get(givenCard);
-            deck.remove(givenCard);                   //Remove drawn card from deck
+            deck.remove(givenCard);//Remove drawn card from deck
         }
 
         return given;
     }
 
+    /**
+     * Method for making a deck with cards of every color and type(numbers, special and wild).
+     */
     private void newDeck(){
         //Adds cards of each colour for numbers 0-9
         Card.Type[] cardNum = Card.Type.values();
