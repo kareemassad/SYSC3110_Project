@@ -50,6 +50,7 @@ public class Uno {
             String name = sc.nextLine();
             players.add(new Player(name));
         }
+        System.out.println("-------------------------");
     }
 
     private void dealInitialCards(){
@@ -59,7 +60,7 @@ public class Uno {
             }
         }
         topCard = deck.drawCard();
-        System.out.println("Starting Card: " + topCard);
+        System.out.println("Top Card: " + topCard);
     }
 
     private void playGame(){
@@ -88,8 +89,9 @@ public class Uno {
     }
 
     private void playTurn(){
+        System.out.println("-------------------------");
         System.out.println(currentPlayer.getName() + "'s Turn");
-        System.out.println("Your Cards: \n");
+        System.out.println("Your Cards: ");
 
         for (int i =0; i < currentPlayer.getSize(); i++){
             System.out.println((i + 1) + ". " + currentPlayer.getCard(i));
@@ -108,6 +110,7 @@ public class Uno {
                     topCard = chosenCard;
                     currentPlayer.removeCards(cardIndex);
                     validCardChoice=true;
+                    System.out.println("Played: " + topCard);
                     if(currentPlayer.getSize() == 0){
                         gameRunning = false;
                         System.out.println(currentPlayer.getName() +  " wins!");
