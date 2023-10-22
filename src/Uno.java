@@ -85,11 +85,25 @@ public class Uno {
      */
     private void playGame(){
         deck.shuffle();
-
+        boolean winner = false;
+        Player winningPlayer = null;
         currentPlayer=players.get(0);
-        while (gameRunning){
-            playTurn();
+         while(!winner) {
+            while (gameRunning) {
+                playTurn();
+            }
+            System.out.println("\nCurrent scores: ");
+            for (Player player: players){
+                System.out.println(player.getName() + "'s score: " + player.getScore());
+                if (player.getScore() >= 500) {
+                    winningPlayer = player;
+                    winner = true;
+                    break;
+                }
+            } dealInitialCards();
+            gameRunning = true;
         }
+         System.out.println("The winner is " + winningPlayer);
 
     }
 
@@ -143,7 +157,7 @@ public class Uno {
                     executeSpecialCardAction();
                     if(currentPlayer.getSize() == 0){
                         gameRunning = false;
-                        System.out.println(currentPlayer.getName() +  " wins!");
+                        System.out.println(currentPlayer.getName() +  " wins the round!");
                         for (Player player : players) {
                             for (int i = 0; i < player.getSize(); i++)
                                 currentPlayer.updateScore(player.getCard(i));
