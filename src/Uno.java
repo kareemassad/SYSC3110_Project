@@ -26,6 +26,7 @@ public class Uno {
             if (playerCount < 2 || playerCount > 4) {
                 System.out.println("Invalid number of players. Please enter a number between 2 and 4.");
                 playerCount = sc.nextInt();
+                sc.nextLine();
             }
         }
 
