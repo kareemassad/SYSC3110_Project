@@ -4,11 +4,17 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * This class is the test class for testing all the methods in the Player Class
+ */
 public class PlayerTest {
 
     Player player;
     Card c1, c2, number, drawTwo, reverse, wild ;
 
+    /**
+     * Initial setup for the testing environment.
+     */
     @Before
     public void setUp() {
         player = new Player("Mehedi");
@@ -20,12 +26,18 @@ public class PlayerTest {
         wild = new Card(Card.Color.WILD, Card.Type.WILD);
     }
 
+    /**
+     * Method for testing the initial name and score of the player.
+     */
     @Test
     public void testPlayerDetails(){
         assertEquals("Mehedi",player.getName());
         assert player.getScore() == 0;
     }
 
+    /**
+     * Method for testing the cards that are drawn by a player and checking the remaining cards on a player hands.
+     */
     @Test
     public void testDrawCards(){
         player.addCards(c1);
@@ -36,6 +48,9 @@ public class PlayerTest {
         assertEquals(c2,player.getCard(1));
     }
 
+    /**
+     * Method for testing the cards that are played by a player and checking the remaining cards on a player hands.
+     */
     @Test
     public void testDropCards(){
         player.addCards(c1);
@@ -47,6 +62,9 @@ public class PlayerTest {
         assertEquals(c2,player.getCard(0));
     }
 
+    /**
+     * Method for testing the score of the player after a specific type of card is being played.
+     */
     @Test
     public void testPlayerScore() {
         player.updateScore(number);
