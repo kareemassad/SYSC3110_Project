@@ -4,9 +4,15 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * This class is the test class for testing all the methods in the Card Class
+ */
 public class CardTest {
     Card card1, card2, card3, card4, card5;
 
+    /**
+     * Initial setup for the testing environment.
+     */
     @Before
     public void setUp() {
         card1 = new Card(Card.Color.RED, Card.Type.ONE);
@@ -16,6 +22,9 @@ public class CardTest {
         card5 = new Card(Card.Color.WILD, Card.Type.WILD_DRAW_TWO);
     }
 
+    /**
+     * This method tests if each card is retrieving the right color.
+     */
     @Test
     public void testColor() {
         assertEquals(Card.Color.RED, card1.getColor());
@@ -25,6 +34,9 @@ public class CardTest {
         assertEquals(Card.Color.WILD, card5.getColor());
     }
 
+    /**
+     * This method tests if each card is retrieving the right type.
+     */
     @Test
     public void testType() {
         assertEquals(Card.Type.ONE, card1.getType());

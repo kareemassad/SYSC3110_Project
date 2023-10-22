@@ -76,7 +76,6 @@ public class Deck {
         }
     }
 
-
     /**
      * This method returns the size of the deck.
      */
