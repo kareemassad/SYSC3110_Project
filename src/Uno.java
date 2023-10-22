@@ -21,6 +21,7 @@ public class Uno {
         while (playerCount < 2 || playerCount > 4) {
             System.out.print("Enter the number of players (2-4): ");
             playerCount = sc.nextInt();
+            sc.nextLine();
 
             if (playerCount < 2 || playerCount > 4) {
                 System.out.println("Invalid number of players. Please enter a number between 2 and 4.");
@@ -37,5 +38,6 @@ public class Uno {
 
     public static void main(String[] args) {
         Uno uno = new Uno();
+        uno.addPlayers();
     }
 }
