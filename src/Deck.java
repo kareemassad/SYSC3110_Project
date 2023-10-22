@@ -7,7 +7,7 @@ import java.util.*;
 public class Deck {
 
     private List<Card> deck;
-
+    private Random random = new Random();
     public Deck(){
         deck = new ArrayList<>();
         newDeck();
@@ -18,28 +18,20 @@ public class Deck {
      * out a random card.
      */
     public Card drawCard(){
-        Random card = new Random();
-        Card given = null;
         //If deck being drawn from has no cards, shuffle a new deck.
         if (deck.isEmpty()){
             newDeck();
             shuffle();
         }
         //Get random card from within deck, check to ensure not null.
-        int givenCardIndex = card.nextInt(deck.size());
-        //TODO: Should we be getting the next int or a random int? I suppose depends on if deck is shuffled or not
-        //TODO: random.nextInt(deck.size());
-
-        given = deck.get(givenCardIndex);
-        deck.remove(givenCardIndex);
-
-        return given;
+        int givenCardIndex = random.nextInt(deck.size());
+        return deck.remove(givenCardIndex);
     }
 
     /**
      * Method for making a deck with cards of every color and type(numbers, special and wild).
      */
-    public void newDeck(){
+    private void newDeck(){
         //Adds cards of each colour for numbers 0-9
         Card.Type[] cardNum = Card.Type.values();
         for (int i = 0; i < 9; i++){

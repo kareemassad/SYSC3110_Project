@@ -56,7 +56,7 @@ public class Card {
      * It checks if a declared card is used or no.
      * @return
      */
-    public boolean getUsed() { return used; }
+    public boolean isUsed() { return used; }
 
     /**
      * Default setter for card's color.
@@ -71,7 +71,7 @@ public class Card {
     /**
      * It declares if a card is used or not.
      */
-    public void setUsed() { this.used = true; }
+    public void markUsed() { this.used = true; }
 
     /**
      * toString method to represent the card in readable text format.

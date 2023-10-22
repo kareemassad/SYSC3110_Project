@@ -53,23 +53,34 @@ public class Player {
 
     /**
      * This method retrieves card from the player for any given index.
+     *
+     * @param index the index of the card to be retrieved
+     * @return the card at the specified index
      */
     public Card getCard(int index) {
-        return cards.get(index);
+        if(index >= 0 && index < cards.size()){
+            return cards.get(index);
+        } else {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: ");
+        }
     }
 
     /**
      * This method adds card to the player when card is being drawn.
      */
-    public void addCards(Card c) {
+    public void addCard(Card c) {
         cards.add(c);
     }
 
     /**
      * This method removes card from the player when card is being played.
      */
-    public void removeCards(int i) {
-        cards.remove(i);
+    public void removeCard(int i) {
+        if(i >=0 && i<cards.size()){
+            cards.remove(i);
+        } else {
+            throw new IndexOutOfBoundsException("Index: " + i + ", Size: " + cards.size());
+        }
     }
 
     /**

@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Uno {
     private Deck deck;
@@ -11,6 +8,11 @@ public class Uno {
     private boolean isReversed = false;
     private boolean gameRunning;
     private Scanner sc = new Scanner(System.in);
+
+    private static final int MIN_PLAYERS = 2;
+    private static final int MAX_PLAYERS = 4;
+    private static final String[] VALID_COLORS = {"RED", "BLUE", "GREEN", "YELLOW"};
+
 
     public Uno() {
         deck = new Deck();
@@ -28,13 +30,13 @@ public class Uno {
     private void addPlayers() {
         int playerCount = 0;
 
-        while (playerCount < 2 || playerCount > 4) {
+        while (playerCount < MIN_PLAYERS || playerCount > MAX_PLAYERS) {
             System.out.print("Enter the number of players (2-4): ");
             try {
                 playerCount = sc.nextInt();
                 sc.nextLine();
 
-                if (playerCount < 2 || playerCount > 4) {
+                if (playerCount < MIN_PLAYERS || playerCount > MAX_PLAYERS) {
                     System.out.println("Invalid number of players. Please enter a number between 2 and 4.");
                 }
 
@@ -56,7 +58,7 @@ public class Uno {
     private void dealInitialCards(){
         for (Player player : players){
             for(int i =0; i<7; i++){
-                player.addCards(deck.drawCard());
+                player.addCard(deck.drawCard());
             }
         }
         topCard = deck.drawCard();
@@ -108,7 +110,7 @@ public class Uno {
                 Card chosenCard = currentPlayer.getCard(cardIndex);
                 if(isPlayable(chosenCard)){
                     topCard = chosenCard;
-                    currentPlayer.removeCards(cardIndex);
+                    currentPlayer.removeCard(cardIndex);
                     validCardChoice=true;
                     System.out.println("Played: " + topCard);
                     executeSpecialCardAction();
@@ -122,7 +124,7 @@ public class Uno {
                 }
             } else if (cardIndex == -1){
                 Card drawnCard = deck.drawCard();
-                currentPlayer.addCards(drawnCard);
+                currentPlayer.addCard(drawnCard);
                 System.out.println("You drew a " + drawnCard);
                 validCardChoice=true;
             } else {
@@ -139,13 +141,13 @@ public class Uno {
                 break;
             case DRAW_ONE:
                 nextPlayer();
-                currentPlayer.addCards(deck.drawCard());
+                currentPlayer.addCard(deck.drawCard());
                 break;
             case WILD_DRAW_TWO:
                 chooseColorForWildCard();
                 nextPlayer();
-                currentPlayer.addCards(deck.drawCard());
-                currentPlayer.addCards(deck.drawCard());
+                currentPlayer.addCard(deck.drawCard());
+                currentPlayer.addCard(deck.drawCard());
                 break;
             case SKIP:
                 nextPlayer();
@@ -160,11 +162,9 @@ public class Uno {
 
     private void chooseColorForWildCard() {
         System.out.println("Choose a color (RED, BLUE, GREEN, YELLOW): ");
-        String chosenColor;
-
         while (true){
-            chosenColor = sc.nextLine().toUpperCase();
-            if(chosenColor.equals("RED") || chosenColor.equals("BLUE") || chosenColor.equals("GREEN") || chosenColor.equals("YELLOW")){
+            String chosenColor = sc.nextLine().toUpperCase();
+            if(Arrays.asList(VALID_COLORS).contains(chosenColor)){
                 topCard.setColor(Card.Color.valueOf(chosenColor));
                 break;
             } else {
