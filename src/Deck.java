@@ -1,5 +1,8 @@
 package src;
 import java.util.ArrayList;
+import java.util.Random;
+
+import static java.sql.Types.NULL;
 
 public class Deck {
 
@@ -10,6 +13,20 @@ public class Deck {
         newDeck();
     }
 
+    private Card drawCard(){
+        Random card = new Random();
+        Card given = null;
+        //If deck being drawn from has no cards, shuffle a new deck.
+        if (deck.isEmpty()){
+            newDeck();
+        }
+        int givenCard = card.nextInt(deck.size());
+        if (givenCard != NULL) {
+            given = deck.get(givenCard);
+            deck.remove(givenCard);
+        }
+        return given;
+    }
     private void newDeck(){
         //Adds cards of each colour for numbers 0-9
         Card.Type[] cardNum = Card.Type.values();
