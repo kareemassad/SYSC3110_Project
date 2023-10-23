@@ -52,10 +52,6 @@ The following is a list of deliverable that were required in the milestone:
 	- Location: SYSC3110_Project/src
 	- Description: Junit test file for Player.
 
-- UnoTest.java:
-	- Location: SYSC3110_Project/src
-	- Description: Junit test file for Uno.
-
 - /Diagrams/Milestone {Milestone Number}/Class Diagrams/
 	- Description: UML class diagram depicting the different relations between the classes.
 	
