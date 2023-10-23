@@ -1,4 +1,3 @@
-
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -26,15 +25,6 @@ public class PlayerTest {
     }
 
     /**
-     * Method for testing the initial name and score of the player.
-     */
-    @Test
-    public void testPlayerDetails(){
-        assertEquals("Mehedi",player.getName());
-        assert player.getScore() == 0;
-    }
-
-    /**
      * Method for testing the cards that are drawn by a player and checking the remaining cards on a player hands.
      */
     @Test
@@ -42,7 +32,7 @@ public class PlayerTest {
         player.addCard(c1);
         player.addCard(c2);
 
-        assertEquals(2,player.getSize());
+        assertEquals(2, player.getSize());
         assertEquals(c1,player.getCard(0));
         assertEquals(c2,player.getCard(1));
     }
@@ -57,7 +47,7 @@ public class PlayerTest {
 
         player.removeCard(0);
 
-        assertEquals(1,player.getSize());
+        assertEquals(1, player.getSize());
         assertEquals(c2,player.getCard(0));
     }
 

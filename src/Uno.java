@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 /**
  * This is the main class. It shows the implementation of the game.
  */
@@ -11,6 +12,7 @@ public class Uno {
     private boolean isReversed = false;
     private boolean gameRunning;
     private Scanner sc = new Scanner(System.in);
+    private boolean flip = false;
 
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 4;
@@ -19,7 +21,7 @@ public class Uno {
     public Uno() {
         deck = new Deck();
         players = new ArrayList<>();
-        gameRunning=true;
+        gameRunning = true;
         runGame();
     }
 
@@ -85,25 +87,11 @@ public class Uno {
      */
     private void playGame(){
         deck.shuffle();
-        boolean winner = false;
-        Player winningPlayer = null;
+
         currentPlayer=players.get(0);
-         while(!winner) {
-            while (gameRunning) {
-                playTurn();
-            }
-            System.out.println("\nCurrent scores: ");
-            for (Player player: players){
-                System.out.println(player.getName() + "'s score: " + player.getScore());
-                if (player.getScore() >= 500) {
-                    winningPlayer = player;
-                    winner = true;
-                    break;
-                }
-            } dealInitialCards();
-            gameRunning = true;
+        while (gameRunning){
+            playTurn();
         }
-         System.out.println("The winner is " + winningPlayer);
 
     }
 
@@ -111,7 +99,7 @@ public class Uno {
      * Checks if a card can be played on the current card.
      */
     private boolean isPlayable(Card card){
-        return card.getType()==Card.Type.WILD || card.getType()==Card.Type.WILD_DRAW_TWO || card.getType()== topCard.getType() || card.getColor() == topCard.getColor();
+        return card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_TWO || card.getType() == topCard.getType() || card.getColor() == topCard.getColor();
     }
 
     /**
@@ -134,6 +122,7 @@ public class Uno {
     private void playTurn(){
         System.out.println("-------------------------");
         System.out.println(currentPlayer.getName() + "'s Turn");
+        System.out.println("Current side" + flip);
         System.out.println("Your Cards: ");
 
         for (int i =0; i < currentPlayer.getSize(); i++){
@@ -157,7 +146,7 @@ public class Uno {
                     executeSpecialCardAction();
                     if(currentPlayer.getSize() == 0){
                         gameRunning = false;
-                        System.out.println(currentPlayer.getName() +  " wins the round!");
+                        System.out.println(currentPlayer.getName() +  " wins!");
                         for (Player player : players) {
                             for (int i = 0; i < player.getSize(); i++)
                                 currentPlayer.updateScore(player.getCard(i));
@@ -170,7 +159,7 @@ public class Uno {
             } else if (cardIndex == -1){
                 Card drawnCard = deck.drawCard();
                 currentPlayer.addCard(drawnCard);
-                System.out.println("Played: " + drawnCard);
+                System.out.println("You drew a " + drawnCard);
                 validCardChoice=true;
             } else {
                 System.out.println("Invalid choice. Try again.");
