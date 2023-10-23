@@ -14,6 +14,13 @@ Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Ev
 | Evan   | 101222276      | Deck , Score, Sequence diagram                   |
 | Kareem | 101107739      | Uno , WildCards, Design Decisions, README        |
 
+## How to Run
+Options:
+1) Run the main method within `Uno.java` and interact with the game in the console.
+2) Run the jar through the terminal.
+   1. Make sure you are in the SYSC3110_Project directory.
+   2. Run the following command `java -jar SYSC3110_Project.jar`
+
 ## Deliverables
 The following is a list of deliverable that were required in the milestone:
 
