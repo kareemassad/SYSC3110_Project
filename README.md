@@ -9,10 +9,10 @@ Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Ev
 
 | Member | Student number | Contributions                                    |
 |--------|----------------|--------------------------------------------------|
-| Mehedi | 101154128      | Player, Uno, Unit tests,Java Docs, Class diagram |
-| Rayat  | 101151001      | Card, Uno, Unit tests                            |
-| Evan   | 101222276      | Deck, Uno, Sequence diagram                      |
-| Kareem |                | Uno , Design Decisions                           |
+| Mehedi | 101154128      | Player, UML, Unit tests,Java Docs, Class diagram |
+| Rayat  | 101151001      | Card , Unit tests                                |
+| Evan   | 101222276      | Deck , Score, Sequence diagram                   |
+| Kareem | 101107739      | Uno , WildCards, Design Decisions, README        |
 
 ## Deliverables
 The following is a list of deliverable that were required in the milestone:
@@ -49,13 +49,28 @@ The following is a list of deliverable that were required in the milestone:
 	- Location: SYSC3110_Project/src
 	- Description: Junit test file for Uno.
 
-- UMLClass
+- /Diagrams/Milestone {Milestone Number}/Class Diagrams/
 	- Description: UML class diagram depicting the different relations between the classes.
 	
-- UMLsequence
+- /Diagrams/Milestone {Milestone Number}/Sequence Diagrams/
 	- Description: UML sequence diagram depicting the interactions between the objects.
 
-- DesignDecisions.pdf
-	- Description: A document that concludes the purpose of the project and our approach to solve and come up with the project solution.
-  
+
+##  Data Structure Explanation
+
+- Utilized an `ArrayList` to manage a collection of `Player` and `Card` objects in `Deck` and `Player` classes.
+- Used an `Enum` to store Types and Colors in the `Card` class.
+
+### Design Consideration
+
+- We are considering using a Doubly Circular Linked List for the `Player` collection. 
+  - Pros:
+    - Good for reversal operations
+    - Good game loop traversal 
+  - Cons:
+    - More complex than an ArrayList 
+    - Worse access than ArrayLists
+
 ## Known issues:
+
+- Flip Mechanism is unimplemented, deferred to Milestone 2.
