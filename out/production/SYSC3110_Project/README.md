@@ -5,19 +5,21 @@ The SYSC 3110 project is to basically create a simplified version of the card ga
 lesser functionalities. In Milestone 1, the game is developed as text-based, allowing players to engage through the console using keyboard input.
 
 ## Project members and authors
-Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Evan Baldwin and Kareem El Assad. The contributions of the memebers are listed below:
+Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Evan Baldwin and Kareem El Assad. The contributions of the members are listed below:
 
 | Member | Student number | Contributions                                    |
 |--------|----------------|--------------------------------------------------|
-| Mehedi | 101154128      | Player, UML, Unit tests,Java Docs, Class diagram |
-| Rayat  | 101151001      | Card , Unit tests                                |
+| Mehedi | 101154128      | Player, Unit tests, Java Docs, Class diagram |
+| Rayat  | 101151001      | Card , Unit tests, README                                |
 | Evan   | 101222276      | Deck , Score, Sequence diagram                   |
 | Kareem | 101107739      | Uno , WildCards, Design Decisions, README        |
 
 ## How to Run
 Options:
 1) Run the main method within `Uno.java` and interact with the game in the console.
-2) 
+2) Run the jar through the terminal.
+   1. Make sure you are in the SYSC3110_Project directory.
+   2. Run the following command `java -jar SYSC3110_Project.jar`
 
 ## Deliverables
 The following is a list of deliverable that were required in the milestone:
@@ -49,10 +51,6 @@ The following is a list of deliverable that were required in the milestone:
 - PlayerTest.java:
 	- Location: SYSC3110_Project/src
 	- Description: Junit test file for Player.
-
-- UnoTest.java:
-	- Location: SYSC3110_Project/src
-	- Description: Junit test file for Uno.
 
 - /Diagrams/Milestone {Milestone Number}/Class Diagrams/
 	- Description: UML class diagram depicting the different relations between the classes.
