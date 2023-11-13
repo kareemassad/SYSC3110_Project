@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class UnoViewFrame extends JFrame implements UnoView{
+public class UnoViewFrame extends JFrame implements UnoView {
     private UnoModel model;
     private JLabel topCardLabel;
     private JPanel pCardPanel;
