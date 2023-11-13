@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class UnoViewFrame extends JFrame implements UnoView{
-    private Uno model;
+    private UnoModel model;
     private JLabel topCardLabel;
     private JPanel pCardPanel;
     private JButton draw;
@@ -13,7 +13,7 @@ public class UnoViewFrame extends JFrame implements UnoView{
     public UnoViewFrame(){
         super("UNO Game!");
         this.setLayout(new BorderLayout());
-        model = new Uno();
+        model = new UnoModel();
         model.addUnoView(this);
         draw = new JButton("Draw Card");
         nextPlayer = new JButton("Next Player");
@@ -136,26 +136,26 @@ public class UnoViewFrame extends JFrame implements UnoView{
     @Override
     public void handleUnoStatusUpdate(UnoEvent e) {
         Object source = e.getSource();
-        Uno.Status status = model.getStatus();
+        UnoModel.Status status = model.getStatus();
 
         /**
         if (status == Uno.Status.UNDECIDED) {
             handleUndecided();
         }
          */
-        if (status == Uno.Status.GAME_STARTED) {
+        if (status == UnoModel.Status.GAME_STARTED) {
             handleGameStarted();
         }
-        else if (status == Uno.Status.PLAYER_TURN_CHANGED) {
+        else if (status == UnoModel.Status.PLAYER_TURN_CHANGED) {
             handlePlayerTurnChanged(e.getPlayer());
         }
-        else if (status == Uno.Status.PLAYER_WON) {
+        else if (status == UnoModel.Status.PLAYER_WON) {
             handlePlayerWon(e.getPlayer());
         }
-        else if (status == Uno.Status.CARD_PLAYED) {
+        else if (status == UnoModel.Status.CARD_PLAYED) {
             handleCardPlayed(e.getPlayer(), e.getCard());
         }
-        else if (status == Uno.Status.DRAW_PENALTY) {
+        else if (status == UnoModel.Status.DRAW_PENALTY) {
             handleDrawPenalty(e.getPlayer(), e.getPenaltyCards());
         }
         /**

@@ -1,10 +1,9 @@
 import java.util.*;
 
-
 /**
  * This is the main class. It shows the implementation of the game.
  */
-public class Uno {
+public class UnoModel {
     private Deck deck;
     private List<Player> players;
     private Card topCard;
@@ -36,7 +35,7 @@ public class Uno {
     public Status status;
 
 
-    public Uno() {
+    public UnoModel() {
         deck = new Deck();
         players = new ArrayList<>();
         gameRunning = true;
@@ -278,7 +277,7 @@ public class Uno {
     }
 
     public static void main(String[] args) {
-        new Uno();
+        new UnoModel();
     }
 
 }

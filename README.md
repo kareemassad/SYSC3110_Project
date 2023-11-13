@@ -52,13 +52,13 @@ The following is a list of deliverable that were required in the milestone:
 	- Location: SYSC3110_Project/src
 	- Description: Junit test file for Player.
 
-- UnoView.java:
+- UnoViewFrame.java:
 	- Location: SYSC3110_Project/src
 	- Description: JFrame class for interacting with the game.
 
-- UnoViewFrame.java:
+- UnoView.java:
 	- Location: SYSC3110_Project/src
-	- Description: Interface for UnoView.
+	- Description: Interface for UnoViewFrame.
 
 - UnoController.java:
 	- Location: SYSC3110_Project/src

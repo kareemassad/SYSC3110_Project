@@ -2,9 +2,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class UnoController {
-    private Uno model;
+    private UnoModel model;
 
-    public UnoController(Uno model) {
+    public UnoController(UnoModel model) {
         this.model = model;
     }
 
