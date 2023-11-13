@@ -13,16 +13,36 @@ public class Uno {
     private boolean gameRunning;
     private Scanner sc = new Scanner(System.in);
     private boolean flip = false;
+    public List<UnoView> views;
+
+    public enum Status {
+        UNDECIDED,
+        GAME_STARTED,
+        PLAYER_TURN_CHANGED,
+        PLAYER_WON,
+        CARD_PLAYED,
+        DRAW_PENALTY,
+        WILD_CARD_CHOSEN,
+        UNO_ANNOUNCED,
+        GAME_OVER,
+        INVALID_MOVE,
+        DECK_EMPTY,
+        REVERSE_DIRECTION
+    }
 
     private static final int MIN_PLAYERS = 2;
     private static final int MAX_PLAYERS = 4;
     private static final String[] VALID_COLORS = {"RED", "BLUE", "GREEN", "YELLOW"};
+    public Status status;
+
 
     public Uno() {
         deck = new Deck();
         players = new ArrayList<>();
         gameRunning = true;
         runGame();
+        status = Status.UNDECIDED;
+        views = new ArrayList<>();
     }
 
     /**
@@ -32,6 +52,18 @@ public class Uno {
         addPlayers();
         dealInitialCards();
         playGame();
+        notifyViews();
+    }
+
+    private void notifyViews() {
+        UnoEvent event = new UnoEvent(this, getStatus());
+        for (UnoView view : views) {
+            view.handleUnoStatusUpdate(event);
+        }
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     /**
@@ -110,6 +142,7 @@ public class Uno {
         }
 
         System.out.println("The winner is " + winningPlayer);
+        notifyViews();
 
     }
 
@@ -123,7 +156,7 @@ public class Uno {
     /**
      * Moves to the next player's turn.
      */
-    private void nextPlayer(){
+    public void nextPlayer(){
         int currentPlayerIndex = players.indexOf(currentPlayer);
         int nextPlayerIndex;
         if(isReversed){
@@ -133,6 +166,11 @@ public class Uno {
         }
         currentPlayer = players.get(nextPlayerIndex);
     }
+
+    public Card drawCard() {
+        return deck.drawCard();
+    }
+
 
     /**
      * Handles the current player's turn, allowing them to play or draw cards and checks valid card play.
@@ -226,7 +264,21 @@ public class Uno {
         }
     }
 
+    public Card getTopCard() {
+        return topCard;
+    }
+
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void addUnoView(UnoView view) {
+        this.views.add(view);
+    }
+
     public static void main(String[] args) {
         new Uno();
     }
+
 }
