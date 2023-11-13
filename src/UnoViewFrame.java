@@ -22,6 +22,7 @@ public class UnoViewFrame extends JFrame implements UnoView{
         UnoController uc = new UnoController(model);
         topCardLabel = new JLabel();
         pCardPanel = new JPanel();
+        pCardPanel.setLayout(new FlowLayout());
 
 
         draw.addActionListener(uc.createDrawButtonListener());
@@ -40,7 +41,9 @@ public class UnoViewFrame extends JFrame implements UnoView{
     }
 
     public void updateTopCardLabel(Card topCard) {
-        topCardLabel.setText("Top Card: " + topCard.toString());
+        String imgPath = "src/images/" + topCard.getColor().toString().toLowerCase() + topCard.getType().toString().toLowerCase() + ".png";
+        ImageIcon icon = new ImageIcon(imgPath);
+        topCardLabel.setIcon(icon);
     }
 
     public void displayPlayerCards(Player player) {
@@ -48,7 +51,17 @@ public class UnoViewFrame extends JFrame implements UnoView{
 
         for (int i = 0; i < player.getSize(); i++) {
             Card card = player.getCard(i);
-            JButton cardButton = new JButton(card.toString());
+            String imgPath = "src/images/" + card.getColor().toString().toLowerCase() + card.getType().toString().toLowerCase() + ".png";
+            ImageIcon icon = new ImageIcon(imgPath);
+
+            JButton cardButton = new JButton(icon);
+            cardButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    handleCardClick(card);
+                }
+            });
+
             pCardPanel.add(cardButton);
         }
 
@@ -190,6 +203,10 @@ public class UnoViewFrame extends JFrame implements UnoView{
     private void handleDrawPenalty(Player player, int penaltyCards) {
         JOptionPane.showMessageDialog(this, player.getName() + " drew " + penaltyCards + " penalty cards!");
         displayPlayerCards(player);
+    }
+
+    private void handleCardClick(Card clickedCard) {
+        JOptionPane.showMessageDialog(this, "Clicked on card: " + clickedCard.getColor() + " " + clickedCard.getType());
     }
 
 
