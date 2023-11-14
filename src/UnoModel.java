@@ -5,6 +5,7 @@ import java.util.*;
  */
 public class UnoModel {
     private Deck deck;
+
     private List<Player> players;
     private Card topCard;
     private Player currentPlayer;
@@ -39,18 +40,15 @@ public class UnoModel {
         deck = new Deck();
         players = new ArrayList<>();
         gameRunning = true;
+        views = new ArrayList<>();
         runGame();
         status = Status.UNDECIDED;
-        views = new ArrayList<>();
     }
 
     /**
      * Runs the Uno Game.
      */
     private void runGame() {
-        addPlayers();
-        dealInitialCards();
-        playGame();
         notifyViews();
     }
 
@@ -68,32 +66,10 @@ public class UnoModel {
     /**
      * Adds players to the Uno Game.
      */
-    private void addPlayers() {
-        int playerCount = 0;
-
-        while (playerCount < MIN_PLAYERS || playerCount > MAX_PLAYERS) {
-            System.out.print("Enter the number of players (2-4): ");
-            try {
-                playerCount = sc.nextInt();
-                sc.nextLine();
-
-                if (playerCount < MIN_PLAYERS || playerCount > MAX_PLAYERS) {
-                    System.out.println("Invalid number of players. Please enter a number between 2 and 4.");
-                }
-
-            } catch (InputMismatchException e){
-                System.out.println("Invalid input. Please enter a number");
-
-            }
-
-        }
-
-        for (int i = 1; i <= playerCount; i++) {
-            System.out.println("Enter name for Player " + i + ": ");
-            String name = sc.nextLine();
+    public void addPlayers(String name) {
+        for (int i = 1; i <= 4; i++) {
             players.add(new Player(name));
         }
-        System.out.println("-------------------------");
     }
 
     /**
@@ -263,13 +239,8 @@ public class UnoModel {
         }
     }
 
-    public Card getTopCard() {
-        return topCard;
-    }
-
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
+    public List<Player> getPlayers() {
+        return players;
     }
 
     public void addUnoView(UnoView view) {

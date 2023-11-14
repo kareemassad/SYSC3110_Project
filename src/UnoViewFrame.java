@@ -35,8 +35,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
         this.add(nextPlayer, BorderLayout.WEST);
 
         playerSetup();
-        updateTopCardLabel(model.getTopCard());
-        displayPlayerCards(model.getCurrentPlayer());
+        updateTopCardLabel(model.drawCard());
+        displayPlayerCards(model.getPlayers().get(0));
         this.setVisible(true);
     }
 
@@ -55,12 +55,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
             ImageIcon icon = new ImageIcon(imgPath);
 
             JButton cardButton = new JButton(icon);
-            cardButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    handleCardClick(card);
-                }
-            });
+            cardButton.addActionListener(e -> handleCardClick(card));
 
             pCardPanel.add(cardButton);
         }
@@ -115,6 +110,11 @@ public class UnoViewFrame extends JFrame implements UnoView {
                 result = JOptionPane.showOptionDialog(this, playerAddPanel, "Add first player", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
             } else {
                 result = JOptionPane.showOptionDialog(this, playerAddPanel, "Add additional players", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+            }
+
+            if (result == JOptionPane.OK_OPTION) {
+                String playerName = getName.getText();
+                model.addPlayers(playerName);
             }
 
         }
