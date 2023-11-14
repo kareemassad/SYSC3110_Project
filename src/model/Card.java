@@ -1,5 +1,7 @@
+package model;
+
 /**
- * This is the Card Class. Card class represents the number and special cards along with their colors using Enumeration.
+ * This is the model.Card Class. model.Card class represents the number and special cards along with their colors using Enumeration.
  */
 public class Card {
 
@@ -9,7 +11,7 @@ public class Card {
     private Type type;
 
     /**
-     * Default constructor for Card
+     * Default constructor for model.Card
      */
     public Card(Color color, Type type) {
         this.color = color;

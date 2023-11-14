@@ -1,9 +1,12 @@
+package test;
+
+import model.Card;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * This class is the test class for testing all the methods in the Card Class
+ * This class is the test class for testing all the methods in the model.Card Class
  */
 public class CardTest {
     Card card1, card2, card3, card4, card5;
