@@ -14,7 +14,7 @@ public class UnoController implements ActionListener{
         } else if (e.getActionCommand().contains("PLAY")){
             String temp =  e.getActionCommand();
             model.playTurn(Integer.parseInt(temp.replaceAll("[\\D]", "")));
-        } else if(e.getActionCommand().equals("DRAW")){
+        } else if(e.getActionCommand().equals("NEXT")){
             model.nextPlayer();
         }
     }

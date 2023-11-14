@@ -83,7 +83,6 @@ public class UnoModel {
         }
         topCard = deck.drawCard();
         if(topCard.getType() == Card.Type.WILD || topCard.getType() == Card.Type.WILD_DRAW_TWO){
-            System.out.println("Top card is wild. " + players.get(0).getName() + ", choose a color: ");
             chooseColorForWildCard();
         }
         System.out.println("Starting Card: " + topCard);
@@ -143,6 +142,7 @@ public class UnoModel {
                     }
                 } else {
                     System.out.println("Card cannot be played. Try again");
+                    return;
                 }
             } else if (cardIndex == -1){
                 Card drawnCard = deck.drawCard();
@@ -199,6 +199,8 @@ public class UnoModel {
     public List<Player> getPlayers() {
         return players;
     }
+
+    public Card getTopCard(){return topCard; }
 
     public void addUnoView(UnoView view) {
         this.views.add(view);

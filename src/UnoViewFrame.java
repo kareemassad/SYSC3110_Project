@@ -38,8 +38,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
         playerSetup();
         playerLabel.setText(model.getPlayers().get(0).getName());
-        updateTopCardLabel(model.drawCard());
         model.dealInitialCards();
+        updateTopCardLabel(model.getTopCard());
         displayPlayerCards(model.getPlayers().get(0));
         this.setLocationRelativeTo(null);
         this.setVisible(true);
