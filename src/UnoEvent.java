@@ -44,4 +44,6 @@ public class UnoEvent extends EventObject {
         return penaltyCards;
     }
 
+    public Card getChosenColor(){ return chosenColor;}
+
 }
