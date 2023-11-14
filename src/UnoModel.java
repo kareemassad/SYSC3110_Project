@@ -75,7 +75,7 @@ public class UnoModel {
     /**
      * Distributes initial cards to players and sets the Starting Card for the game.
      */
-    private void dealInitialCards(){
+    public void dealInitialCards(){
         for (Player player : players){
             for(int i =0; i<7; i++){
                 player.addCard(deck.drawCard());
@@ -87,38 +87,7 @@ public class UnoModel {
             chooseColorForWildCard();
         }
         System.out.println("Starting Card: " + topCard);
-    }
-
-    /**
-     * Starts the Uno game and handles the turn of each player.
-     */
-    private void playGame(){
-        deck.shuffle();
-        boolean winner = false;
-        Player winningPlayer = null;
-
-        currentPlayer=players.get(0);
-        while(!winner) {
-            while (gameRunning) {
-                playTurn();
-            }
-            System.out.println("\nCurrent scores: ");
-            for (Player player: players){
-                System.out.println(player.getName() + "'s score: " + player.getScore());
-                if (player.getScore() >= 500) {
-                    winningPlayer = player;
-                    winner = true;
-                    break;
-                }
-            }
-
-            dealInitialCards();
-            gameRunning = true;
-        }
-
-        System.out.println("The winner is " + winningPlayer);
-        notifyViews();
-
+        currentPlayer = players.get(0);
     }
 
     /**
@@ -150,23 +119,11 @@ public class UnoModel {
     /**
      * Handles the current player's turn, allowing them to play or draw cards and checks valid card play.
      */
-    private void playTurn(){
-        System.out.println("-------------------------");
-        System.out.println(currentPlayer.getName() + "'s Turn");
-        System.out.println("Current side: Light");
-        System.out.println("Your Cards: ");
-
-        for (int i =0; i < currentPlayer.getSize(); i++){
-            System.out.println((i + 1) + ". " + currentPlayer.getCard(i));
-        }
-        System.out.println("Top Card: " + topCard);
-
+    public void playTurn(int cardIndex){
         boolean validCardChoice = false;
 
         do {
             System.out.println("Enter card index to play or 0 to draw a card");
-            int cardIndex = sc.nextInt() - 1;
-            sc.nextLine();
             if(cardIndex >= 0 && cardIndex < currentPlayer.getSize()){
                 Card chosenCard = currentPlayer.getCard(cardIndex);
                 if(isPlayable(chosenCard)){

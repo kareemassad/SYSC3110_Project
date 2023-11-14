@@ -5,10 +5,10 @@ import java.awt.event.ActionListener;
 
 public class UnoViewFrame extends JFrame implements UnoView {
     private UnoModel model;
-    private JLabel topCardLabel;
+    private JLabel topCardLabel, playerLabel;
     private JPanel pCardPanel;
     private JButton draw;
-    private JButton nextPlayer;
+    private UnoController uc;
 
     public UnoViewFrame(){
         super("UNO Game");
@@ -16,35 +16,37 @@ public class UnoViewFrame extends JFrame implements UnoView {
         model = new UnoModel();
         model.addUnoView(this);
         draw = new JButton("Draw Card");
-        nextPlayer = new JButton("Next Player");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1000,1000);
-        UnoController uc = new UnoController(model);
+        uc = new UnoController(model);
         topCardLabel = new JLabel();
+        playerLabel = new JLabel();
         pCardPanel = new JPanel();
         pCardPanel.setLayout(new FlowLayout());
 
+        draw.setActionCommand("DRAW");
+        draw.addActionListener(uc);
 
-        draw.addActionListener(uc.createDrawButtonListener());
-        nextPlayer.addActionListener(uc.createNextPlayerButtonListener());
-
-
-        this.add(topCardLabel, BorderLayout.NORTH);
+        this.add(topCardLabel, BorderLayout.WEST);
         this.add(pCardPanel, BorderLayout.CENTER);
         this.add(draw, BorderLayout.EAST);
-        this.add(nextPlayer, BorderLayout.WEST);
 
         playerSetup();
         updateTopCardLabel(model.drawCard());
+        model.dealInitialCards();
         displayPlayerCards(model.getPlayers().get(0));
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
-
     }
 
     public void updateTopCardLabel(Card topCard) {
         String imgPath = "src/images/" + topCard.getColor().toString().toLowerCase() + topCard.getType().toString().toLowerCase() + ".png";
         ImageIcon icon = new ImageIcon(imgPath);
+        Image image = icon.getImage();
+        Image resized = image.getScaledInstance(200, 300, Image.SCALE_SMOOTH);
+        icon = new ImageIcon(resized);
         topCardLabel.setIcon(icon);
+        topCardLabel.setText(topCard.getColor().toString() + " " + topCard.getType().toString());
     }
 
     public void displayPlayerCards(Player player) {
@@ -54,11 +56,15 @@ public class UnoViewFrame extends JFrame implements UnoView {
             Card card = player.getCard(i);
             String imgPath = "src/images/" + card.getColor().toString().toLowerCase() + card.getType().toString().toLowerCase() + ".png";
             ImageIcon icon = new ImageIcon(imgPath);
+            Image image = icon.getImage();
+            Image resized = image.getScaledInstance(100, 150, Image.SCALE_SMOOTH);
+            icon = new ImageIcon(resized);
 
             JButton cardButton = new JButton(icon);
-            cardButton.addActionListener(e -> handleCardClick(card));
+            cardButton.setActionCommand("PLAY " + i);
+            cardButton.addActionListener(uc);
 
-            pCardPanel.add(cardButton);
+            pCardPanel.add(cardButton);;
         }
 
         pCardPanel.revalidate();
@@ -125,11 +131,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
         draw.setEnabled(enable);
     }
 
-    public void enableNextPlayerButton(boolean enable) {
-        nextPlayer.setEnabled(enable);
-    }
-
-
     public static void main(String[] args) {
         new UnoViewFrame();
     }
@@ -184,13 +185,11 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
     private void handleGameStarted() {
         enableDrawButton(true);
-        enableNextPlayerButton(true);
     }
 
     private void handlePlayerTurnChanged(Player newPlayer) {
         displayPlayerCards(newPlayer);
         enableDrawButton(true);
-        enableNextPlayerButton(true);
     }
 
     private void handlePlayerWon(Player winningPlayer) {
@@ -223,7 +222,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
     private void handleGameOver(){
         enableDrawButton(false);
-        enableNextPlayerButton(false);
     }
 
     private void handleInvalidMove(Player player){
