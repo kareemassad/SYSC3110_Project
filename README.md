@@ -10,7 +10,7 @@ Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Ev
 | Member | Student number | Contributions                                    |
 |--------|----------------|--------------------------------------------------|
 | Mehedi | 101154128      | (add stuff) |
-| Rayat  | 101151001      | UnoModelTest, README                                |
+| Rayat  | 101151001      | test.UnoModelTest, README                                |
 | Evan   | 101222276      |                    |
 | Kareem | 101107739      |         |
 
@@ -24,49 +24,49 @@ Options:
 ## Deliverables
 The following is a list of deliverable that were required in the milestone:
 
-- Card.java:
+- model.Card.java:
 	- Location: SYSC3110_Project/src
-	- Description: Card class represents the number and special cards. 
+	- Description: model.Card class represents the number and special cards. 
 
-- Deck.java:
+- model.Deck.java:
 	- Location: SYSC3110_Project/src
-	- Description: Deck class builds itself and draws cards.
+	- Description: model.Deck class builds itself and draws cards.
 
-- Player.java:
+- model.Player.java:
 	- Location: SYSC3110_Project/src
-	- Description: Player class represents each player, and their hand and scores.
+	- Description: model.Player class represents each player, and their hand and scores.
 
-- UnoModel.java:
+- model.UnoModel.java:
 	- Location: SYSC3110_Project/src
 	- Description: Uno class is the main class for game functionality and running. 
 	
-- CardTest.java:
+- test.CardTest.java:
 	- Location: SYSC3110_Project/src
-	- Description: Junit test file for Card.	
+	- Description: Junit test file for model.Card.	
 
-- DeckTest.java:
+- test.DeckTest.java:
 	- Location: SYSC3110_Project/src
-	- Description: Junit test file for Deck.
+	- Description: Junit test file for model.Deck.
 
-- PlayerTest.java:
+- test.PlayerTest.java:
 	- Location: SYSC3110_Project/src
-	- Description: Junit test file for Player.
+	- Description: Junit test file for model.Player.
 
-- UnoViewFrame.java:
+- view.UnoViewFrame.java:
 	- Location: SYSC3110_Project/src
 	- Description: JFrame class for interacting with the game.
 
-- UnoView.java:
+- view.UnoView.java:
 	- Location: SYSC3110_Project/src
-	- Description: Interface for UnoViewFrame.
+	- Description: Interface for view.UnoViewFrame.
 
-- UnoController.java:
+- controller.UnoController.java:
 	- Location: SYSC3110_Project/src
 	- Description: Controller for interacting with View.
 
-- UnoModelTest.java:
+- test.UnoModelTest.java:
 	- Location: SYSC3110_Project/src
-	- Description: Junit test file for UnoModel.
+	- Description: Junit test file for model.UnoModel.
 
 - /Diagrams/Milestone {Milestone Number}/Class Diagrams/
 	- Description: UML class diagram depicting the different relations between the classes.
@@ -77,13 +77,13 @@ The following is a list of deliverable that were required in the milestone:
 
 ##  Data structure explanation
 
-- Utilized an `ArrayList` to manage a collection of `Player` and `Card` objects in `Deck` and `Player` classes.
-- Used an `Enum` to store Types and Colors in the `Card` class.
+- Utilized an `ArrayList` to manage a collection of `model.Player` and `model.Card` objects in `model.Deck` and `model.Player` classes.
+- Used an `Enum` to store Types and Colors in the `model.Card` class.
 - (add data structures from view and controller)
 
 ### Design consideration
 
-- We are considering using a Doubly Circular Linked List for the `Player` collection. 
+- We are considering using a Doubly Circular Linked List for the `model.Player` collection. 
   - Pros:
     - Good for reversal operations
     - Good game loop traversal 

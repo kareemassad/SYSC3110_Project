@@ -1,3 +1,9 @@
+package controller;
+
+import model.Card;
+import model.Player;
+import model.UnoModel;
+
 import java.util.EventObject;
 
 public class UnoEvent extends EventObject {

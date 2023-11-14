@@ -1,9 +1,13 @@
+package test;
+
+import model.Card;
+import model.Deck;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * This class is the test class for testing all the methods in the Deck Class
+ * This class is the test class for testing all the methods in the model.Deck Class
  */
 public class DeckTest {
 
@@ -29,7 +33,7 @@ public class DeckTest {
     }
 
     /**
-     * This method checks that there are always 104 cards when the UNO new Deck is initiated.
+     * This method checks that there are always 104 cards when the UNO new model.Deck is initiated.
      */
     @Test
     public void testNewDeck() {
@@ -40,7 +44,7 @@ public class DeckTest {
 
     /**
      * This method tests for the presence of cards of all types(numerical, special and wild) and colors(RED,YELLOW,
-     * GREEN,BLUE) in the Deck.
+     * GREEN,BLUE) in the model.Deck.
      */
     @Test
     public void testCardsColorAndTypes() {

@@ -1,3 +1,8 @@
+package model;
+
+import controller.UnoEvent;
+import view.UnoView;
+
 import java.util.*;
 
 /**
@@ -73,7 +78,7 @@ public class UnoModel {
     }
 
     /**
-     * Distributes initial cards to players and sets the Starting Card for the game.
+     * Distributes initial cards to players and sets the Starting model.Card for the game.
      */
     private void dealInitialCards(){
         for (Player player : players){
@@ -86,7 +91,7 @@ public class UnoModel {
             System.out.println("Top card is wild. " + players.get(0).getName() + ", choose a color: ");
             chooseColorForWildCard();
         }
-        System.out.println("Starting Card: " + topCard);
+        System.out.println("Starting model.Card: " + topCard);
     }
 
     /**
@@ -159,7 +164,7 @@ public class UnoModel {
         for (int i =0; i < currentPlayer.getSize(); i++){
             System.out.println((i + 1) + ". " + currentPlayer.getCard(i));
         }
-        System.out.println("Top Card: " + topCard);
+        System.out.println("Top model.Card: " + topCard);
 
         boolean validCardChoice = false;
 
@@ -185,7 +190,7 @@ public class UnoModel {
                         return;
                     }
                 } else {
-                    System.out.println("Card cannot be played. Try again");
+                    System.out.println("model.Card cannot be played. Try again");
                 }
             } else if (cardIndex == -1){
                 Card drawnCard = deck.drawCard();
@@ -224,7 +229,7 @@ public class UnoModel {
     }
 
     /**
-     * Allows the player to choose the color for Wild Card.
+     * Allows the player to choose the color for Wild model.Card.
      */
     private void chooseColorForWildCard() {
         System.out.println("Choose a color (RED, BLUE, GREEN, YELLOW): ");
