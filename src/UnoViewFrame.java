@@ -7,17 +7,18 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private UnoModel model;
     private JLabel topCardLabel, playerLabel;
     private JPanel pCardPanel;
-    private JButton draw;
+    private JButton draw, nextPlayer;
     private UnoController uc;
 
     public UnoViewFrame(){
         super("UNO Game");
-        this.setLayout(new BorderLayout());
+        this.setLayout(new FlowLayout());
         model = new UnoModel();
         model.addUnoView(this);
         draw = new JButton("Draw Card");
+        nextPlayer = new JButton("Next Player");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1000,1000);
+        this.setSize(1000,600);
         uc = new UnoController(model);
         topCardLabel = new JLabel();
         playerLabel = new JLabel();
@@ -26,12 +27,17 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
         draw.setActionCommand("DRAW");
         draw.addActionListener(uc);
+        nextPlayer.setActionCommand("NEXT");
+        draw.addActionListener(uc);
 
-        this.add(topCardLabel, BorderLayout.WEST);
-        this.add(pCardPanel, BorderLayout.CENTER);
-        this.add(draw, BorderLayout.EAST);
+        this.add(playerLabel, FlowLayout.LEFT);
+        this.add(topCardLabel);
+        this.add(pCardPanel);
+        this.add(draw);
+        this.add(nextPlayer);
 
         playerSetup();
+        playerLabel.setText(model.getPlayers().get(0).getName());
         updateTopCardLabel(model.drawCard());
         model.dealInitialCards();
         displayPlayerCards(model.getPlayers().get(0));
