@@ -11,7 +11,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private JButton nextPlayer;
 
     public UnoViewFrame(){
-        super("UNO Game!");
+        super("UNO Game");
         this.setLayout(new BorderLayout());
         model = new UnoModel();
         model.addUnoView(this);
@@ -109,7 +109,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
             if (i == 0) {
                 result = JOptionPane.showOptionDialog(this, playerAddPanel, "Add first player", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
             } else {
-                result = JOptionPane.showOptionDialog(this, playerAddPanel, "Add additional players", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+                result = JOptionPane.showOptionDialog(this, playerAddPanel, "Add additional players", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
             }
 
             if (result == JOptionPane.OK_OPTION) {

@@ -67,7 +67,7 @@ public class UnoModel {
      * Adds players to the Uno Game.
      */
     public void addPlayers(String name) {
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= MAX_PLAYERS; i++) {
             players.add(new Player(name));
         }
     }
