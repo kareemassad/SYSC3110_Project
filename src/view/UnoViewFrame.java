@@ -64,9 +64,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         updateTopCardLabel(model.getTopCard());
         displayPlayerCards(model.getPlayers().get(0));
 
-        // Adjusts the window to fit the preferred sizes of its subcomponents
         this.pack();
-        // Center the window
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
