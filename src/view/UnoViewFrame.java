@@ -224,6 +224,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
 @Override
     public void handleUnoStatusUpdate(UnoEvent e) {
         UnoModel.Status status = model.getStatus();
+//        UnoModel.Status status = model.status;
+        System.out.println(status);
         switch (status) {
             case GAME_STARTED:
                 handleGameStarted();

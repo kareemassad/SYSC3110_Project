@@ -198,7 +198,6 @@ public class UnoModel {
             checkWinCondition();
             hasDrawnThisTurn=false;
             notifyViews();
-//            notifyViewsCardPlayed(chosenCard);
         } else {
             updateViewsInvalidMove();
         }
@@ -206,7 +205,7 @@ public class UnoModel {
 
     private void updateViewsInvalidMove(){
         for(UnoView view: views){
-            view.updateStatus("Invalid move!");
+            view.updateStatus("Invalid move! Try Again");
         }
     }
 
@@ -292,8 +291,8 @@ public class UnoModel {
         }
     }
 
-    public static void main(String[] args) {
-        new UnoModel();
-    }
+//    public static void main(String[] args) {
+//        new UnoModel();
+//    }
 
 }
