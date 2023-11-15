@@ -10,7 +10,7 @@ Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Ev
 | Member | Student number | Contributions                                    |
 |--------|----------------|--------------------------------------------------|
 | Mehedi | 101154128      | UnoModel, UnoView, UnoViewFrame, UnoController, UnoEvent |
-| Rayat  | 101151001      | UnoModel, UnoViewFrame, test.UnoModelTest, README        |
+| Rayat  | 101151001      | UnoModel, UnoViewFrame, model.UnoModelTest, README        |
 | Evan   | 101222276      | UnoModel, UnoViewFrame, UnoController                   |
 | Kareem | 101107739      | UnoModel, UnoViewFrame, UnoController        |
 
@@ -64,7 +64,7 @@ The following is a list of deliverable that were required in the milestone:
 	- Location: SYSC3110_Project/src
 	- Description: Controller for interacting with View.
 
-- test.UnoModelTest.java:
+- model.UnoModelTest.java:
 	- Location: SYSC3110_Project/src
 	- Description: Junit test file for model.UnoModel.
 
