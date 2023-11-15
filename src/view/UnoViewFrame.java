@@ -219,12 +219,15 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
     private void handleGameStarted() {
+        setStatus("The game has started");
         enableDrawButton(true);
     }
 
     private void handlePlayerTurnChanged(Player newPlayer) {
+        setPlayerName(newPlayer.getName());
         displayPlayerCards(newPlayer);
-        enableDrawButton(true);
+//        enableDrawButton(true);
+        setStatus(newPlayer.getName() + "'s turn.");
     }
 
     private void handlePlayerWon(Player winningPlayer) {
@@ -300,4 +303,10 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private void handleReverseDirection(){
         JOptionPane.showMessageDialog(this, "The direction of play is now reversed!");
     }
+
+    public void setPlayerName(String name) {
+        playerLabel.setText(name);
+    }
+
+
 }
