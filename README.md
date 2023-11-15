@@ -7,12 +7,12 @@ lesser functionalities. In Milestone 2, the game is developed as GUI-based, allo
 ## Project members and authors
 Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Evan Baldwin and Kareem El Assad. The contributions of the members are listed below:
 
-| Member | Student number | Contributions                                    |
-|--------|----------------|--------------------------------------------------|
-| Mehedi | 101154128      | UnoModel, UnoView, UnoViewFrame, UnoController, UnoEvent |
-| Rayat  | 101151001      | UnoModel, UnoViewFrame, test.UnoModelTest, README        |
-| Evan   | 101222276      | UnoModel, UnoViewFrame, UnoController                   |
-| Kareem | 101107739      | UnoModel, UnoViewFrame, UnoController        |
+| Member | Student number | Contributions                                                               |
+|--------|----------------|-----------------------------------------------------------------------------|
+| Mehedi | 101154128      | UnoModel, UnoView, UnoViewFrame, UnoController, UnoEvent, UML Class Diagram |
+| Rayat  | 101151001      | UnoModel, UnoViewFrame, test.UnoModelTest, README                           |
+| Evan   | 101222276      | UnoModel, UnoViewFrame, UnoController                                       |
+| Kareem | 101107739      | UnoModel, UnoViewFrame, UnoController                                       |
 
 ## How to run
 Options:
@@ -93,7 +93,8 @@ The following is a list of deliverable that were required in the milestone:
 
 ### Changes to structure and UML
 
-- (fill with data structure and UML changes)
+![image](https://github.com/kareemassad/SYSC3110_Project/assets/91309756/211bb2a6-bce6-43c7-a6a8-b799dd1f6b36)
+
 
 ## Known issues:
 

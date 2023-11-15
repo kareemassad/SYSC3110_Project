@@ -27,7 +27,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
         this.model = model;
 
         this.setLayout(new BorderLayout());
-
         topCardLabel = new JLabel();
         playerLabel = new JLabel("Player 1");
 
