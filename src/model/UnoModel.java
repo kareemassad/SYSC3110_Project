@@ -1,3 +1,8 @@
+package model;
+
+import controller.UnoEvent;
+import view.UnoView;
+
 import java.util.*;
 
 /**
@@ -73,7 +78,7 @@ public class UnoModel {
     }
 
     /**
-     * Distributes initial cards to players and sets the Starting Card for the game.
+     * Distributes initial cards to players and sets the Starting model.Card for the game.
      */
     public void dealInitialCards(){
         for (Player player : players){
@@ -88,7 +93,6 @@ public class UnoModel {
         System.out.println("Starting Card: " + topCard);
         currentPlayer = players.get(0);
     }
-
     /**
      * Checks if a card can be played on the current card.
      */
@@ -181,7 +185,7 @@ public class UnoModel {
     }
 
     /**
-     * Allows the player to choose the color for Wild Card.
+     * Allows the player to choose the color for Wild model.Card.
      */
     private void chooseColorForWildCard() {
         System.out.println("Choose a color (RED, BLUE, GREEN, YELLOW): ");

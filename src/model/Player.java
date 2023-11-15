@@ -1,12 +1,16 @@
+package model;
+
+import model.Card;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player {
     /**
-     This is the Player class.
+     This is the model.Player class.
 
      These are the players that get cards from the deck and play the game.
-     @attribute name is the name of the Player
+     @attribute name is the name of the model.Player
      @attribute  card is the list of cards a player has on hand.
      @attribute score is the score of the player.
      */
@@ -15,7 +19,7 @@ public class Player {
     private int score;
 
 /**
- * Default constructor for Player
+ * Default constructor for model.Player
  */
     public Player(String name) {
         this.name = name;

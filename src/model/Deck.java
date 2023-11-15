@@ -1,7 +1,11 @@
+package model;
+
+import model.Card;
+
 import java.util.*;
 
 /**
- *This is the Deck Class. This builds a deck with the required cards and draws them.
+ *This is the model.Deck Class. This builds a deck with the required cards and draws them.
  */
 public class Deck {
 
