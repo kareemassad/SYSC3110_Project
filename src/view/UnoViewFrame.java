@@ -23,8 +23,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
         this.setLayout(new FlowLayout());
         model = new UnoModel();
         model.addUnoView(this);
-        draw = new JButton("Draw model.Card");
-        nextPlayer = new JButton("Next model.Player");
+        draw = new JButton("Draw Card");
+        nextPlayer = new JButton("Next Player");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1000,600);
         uc = new UnoController(model);
