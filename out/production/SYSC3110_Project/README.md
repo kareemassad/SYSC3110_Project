@@ -7,12 +7,12 @@ lesser functionalities. In Milestone 2, the game is developed as GUI-based, allo
 ## Project members and authors
 Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Evan Baldwin and Kareem El Assad. The contributions of the members are listed below:
 
-| Member | Student number | Contributions                                    |
-|--------|----------------|--------------------------------------------------|
-| Mehedi | 101154128      | UnoModel, UnoView, UnoViewFrame, UnoController, UnoEvent |
-| Rayat  | 101151001      | UnoModel, UnoViewFrame, test.UnoModelTest, README        |
-| Evan   | 101222276      | UnoModel, UnoViewFrame, UnoController                   |
-| Kareem | 101107739      | UnoModel, UnoViewFrame, UnoController        |
+| Member | Student number | Contributions                                                               |
+|--------|----------------|-----------------------------------------------------------------------------|
+| Mehedi | 101154128      | UnoModel, UnoView, UnoViewFrame, UnoController, UnoEvent, UML Class Diagram |
+| Rayat  | 101151001      | UnoModel, UnoViewFrame, test.UnoModelTest, README                           |
+| Evan   | 101222276      | UnoModel, UnoViewFrame, UnoController                                       |
+| Kareem | 101107739      | UnoModel, UnoViewFrame, UnoController                                       |
 
 ## How to run
 Options:
@@ -79,7 +79,7 @@ The following is a list of deliverable that were required in the milestone:
 
 - Utilized an `ArrayList` to manage a collection of `model.Player` and `model.Card` objects in `model.Deck` and `model.Player` classes.
 - Used an `Enum` to store Types and Colors in the `model.Card` class.
-- (add data structures from view and controller)
+- Used `ArrayList` to manage views inside the model.
 
 ### Design consideration
 
@@ -93,8 +93,11 @@ The following is a list of deliverable that were required in the milestone:
 
 ### Changes to structure and UML
 
-- (fill with data structure and UML changes)
+- We included the model, view, controller along with the previous classes in the UML class diagram. No changes were made in sequence as the logic remained same.
+- There were no particular changes in data structures either.
+
 
 ## Known issues:
 
 - Flip Mechanism is unimplemented, deferred to Milestone 3.
+- Some functionalities, like not playing cards or skip players, for the view remain incomplete and will be addressed in Milestone 3.

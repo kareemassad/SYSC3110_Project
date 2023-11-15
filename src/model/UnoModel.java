@@ -10,17 +10,15 @@ import java.util.*;
  */
 public class UnoModel {
     private Deck deck;
-
     private List<Player> players;
     private Card topCard;
+
     private Player currentPlayer;
     private boolean isReversed = false;
     private boolean gameRunning;
     private List<UnoView> views;
     private Scanner sc = new Scanner(System.in);
     private boolean flip = false;
-
-
 
     public enum Status {
         UNDECIDED,
@@ -122,7 +120,7 @@ public class UnoModel {
     /**
      * Checks if a card can be played on the current card.
      */
-    private boolean isPlayable(Card card){
+    public boolean isPlayable(Card card){
         return card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_TWO || card.getType() == topCard.getType() || card.getColor() == topCard.getColor();
     }
 
@@ -209,7 +207,7 @@ public class UnoModel {
         }
     }
 
-    private void checkWinCondition(){
+    public void checkWinCondition(){
         if(currentPlayer.getSize() == 0){
             gameRunning = false;
             for (UnoView view : views){
@@ -226,7 +224,7 @@ public class UnoModel {
      *  Executes a special action on current card, such as reversing the game,
      *  drawing cards, skipping or choosing a color for wild cards
      */
-    private void executeSpecialCardAction(Card card) {
+    public void executeSpecialCardAction(Card card) {
         switch (card.getType()) {
             case REVERSE -> isReversed = !isReversed;
             case DRAW_ONE -> {
@@ -277,6 +275,14 @@ public class UnoModel {
 
     public void addUnoView(UnoView view) {
         this.views.add(view);
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public void setTopCard(Card topCard) {
+        this.topCard = topCard;
     }
 
     private void notifyViewsCardPlayed(Card card){
