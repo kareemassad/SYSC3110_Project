@@ -1,7 +1,10 @@
 package controller;
 
 import model.UnoModel;
+import model.Card;
+import view.UnoView;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,12 +17,17 @@ public class UnoController implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("DRAW")){
-            model.drawCard();
-        } else if (e.getActionCommand().contains("PLAY")){
-            String temp =  e.getActionCommand();
-            model.playTurn(Integer.parseInt(temp.replaceAll("[\\D]", "")));
+            model.drawCardForPlayer();
+            }
+        else if (e.getActionCommand().contains("PLAY")){
+            String cmd =  e.getActionCommand();
+            int cardIndex = Integer.parseInt(cmd.split(" ")[1]);
+            model.playTurn(cardIndex);
         } else if(e.getActionCommand().equals("NEXT")){
             model.nextPlayer();
+//            for(UnoView view: model.getViews()){
+//                view.displayPlayerCards(model.getCurrentPlayer());
+//            }
         }
     }
 }

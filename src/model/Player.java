@@ -23,8 +23,8 @@ public class Player {
  */
     public Player(String name) {
         this.name = name;
-        cards = new ArrayList<>();
-        score = 0;
+        this.cards = new ArrayList<>();
+        this.score = 0;
     }
 
     /**
