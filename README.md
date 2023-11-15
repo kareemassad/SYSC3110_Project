@@ -10,7 +10,7 @@ Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Ev
 | Member | Student number | Contributions                                    |
 |--------|----------------|--------------------------------------------------|
 | Mehedi | 101154128      | UnoModel, UnoView, UnoViewFrame, UnoController, UnoEvent |
-| Rayat  | 101151001      | test.UnoModelTest, README                                |
+| Rayat  | 101151001      | UnoModel, UnoViewFrame, test.UnoModelTest, README        |
 | Evan   | 101222276      | UnoModel, UnoViewFrame, UnoController                   |
 | Kareem | 101107739      | UnoModel, UnoViewFrame, UnoController        |
 
