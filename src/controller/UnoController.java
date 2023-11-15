@@ -17,24 +17,17 @@ public class UnoController implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("DRAW")){
-            Card drawnCard = model.drawCard();
-            model.getCurrentPlayer().addCard(drawnCard);
-            SwingUtilities.invokeLater(() -> {
-                for(UnoView view: model.getViews()){
-                view.displayPlayerCards(model.getCurrentPlayer());
-                view.updateStatus("Drew a Card");
-                }
-            });
-        } else if (e.getActionCommand().contains("PLAY")){
+            model.drawCardForPlayer();
+            }
+        else if (e.getActionCommand().contains("PLAY")){
             String cmd =  e.getActionCommand();
             int cardIndex = Integer.parseInt(cmd.split(" ")[1]);
             model.playTurn(cardIndex);
         } else if(e.getActionCommand().equals("NEXT")){
             model.nextPlayer();
-
-            for(UnoView view: model.getViews()){
-                view.displayPlayerCards(model.getCurrentPlayer());
-            }
+//            for(UnoView view: model.getViews()){
+//                view.displayPlayerCards(model.getCurrentPlayer());
+//            }
         }
     }
 }

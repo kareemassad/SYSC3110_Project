@@ -31,10 +31,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
         topCardLabel = new JLabel();
         playerLabel = new JLabel("Player 1");
 
-        statusLabel = new JLabel("Welcome to UNO FLIP");
-        statusLabel.setBorder(BorderFactory.createTitledBorder("Status"));
-        statusLabel.setVisible(true);
-        this.add(statusLabel, BorderLayout.SOUTH);
 
         pCardPanel = new JPanel(new FlowLayout());
 
@@ -49,6 +45,16 @@ public class UnoViewFrame extends JFrame implements UnoView {
         this.add(playerLabel, BorderLayout.NORTH);
         this.add(topCardLabel, BorderLayout.CENTER);
         this.add(pCardPanel, BorderLayout.SOUTH);
+
+        statusLabel = new JLabel("Welcome to UNO FLIP");
+        statusLabel.setBorder(BorderFactory.createTitledBorder("Status"));
+        statusLabel.setVisible(true);
+
+        JPanel southPanel = new JPanel(new BorderLayout());
+        southPanel.add(statusLabel, BorderLayout.NORTH);
+        southPanel.add(pCardPanel, BorderLayout.CENTER);
+
+        this.add(southPanel, BorderLayout.SOUTH);
         this.add(draw, BorderLayout.WEST);
         this.add(nextPlayer, BorderLayout.EAST);
 
@@ -170,52 +176,94 @@ public class UnoViewFrame extends JFrame implements UnoView {
         view.setVisible(true);
     }
 
-    @Override
+//    @Override
+//    public void handleUnoStatusUpdate(UnoEvent e) {
+//        Object source = e.getSource();
+//        UnoModel.Status status = model.getStatus();
+//
+//        /**
+//        if (status == Uno.Status.UNDECIDED) {
+//            handleUndecided();
+//        }
+//         */
+//        if (status == UnoModel.Status.GAME_STARTED) {
+//            handleGameStarted();
+//        }
+//        else if (status == UnoModel.Status.PLAYER_TURN_CHANGED) {
+//            handlePlayerTurnChanged(e.getPlayer());
+//        }
+//        else if (status == UnoModel.Status.PLAYER_WON) {
+//            handlePlayerWon(e.getPlayer());
+//        }
+//        else if (status == UnoModel.Status.CARD_PLAYED) {
+//            handleCardPlayed(e.getPlayer(), e.getCard());
+//        }
+//        else if (status == UnoModel.Status.DRAW_PENALTY) {
+//            handleDrawPenalty(e.getPlayer(), e.getPenaltyCards());
+//        }
+//
+//        else if (status == UnoModel.Status.WILD_CARD_CHOSEN) {
+//            handleWildCardChosen(e.getPlayer(), e.getChosenColor());
+//        }
+//
+//        else if (status == UnoModel.Status.UNO_ANNOUNCED) {
+//            handleUnoAnnounced(e.getPlayer());
+//        }
+//        else if (status == UnoModel.Status.GAME_OVER) {
+//            handleGameOver();
+//        }
+//        else if (status == UnoModel.Status.INVALID_MOVE) {
+//            handleInvalidMove(e.getPlayer());
+//        }
+//        else if (status == UnoModel.Status.DECK_EMPTY) {
+//            handleDeckEmpty(e.getPlayer());
+//        }
+//        else if (status == UnoModel.Status.REVERSE_DIRECTION) {
+//            handleReverseDirection();
+//        }
+//
+//    }
+@Override
     public void handleUnoStatusUpdate(UnoEvent e) {
-        Object source = e.getSource();
         UnoModel.Status status = model.getStatus();
-
-        /**
-        if (status == Uno.Status.UNDECIDED) {
-            handleUndecided();
+        switch (status) {
+            case GAME_STARTED:
+                handleGameStarted();
+                break;
+            case PLAYER_TURN_CHANGED:
+                handlePlayerTurnChanged(e.getPlayer());
+                break;
+            case PLAYER_WON:
+                handlePlayerWon(e.getPlayer());
+                break;
+            case CARD_PLAYED:
+                handleCardPlayed(e.getPlayer(), e.getCard());
+                break;
+            case DRAW_PENALTY:
+                handleDrawPenalty(e.getPlayer(), e.getPenaltyCards());
+                break;
+            case WILD_CARD_CHOSEN:
+                handleWildCardChosen(e.getChosenColor());
+                break;
+            case UNO_ANNOUNCED:
+                handleUnoAnnounced(e.getPlayer());
+                break;
+            case GAME_OVER:
+                handleGameOver();
+                break;
+            case INVALID_MOVE:
+                handleInvalidMove();
+                break;
+            case DECK_EMPTY:
+                handleDeckEmpty();
+                break;
+            case REVERSE_DIRECTION:
+                handleReverseDirection();
+                break;
+            default:
+                setStatus("Unhandled status: " + status);
+                break;
         }
-         */
-        if (status == UnoModel.Status.GAME_STARTED) {
-            handleGameStarted();
-        }
-        else if (status == UnoModel.Status.PLAYER_TURN_CHANGED) {
-            handlePlayerTurnChanged(e.getPlayer());
-        }
-        else if (status == UnoModel.Status.PLAYER_WON) {
-            handlePlayerWon(e.getPlayer());
-        }
-        else if (status == UnoModel.Status.CARD_PLAYED) {
-            handleCardPlayed(e.getPlayer(), e.getCard());
-        }
-        else if (status == UnoModel.Status.DRAW_PENALTY) {
-            handleDrawPenalty(e.getPlayer(), e.getPenaltyCards());
-        }
-
-        else if (status == UnoModel.Status.WILD_CARD_CHOSEN) {
-            handleWildCardChosen(e.getPlayer(), e.getChosenColor());
-        }
-
-        else if (status == UnoModel.Status.UNO_ANNOUNCED) {
-            handleUnoAnnounced(e.getPlayer());
-        }
-        else if (status == UnoModel.Status.GAME_OVER) {
-            handleGameOver();
-        }
-        else if (status == UnoModel.Status.INVALID_MOVE) {
-            handleInvalidMove(e.getPlayer());
-        }
-        else if (status == UnoModel.Status.DECK_EMPTY) {
-            handleDeckEmpty(e.getPlayer());
-        }
-        else if (status == UnoModel.Status.REVERSE_DIRECTION) {
-            handleReverseDirection();
-        }
-
     }
 
     private void handleGameStarted() {
@@ -230,14 +278,16 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
     private void handlePlayerWon(Player winningPlayer) {
-        JOptionPane.showMessageDialog(this, winningPlayer.getName() + " wins!");
+        setStatus(winningPlayer.getName() + " wins!");
     }
 
     private void handleCardPlayed(Player player, Card playedCard) {
         updateTopCardLabel(playedCard);
         displayPlayerCards(player);
-        setStatus("Played: " + playedCard.toString());
+        setStatus("Played: " + playedCard);
     }
+
+
 
     @Override
     public void updateStatus(String status) {
@@ -268,7 +318,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
     private void handleDrawPenalty(Player player, int penaltyCards) {
-        JOptionPane.showMessageDialog(this, player.getName() + " drew " + penaltyCards + " penalty cards!");
+        setStatus(player.getName() + " drew " + penaltyCards + " penalty cards!");
         displayPlayerCards(player);
     }
 
@@ -276,32 +326,30 @@ public class UnoViewFrame extends JFrame implements UnoView {
         JOptionPane.showMessageDialog(this, "Clicked on card: " + clickedCard.getColor() + " " + clickedCard.getType());
     }
 
-    private void handleWildCardChosen(Player player, Card chosenColor){
+    private void handleWildCardChosen(Card chosenColor){
         updateTopCardLabel(chosenColor);
-        JOptionPane.showMessageDialog(this, "The color " + chosenColor.getColor() + " was selected.");
-        displayPlayerCards(player);
+        setStatus("Wild card color chosen: " + chosenColor.getColor());
     }
 
     private void handleUnoAnnounced(Player player){
-        JOptionPane.showMessageDialog(this, player.getName() + " has an UNO!");
+        setStatus(player.getName() + "announced UNO!");
     }
 
     private void handleGameOver(){
+        setStatus("Game Over.");
         enableDrawButton(false);
     }
 
-    private void handleInvalidMove(Player player){
-        JOptionPane.showMessageDialog(this, "This move is invalid, please try again.");
-        displayPlayerCards(player);
+    private void handleInvalidMove(){
+        setStatus("Invalid move!");
     }
 
-    private void handleDeckEmpty(Player player){
-        JOptionPane.showMessageDialog(this, "The deck is empty, reshuffling cards.");
-        displayPlayerCards(player);
+    private void handleDeckEmpty(){
+        setStatus("Deck is empty, reshuffling");
     }
 
     private void handleReverseDirection(){
-        JOptionPane.showMessageDialog(this, "The direction of play is now reversed!");
+        setStatus("Play direction reveresed");
     }
 
     public void setPlayerName(String name) {

@@ -130,6 +130,7 @@ public class UnoModel {
      * Moves to the next player's turn.
      */
     public void nextPlayer(){
+        hasDrawnThisTurn = false;
         int currentPlayerIndex = players.indexOf(currentPlayer);
         int nextPlayerIndex;
         if(isReversed){
@@ -138,6 +139,8 @@ public class UnoModel {
             nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
         }
         currentPlayer = players.get(nextPlayerIndex);
+        hasDrawnThisTurn = false;
+        notifyViews();
     }
 
     public Card drawCard() {
@@ -194,7 +197,8 @@ public class UnoModel {
             executeSpecialCardAction(chosenCard);
             checkWinCondition();
             hasDrawnThisTurn=false;
-            notifyViewsCardPlayed(chosenCard);
+            notifyViews();
+//            notifyViewsCardPlayed(chosenCard);
         } else {
             updateViewsInvalidMove();
         }
