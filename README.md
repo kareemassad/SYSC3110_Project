@@ -79,7 +79,7 @@ The following is a list of deliverable that were required in the milestone:
 
 - Utilized an `ArrayList` to manage a collection of `model.Player` and `model.Card` objects in `model.Deck` and `model.Player` classes.
 - Used an `Enum` to store Types and Colors in the `model.Card` class.
-- (add data structures from view and controller)
+- Used `ArrayList` to manage views inside the model.
 
 ### Design consideration
 
@@ -93,9 +93,13 @@ The following is a list of deliverable that were required in the milestone:
 
 ### Changes to structure and UML
 
+- We included the model, view, controller along with the previous classes in the UML class diagram. No changes were made in sequence as the logic remained same.
+- There were no particular changes in data structures either.
+
 ![image](https://github.com/kareemassad/SYSC3110_Project/assets/91309756/211bb2a6-bce6-43c7-a6a8-b799dd1f6b36)
 
 
 ## Known issues:
 
 - Flip Mechanism is unimplemented, deferred to Milestone 3.
+- Some functionalities for the view remain incomplete and will be addressed in Milestone 3.
