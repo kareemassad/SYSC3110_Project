@@ -77,11 +77,31 @@ public class UnoModel {
     /**
      * Adds players to the Uno Game.
      */
-    public void addPlayers(String name) {
-        for (int i = 1; i <= MAX_PLAYERS; i++) {
-            players.add(new Player(name));
+    public void addPlayers(String name, int numberOfPlayers) {
+        for (int i = 1; i <= numberOfPlayers; i++) {
+            players.add(new Player(name + " " + (i + 1)));
         }
     }
+
+    private boolean hasDrawnThisTurn = false;
+    public void drawCardForPlayer(){
+        if(!hasDrawnThisTurn){
+            Card drawnCard = drawCard();
+            currentPlayer.addCard(drawnCard);
+            hasDrawnThisTurn = true;
+
+            for(UnoView view : views){
+                view.updateStatus(currentPlayer.getName() + " has drawn a card.");
+                view.displayPlayerCards(currentPlayer);
+            }
+        } else {
+            for(UnoView view : views){
+                view.updateStatus("Cannot draw more than one card per turn.");
+            }
+
+        }
+    }
+
 
     /**
      * Distributes initial cards to players and sets the Starting model.Card for the game.
@@ -167,17 +187,13 @@ public class UnoModel {
 //    }
 
     public void playTurn(int cardIndex){
-        if(cardIndex <0 || cardIndex >= currentPlayer.getSize()){
-            updateViewsInvalidMove();
-            return;
-        }
-
         Card chosenCard = currentPlayer.getCard(cardIndex);
         if (isPlayable(chosenCard)){
             topCard = chosenCard;
             currentPlayer.removeCard(cardIndex);
-            executeSpecialCardAction();
+            executeSpecialCardAction(chosenCard);
             checkWinCondition();
+            hasDrawnThisTurn=false;
             notifyViewsCardPlayed(chosenCard);
         } else {
             updateViewsInvalidMove();
@@ -207,8 +223,8 @@ public class UnoModel {
      *  Executes a special action on current card, such as reversing the game,
      *  drawing cards, skipping or choosing a color for wild cards
      */
-    private void executeSpecialCardAction() {
-        switch (topCard.getType()) {
+    private void executeSpecialCardAction(Card card) {
+        switch (card.getType()) {
             case REVERSE -> isReversed = !isReversed;
             case DRAW_ONE -> {
                 nextPlayer();
@@ -225,6 +241,7 @@ public class UnoModel {
             default -> {
             }
         }
+        nextPlayer();
     }
 
     /**

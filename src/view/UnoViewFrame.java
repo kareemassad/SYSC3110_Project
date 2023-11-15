@@ -31,7 +31,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         topCardLabel = new JLabel();
         playerLabel = new JLabel("Player 1");
 
-        statusLabel = new JLabel(" ");
+        statusLabel = new JLabel("Welcome to UNO FLIP");
         statusLabel.setBorder(BorderFactory.createTitledBorder("Status"));
         statusLabel.setVisible(true);
         this.add(statusLabel, BorderLayout.SOUTH);
@@ -152,7 +152,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
             if (result == JOptionPane.OK_OPTION) {
                 String playerName = getName.getText();
-                model.addPlayers(playerName);
+                model.addPlayers(playerName, numberOfPlayers);
             }
 
         }
@@ -226,7 +226,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private void handlePlayerTurnChanged(Player newPlayer) {
         setPlayerName(newPlayer.getName());
         displayPlayerCards(newPlayer);
-//        enableDrawButton(true);
         setStatus(newPlayer.getName() + "'s turn.");
     }
 
@@ -237,6 +236,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private void handleCardPlayed(Player player, Card playedCard) {
         updateTopCardLabel(playedCard);
         displayPlayerCards(player);
+        setStatus("Played: " + playedCard.toString());
     }
 
     @Override
