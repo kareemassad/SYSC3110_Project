@@ -102,4 +102,4 @@ The following is a list of deliverable that were required in the milestone:
 ## Known issues:
 
 - Flip Mechanism is unimplemented, deferred to Milestone 3.
-- Some functionalities for the view remain incomplete and will be addressed in Milestone 3.
+- Some functionalities, like not playing cards or skip players, for the view remain incomplete and will be addressed in Milestone 3.
