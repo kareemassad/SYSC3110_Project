@@ -8,8 +8,10 @@ import model.UnoModel;
 
 import javax.swing.*;
 import java.awt.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 public class UnoViewFrame extends JFrame implements UnoView {
     private UnoModel model;
@@ -17,38 +19,48 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private JPanel pCardPanel;
     private JButton draw, nextPlayer;
     private UnoController uc;
+    private JLabel statusLabel;
 
-    public UnoViewFrame(){
+    public UnoViewFrame(UnoController uc, UnoModel model){
         super("UNO Game");
-        this.setLayout(new FlowLayout());
-        model = new UnoModel();
-        model.addUnoView(this);
-        draw = new JButton("Draw model.Card");
-        nextPlayer = new JButton("Next model.Player");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1000,600);
-        uc = new UnoController(model);
+        this.uc = uc;
+        this.model = model;
+
+        this.setLayout(new BorderLayout());
+
         topCardLabel = new JLabel();
-        playerLabel = new JLabel();
-        pCardPanel = new JPanel();
-        pCardPanel.setLayout(new FlowLayout());
+        playerLabel = new JLabel("Player 1");
+
+        statusLabel = new JLabel(" ");
+        statusLabel.setBorder(BorderFactory.createTitledBorder("Status"));
+        statusLabel.setVisible(true);
+        this.add(statusLabel, BorderLayout.SOUTH);
+
+        pCardPanel = new JPanel(new FlowLayout());
+
+        draw = new JButton("Draw Card");
+        nextPlayer = new JButton("Next Player");
 
         draw.setActionCommand("DRAW");
         draw.addActionListener(uc);
         nextPlayer.setActionCommand("NEXT");
-        draw.addActionListener(uc);
+        nextPlayer.addActionListener(uc);
 
-        this.add(playerLabel, FlowLayout.LEFT);
-        this.add(topCardLabel);
-        this.add(pCardPanel);
-        this.add(draw);
-        this.add(nextPlayer);
+        this.add(playerLabel, BorderLayout.NORTH);
+        this.add(topCardLabel, BorderLayout.CENTER);
+        this.add(pCardPanel, BorderLayout.SOUTH);
+        this.add(draw, BorderLayout.WEST);
+        this.add(nextPlayer, BorderLayout.EAST);
 
+        // Call the setup methods
         playerSetup();
-        playerLabel.setText(model.getPlayers().get(0).getName());
         model.dealInitialCards();
         updateTopCardLabel(model.getTopCard());
         displayPlayerCards(model.getPlayers().get(0));
+
+        // Adjusts the window to fit the preferred sizes of its subcomponents
+        this.pack();
+        // Center the window
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -63,6 +75,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         topCardLabel.setText(topCard.getColor().toString() + " " + topCard.getType().toString());
     }
 
+    @Override
     public void displayPlayerCards(Player player) {
         pCardPanel.removeAll();
 
@@ -115,6 +128,10 @@ public class UnoViewFrame extends JFrame implements UnoView {
         }
     }
 
+    public void setStatus(String status){
+        statusLabel.setText(status);
+    }
+
     public void addPlayerNames(int numberOfPlayers) {
         for (int i = 0; i < numberOfPlayers; i++) {
             JPanel playerAddPanel = new JPanel();
@@ -146,7 +163,11 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
     public static void main(String[] args) {
-        new UnoViewFrame();
+        UnoModel model = new UnoModel();
+        UnoController controller = new UnoController(model);
+        UnoViewFrame view = new UnoViewFrame(controller, model);
+        model.addUnoView(view);
+        view.setVisible(true);
     }
 
     @Override
@@ -213,6 +234,34 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private void handleCardPlayed(Player player, Card playedCard) {
         updateTopCardLabel(playedCard);
         displayPlayerCards(player);
+    }
+
+    @Override
+    public void updateStatus(String status) {
+        statusLabel.setText(status);
+    }
+
+    @Override
+    public void promptForColor(){
+        Card.Color[] colors = Arrays.stream(Card.Color.values())
+                                    .filter(c -> c != Card.Color.WILD)
+                                    .toArray(Card.Color[]::new);
+        String[] colorOptions = Arrays.stream(colors)
+                                    .map(Enum::name)
+                                    .toArray(String[]::new);
+        String chosenColor = (String) JOptionPane.showInputDialog(
+                this,
+                "Choose a color for the wild card:",
+                "Wild Card Color Selection",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                colorOptions,
+                colorOptions[0] //default
+        );
+        if(chosenColor != null && !chosenColor.isEmpty()){
+            model.setWildCardColor(Card.Color.valueOf(chosenColor));
+
+        }
     }
 
     private void handleDrawPenalty(Player player, int penaltyCards) {

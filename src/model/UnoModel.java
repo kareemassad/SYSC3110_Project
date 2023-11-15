@@ -16,9 +16,11 @@ public class UnoModel {
     private Player currentPlayer;
     private boolean isReversed = false;
     private boolean gameRunning;
+    private List<UnoView> views;
     private Scanner sc = new Scanner(System.in);
     private boolean flip = false;
-    public List<UnoView> views;
+
+
 
     public enum Status {
         UNDECIDED,
@@ -64,6 +66,10 @@ public class UnoModel {
         }
     }
 
+    public List<UnoView> getViews(){
+        return this.views;
+    }
+
     public Status getStatus() {
         return status;
     }
@@ -88,7 +94,7 @@ public class UnoModel {
         }
         topCard = deck.drawCard();
         if(topCard.getType() == Card.Type.WILD || topCard.getType() == Card.Type.WILD_DRAW_TWO){
-            chooseColorForWildCard();
+            promptForWildCardColor();
         }
         System.out.println("Starting Card: " + topCard);
         currentPlayer = players.get(0);
@@ -122,42 +128,79 @@ public class UnoModel {
     /**
      * Handles the current player's turn, allowing them to play or draw cards and checks valid card play.
      */
-    public void playTurn(int cardIndex){
-        boolean validCardChoice = false;
+//    public void playTurn(int cardIndex){
+//        boolean validCardChoice = false;
+//
+//        do {
+//            System.out.println("Enter card index to play or 0 to draw a card");
+//            if(cardIndex >= 0 && cardIndex < currentPlayer.getSize()){
+//                Card chosenCard = currentPlayer.getCard(cardIndex);
+//                if(isPlayable(chosenCard)){
+//                    topCard = chosenCard;
+//                    currentPlayer.removeCard(cardIndex);
+//                    validCardChoice=true;
+//                    System.out.println("Played: " + topCard);
+//                    executeSpecialCardAction();
+//                    if(currentPlayer.getSize() == 0){
+//                        gameRunning = false;
+//                        System.out.println(currentPlayer.getName() +  " wins the round");
+//                        for (Player player : players) {
+//                            for (int i = 0; i < player.getSize(); i++)
+//                                currentPlayer.updateScore(player.getCard(i));
+//                        }
+//                        return;
+//                    }
+//                } else {
+//                    System.out.println("Card cannot be played. Try again");
+//                    return;
+//                }
+//            } else if (cardIndex == -1){
+//                Card drawnCard = deck.drawCard();
+//                currentPlayer.addCard(drawnCard);
+//                System.out.println("You drew a " + drawnCard);
+//                validCardChoice=true;
+//            } else {
+//                System.out.println("Invalid choice. Try again.");
+//            }
+//        } while (!validCardChoice);
+//        nextPlayer();
+//    }
 
-        do {
-            System.out.println("Enter card index to play or 0 to draw a card");
-            if(cardIndex >= 0 && cardIndex < currentPlayer.getSize()){
-                Card chosenCard = currentPlayer.getCard(cardIndex);
-                if(isPlayable(chosenCard)){
-                    topCard = chosenCard;
-                    currentPlayer.removeCard(cardIndex);
-                    validCardChoice=true;
-                    System.out.println("Played: " + topCard);
-                    executeSpecialCardAction();
-                    if(currentPlayer.getSize() == 0){
-                        gameRunning = false;
-                        System.out.println(currentPlayer.getName() +  " wins the round");
-                        for (Player player : players) {
-                            for (int i = 0; i < player.getSize(); i++)
-                                currentPlayer.updateScore(player.getCard(i));
-                        }
-                        return;
-                    }
-                } else {
-                    System.out.println("Card cannot be played. Try again");
-                    return;
-                }
-            } else if (cardIndex == -1){
-                Card drawnCard = deck.drawCard();
-                currentPlayer.addCard(drawnCard);
-                System.out.println("You drew a " + drawnCard);
-                validCardChoice=true;
-            } else {
-                System.out.println("Invalid choice. Try again.");
+    public void playTurn(int cardIndex){
+        if(cardIndex <0 || cardIndex >= currentPlayer.getSize()){
+            updateViewsInvalidMove();
+            return;
+        }
+
+        Card chosenCard = currentPlayer.getCard(cardIndex);
+        if (isPlayable(chosenCard)){
+            topCard = chosenCard;
+            currentPlayer.removeCard(cardIndex);
+            executeSpecialCardAction();
+            checkWinCondition();
+            notifyViewsCardPlayed(chosenCard);
+        } else {
+            updateViewsInvalidMove();
+        }
+    }
+
+    private void updateViewsInvalidMove(){
+        for(UnoView view: views){
+            view.updateStatus("Invalid move!");
+        }
+    }
+
+    private void checkWinCondition(){
+        if(currentPlayer.getSize() == 0){
+            gameRunning = false;
+            for (UnoView view : views){
+                view.updateStatus(currentPlayer.getName()  + " wins the round!");
             }
-        } while (!validCardChoice);
-        nextPlayer();
+        }
+    }
+
+    public Player getCurrentPlayer(){
+        return currentPlayer;
     }
 
     /**
@@ -172,13 +215,13 @@ public class UnoModel {
                 currentPlayer.addCard(deck.drawCard());
             }
             case WILD_DRAW_TWO -> {
-                chooseColorForWildCard();
+                promptForWildCardColor();
                 nextPlayer();
                 currentPlayer.addCard(deck.drawCard());
                 currentPlayer.addCard(deck.drawCard());
             }
             case SKIP -> nextPlayer();
-            case WILD -> chooseColorForWildCard();
+            case WILD -> promptForWildCardColor();
             default -> {
             }
         }
@@ -187,16 +230,22 @@ public class UnoModel {
     /**
      * Allows the player to choose the color for Wild model.Card.
      */
-    private void chooseColorForWildCard() {
-        System.out.println("Choose a color (RED, BLUE, GREEN, YELLOW): ");
-        while (true){
-            String chosenColor = sc.nextLine().toUpperCase();
-            if(Arrays.asList(VALID_COLORS).contains(chosenColor)){
-                topCard.setColor(Card.Color.valueOf(chosenColor));
-                break;
-            } else {
-                System.out.println("Invalid color. Please choose again (RED, BLUE, GREEN, YELLOW): ");
-            }
+//    private void chooseColorForWildCard() {
+//        System.out.println("Choose a color (RED, BLUE, GREEN, YELLOW): ");
+//        while (true){
+//            String chosenColor = sc.nextLine().toUpperCase();
+//            if(Arrays.asList(VALID_COLORS).contains(chosenColor)){
+//                topCard.setColor(Card.Color.valueOf(chosenColor));
+//                break;
+//            } else {
+//                System.out.println("Invalid color. Please choose again (RED, BLUE, GREEN, YELLOW): ");
+//            }
+//        }
+//    }
+    public void setWildCardColor(Card.Color color){
+        if (topCard.getType()== Card.Type.WILD || topCard.getType()== Card.Type.WILD_DRAW_TWO){
+            topCard.setColor(color);
+            notifyViews();
         }
     }
 
@@ -208,6 +257,18 @@ public class UnoModel {
 
     public void addUnoView(UnoView view) {
         this.views.add(view);
+    }
+
+    private void notifyViewsCardPlayed(Card card){
+        for (UnoView view : views){
+            view.updateStatus("Played: " + card);
+        }
+    }
+
+    public  void promptForWildCardColor(){
+        for(UnoView view : views){
+            view.promptForColor();
+        }
     }
 
     public static void main(String[] args) {
