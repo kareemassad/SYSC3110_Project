@@ -93,7 +93,8 @@ The following is a list of deliverable that were required in the milestone:
 
 ### Changes to structure and UML
 
-- (fill with data structure and UML changes)
+![image](https://github.com/kareemassad/SYSC3110_Project/assets/91309756/211bb2a6-bce6-43c7-a6a8-b799dd1f6b36)
+
 
 ## Known issues:
 
