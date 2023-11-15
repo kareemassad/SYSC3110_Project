@@ -96,8 +96,6 @@ The following is a list of deliverable that were required in the milestone:
 - We included the model, view, controller along with the previous classes in the UML class diagram. No changes were made in sequence as the logic remained same.
 - There were no particular changes in data structures either.
 
-![image](https://github.com/kareemassad/SYSC3110_Project/assets/91309756/211bb2a6-bce6-43c7-a6a8-b799dd1f6b36)
-
 
 ## Known issues:
 
