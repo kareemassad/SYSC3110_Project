@@ -19,6 +19,7 @@ public class UnoModel {
     private List<UnoView> views;
     private Scanner sc = new Scanner(System.in);
     private boolean flip = false;
+    private int currentPlayerIndex = 0;
 
     public enum Status {
         UNDECIDED,
@@ -296,6 +297,14 @@ public class UnoModel {
         for(UnoView view : views){
             view.promptForColor();
         }
+    }
+
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
+    }
+
+    public void setCurrentPlayerIndex(int index) {
+        currentPlayerIndex = index;
     }
 
 //    public static void main(String[] args) {

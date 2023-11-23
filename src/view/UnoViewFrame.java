@@ -39,7 +39,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         draw.setActionCommand("DRAW");
         draw.addActionListener(uc);
         nextPlayer.setActionCommand("NEXT");
-        nextPlayer.addActionListener(uc);
+
 
         this.add(playerLabel, BorderLayout.NORTH);
         this.add(topCardLabel, BorderLayout.CENTER);
@@ -65,6 +65,20 @@ public class UnoViewFrame extends JFrame implements UnoView {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+
+        nextPlayer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Player currentPlayer = model.getCurrentPlayer();
+                int currentPlayerIndex = model.getCurrentPlayerIndex();
+                int nextPlayerIndex = (currentPlayerIndex + 1) % model.getPlayers().size();
+
+                model.setCurrentPlayerIndex(nextPlayerIndex);
+
+                Player nextPlayer = model.getPlayers().get(nextPlayerIndex);
+                handlePlayerTurnChanged(nextPlayer);
+            }
+        });
     }
 
     public void updateTopCardLabel(Card topCard) {
@@ -99,6 +113,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         pCardPanel.revalidate();
         pCardPanel.repaint();
     }
+
 
     private void playerSetup(){
         boolean validSetup = false;
@@ -269,12 +284,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
         enableNextPlayerButton(true);
     }
 
-    private void handlePlayerTurnChanged(Player newPlayer) {
-        setPlayerName(newPlayer.getName());
-        displayPlayerCards(newPlayer);
-        setStatus(newPlayer.getName() + "'s turn.");
-    }
-
     private void handlePlayerWon(Player winningPlayer) {
         setStatus(winningPlayer.getName() + " wins!");
     }
@@ -283,6 +292,13 @@ public class UnoViewFrame extends JFrame implements UnoView {
         updateTopCardLabel(playedCard);
         displayPlayerCards(player);
         setStatus("Played: " + playedCard);
+    }
+
+    private void handlePlayerTurnChanged(Player newPlayer) {
+        setPlayerName(newPlayer.getName());
+        pCardPanel.removeAll();
+        displayPlayerCards(newPlayer);
+        setStatus(newPlayer.getName() + "'s turn.");
     }
 
 
