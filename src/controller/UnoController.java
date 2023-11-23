@@ -1,11 +1,11 @@
 package controller;
 
+import model.AI;
 import model.Player;
 import model.UnoModel;
 import model.Card;
 import view.UnoView;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,11 +26,21 @@ public class UnoController implements ActionListener{
             model.playTurn(cardIndex);
         } else if(e.getActionCommand().equals("NEXT")){
             model.nextPlayer();
-            Player currenPlayer = model.getCurrentPlayer();
+            Player currentPlayer = model.getCurrentPlayer();
             for(UnoView view: model.getViews()){
-                view.setPlayerName(currenPlayer.getName());
+                view.setPlayerName(currentPlayer.getName());
                 view.displayPlayerCards(model.getCurrentPlayer());
            }
+            if (currentPlayer instanceof AI) {
+                AI aiPlayer = (AI) currentPlayer;
+                Card chosenCard = aiPlayer.AICard(model);
+                if (chosenCard != null) {
+                    int cardIndex = currentPlayer.findCardIndex(chosenCard);
+                    model.playTurn(cardIndex);
+                } else {
+                    model.drawCardForPlayer();
+                }
+            }
         }
     }
 }

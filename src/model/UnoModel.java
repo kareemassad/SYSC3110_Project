@@ -20,6 +20,7 @@ public class UnoModel {
     private Scanner sc = new Scanner(System.in);
     private boolean flip = false;
     private int currentPlayerIndex = 0;
+    private UnoModel model;
 
     public enum Status {
         UNDECIDED,
@@ -80,6 +81,13 @@ public class UnoModel {
         players.add(new Player(playerName));
         notifyViews();
     }
+
+    public void addAIPlayer(String playerName) {
+        AI newAIPlayer = new AI(playerName);
+        players.add(newAIPlayer);
+        notifyViews();
+    }
+
 
     private boolean hasDrawnThisTurn = false;
     public void drawCardForPlayer(){
@@ -147,6 +155,11 @@ public class UnoModel {
         return deck.drawCard();
     }
 
+    public void reverseDirection() {
+        isReversed = !isReversed;
+    }
+
+
 
     /**
      * Handles the current player's turn, allowing them to play or draw cards and checks valid card play.
@@ -189,19 +202,36 @@ public class UnoModel {
 //        nextPlayer();
 //    }
 
-    public void playTurn(int cardIndex){
-        Card chosenCard = currentPlayer.getCard(cardIndex);
-        if (isPlayable(chosenCard)){
-            topCard = chosenCard;
-            currentPlayer.removeCard(cardIndex);
-            executeSpecialCardAction(chosenCard);
-            checkWinCondition();
-            hasDrawnThisTurn=false;
-            notifyViews();
+    public void playTurn(int cardIndex) {
+        if (currentPlayer instanceof AI) {
+            AI aiPlayer = (AI) currentPlayer;
+            Card chosenCard = aiPlayer.AICard(model);
+            if (isPlayable(chosenCard)) {
+                topCard = chosenCard;
+                currentPlayer.removeCard(currentPlayer.findCardIndex(chosenCard));
+                executeSpecialCardAction(chosenCard);
+                checkWinCondition();
+                hasDrawnThisTurn = false;
+                notifyViews();
+            } else {
+                updateViewsInvalidMove();
+            }
         } else {
-            updateViewsInvalidMove();
+            Card chosenCard = currentPlayer.getCard(cardIndex);
+            if (isPlayable(chosenCard)) {
+                topCard = chosenCard;
+                currentPlayer.removeCard(cardIndex);
+                executeSpecialCardAction(chosenCard);
+                checkWinCondition();
+                hasDrawnThisTurn = false;
+                notifyViews();
+            } else {
+                updateViewsInvalidMove();
+            }
         }
     }
+
+
 
     private void updateViewsInvalidMove(){
         for(UnoView view: views){

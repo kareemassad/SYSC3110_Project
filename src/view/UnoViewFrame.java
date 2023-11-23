@@ -2,6 +2,7 @@ package view;
 
 import controller.UnoController;
 import controller.UnoEvent;
+import model.AI;
 import model.Card;
 import model.Player;
 import model.UnoModel;
@@ -160,13 +161,22 @@ public class UnoViewFrame extends JFrame implements UnoView {
             JTextField getName = new JTextField(10);
             playerAddPanel.add(getName);
 
+            JCheckBox aiPlayerCheckbox = new JCheckBox("AI Player");
+            playerAddPanel.add(aiPlayerCheckbox);
+
             int result;
             String dialogTitle = (i == 0) ? "Add first player" : "Add additional players";
             result = JOptionPane.showOptionDialog(this, playerAddPanel, dialogTitle, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 
             if (result == JOptionPane.OK_OPTION) {
                 String playerName = getName.getText();
-                model.addPlayers(playerName);
+                boolean isAIPlayer = aiPlayerCheckbox.isSelected();
+
+                if (isAIPlayer) {
+                    model.addAIPlayer(playerName);
+                } else {
+                    model.addPlayers(playerName);
+                }
             }
         }
     }
@@ -289,9 +299,14 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
     private void handleCardPlayed(Player player, Card playedCard) {
-        updateTopCardLabel(playedCard);
-        displayPlayerCards(player);
-        setStatus("Played: " + playedCard);
+        if (playedCard.getType() == Card.Type.REVERSE) {
+            model.reverseDirection();
+            setStatus("Reverse card played by " + player.getName() + ". Direction reversed.");
+        } else {
+            updateTopCardLabel(playedCard);
+            displayPlayerCards(player);
+            setStatus("Played: " + playedCard);
+        }
     }
 
     private void handlePlayerTurnChanged(Player newPlayer) {
@@ -300,6 +315,11 @@ public class UnoViewFrame extends JFrame implements UnoView {
         displayPlayerCards(newPlayer);
         updateTopCardLabel(model.getTopCard());
         setStatus(newPlayer.getName() + "'s turn.");
+
+        if (newPlayer instanceof AI) {
+            AI aiPlayer = (AI) newPlayer;
+            aiPlayer.AITurn(model);
+        }
 
     }
 
