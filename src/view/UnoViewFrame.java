@@ -298,7 +298,9 @@ public class UnoViewFrame extends JFrame implements UnoView {
         setPlayerName(newPlayer.getName());
         pCardPanel.removeAll();
         displayPlayerCards(newPlayer);
+        updateTopCardLabel(model.getTopCard());
         setStatus(newPlayer.getName() + "'s turn.");
+
     }
 
 
