@@ -13,7 +13,7 @@ public class UnoModel {
     private List<Player> players;
     private Card topCard;
 
-    private Player currentPlayer;
+    public Player currentPlayer;
     private boolean isReversed = false;
     private boolean gameRunning;
     private List<UnoView> views;
@@ -75,10 +75,9 @@ public class UnoModel {
     /**
      * Adds players to the Uno Game.
      */
-    public void addPlayers(String name, int numberOfPlayers) {
-        for (int i = 1; i <= numberOfPlayers; i++) {
-            players.add(new Player(name + " " + (i + 1)));
-        }
+    public void addPlayers(String playerName) {
+        players.add(new Player(playerName));
+        notifyViews();
     }
 
     private boolean hasDrawnThisTurn = false;
@@ -104,18 +103,20 @@ public class UnoModel {
     /**
      * Distributes initial cards to players and sets the Starting model.Card for the game.
      */
-    public void dealInitialCards(){
-        for (Player player : players){
-            for(int i =0; i<7; i++){
+    public void dealInitialCards() {
+        int numberOfPlayers = players.size();
+        for (Player player : players) {
+            for (int i = 0; i < 7; i++) {
                 player.addCard(deck.drawCard());
             }
         }
         topCard = deck.drawCard();
-        if(topCard.getType() == Card.Type.WILD || topCard.getType() == Card.Type.WILD_DRAW_TWO){
+        if (topCard.getType() == Card.Type.WILD || topCard.getType() == Card.Type.WILD_DRAW_TWO) {
             promptForWildCardColor();
         }
         System.out.println("Starting Card: " + topCard);
         currentPlayer = players.get(0);
+        notifyViews();
     }
     /**
      * Checks if a card can be played on the current card.

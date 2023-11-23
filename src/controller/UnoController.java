@@ -1,5 +1,6 @@
 package controller;
 
+import model.Player;
 import model.UnoModel;
 import model.Card;
 import view.UnoView;
@@ -25,9 +26,11 @@ public class UnoController implements ActionListener{
             model.playTurn(cardIndex);
         } else if(e.getActionCommand().equals("NEXT")){
             model.nextPlayer();
-//            for(UnoView view: model.getViews()){
-//                view.displayPlayerCards(model.getCurrentPlayer());
-//            }
+            Player currenPlayer = model.getCurrentPlayer();
+            for(UnoView view: model.getViews()){
+                view.setPlayerName(currenPlayer.getName());
+                view.displayPlayerCards(model.getCurrentPlayer());
+           }
         }
     }
 }

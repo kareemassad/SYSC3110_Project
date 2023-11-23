@@ -9,4 +9,6 @@ public interface UnoView {
 
     void promptForColor();
     void displayPlayerCards(Player player);
+    void setPlayerName(String name);
+
 }

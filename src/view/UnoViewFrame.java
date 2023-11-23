@@ -28,7 +28,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
         this.setLayout(new BorderLayout());
         topCardLabel = new JLabel();
-        playerLabel = new JLabel("Player 1");
+        playerLabel = new JLabel();
 
 
         pCardPanel = new JPanel(new FlowLayout());
@@ -57,7 +57,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
         this.add(draw, BorderLayout.WEST);
         this.add(nextPlayer, BorderLayout.EAST);
 
-        // Call the setup methods
         playerSetup();
         model.dealInitialCards();
         updateTopCardLabel(model.getTopCard());
@@ -147,22 +146,21 @@ public class UnoViewFrame extends JFrame implements UnoView {
             playerAddPanel.add(getName);
 
             int result;
-            if (i == 0) {
-                result = JOptionPane.showOptionDialog(this, playerAddPanel, "Add first player", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-            } else {
-                result = JOptionPane.showOptionDialog(this, playerAddPanel, "Add additional players", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-            }
+            String dialogTitle = (i == 0) ? "Add first player" : "Add additional players";
+            result = JOptionPane.showOptionDialog(this, playerAddPanel, dialogTitle, JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 
             if (result == JOptionPane.OK_OPTION) {
                 String playerName = getName.getText();
-                model.addPlayers(playerName, numberOfPlayers);
+                model.addPlayers(playerName);
             }
-
         }
     }
 
+
     public void enableDrawButton(boolean enable) {
         draw.setEnabled(enable);
+    }
+    public void enableNextPlayerButton(boolean enabled) {nextPlayer.setEnabled(enabled);
     }
 
     public static void main(String[] args) {
@@ -223,7 +221,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
 @Override
     public void handleUnoStatusUpdate(UnoEvent e) {
         UnoModel.Status status = model.getStatus();
-//        UnoModel.Status status = model.status;
+   //     UnoModel.Status status = model.status;
         System.out.println(status);
         switch (status) {
             case GAME_STARTED:
@@ -268,6 +266,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private void handleGameStarted() {
         setStatus("The game has started");
         enableDrawButton(true);
+        enableNextPlayerButton(true);
     }
 
     private void handlePlayerTurnChanged(Player newPlayer) {
@@ -337,6 +336,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private void handleGameOver(){
         setStatus("Game Over.");
         enableDrawButton(false);
+        enableNextPlayerButton(false);
     }
 
     private void handleInvalidMove(){
@@ -348,12 +348,11 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
     private void handleReverseDirection(){
-        setStatus("Play direction reveresed");
+        setStatus("Play direction reversed");
     }
 
     public void setPlayerName(String name) {
         playerLabel.setText(name);
     }
-
 
 }
