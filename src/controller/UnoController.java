@@ -26,6 +26,7 @@ public class UnoController implements ActionListener{
             model.playTurn(cardIndex);
         } else if(e.getActionCommand().equals("NEXT")){
             model.nextPlayer();
+            /**
             Player currentPlayer = model.getCurrentPlayer();
             for(UnoView view: model.getViews()){
                 view.setPlayerName(currentPlayer.getName());
@@ -41,6 +42,7 @@ public class UnoController implements ActionListener{
                     model.drawCardForPlayer();
                 }
             }
+             */
         }
     }
 }

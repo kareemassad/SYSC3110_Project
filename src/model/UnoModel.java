@@ -24,12 +24,10 @@ public class UnoModel {
 
     public enum Status {
         UNDECIDED,
-        GAME_STARTED,
         PLAYER_TURN_CHANGED,
+        DREW_CARD,
         PLAYER_WON,
         CARD_PLAYED,
-        DRAW_PENALTY,
-        WILD_CARD_CHOSEN,
         UNO_ANNOUNCED,
         GAME_OVER,
         INVALID_MOVE,
@@ -41,8 +39,8 @@ public class UnoModel {
     private static final int MAX_PLAYERS = 4;
     private static final String[] VALID_COLORS = {"RED", "BLUE", "GREEN", "YELLOW"};
     public Status status;
-
     private Card chosenCard;
+    private boolean hasDrawnThisTurn = false;
 
 
     public UnoModel() {
@@ -90,8 +88,6 @@ public class UnoModel {
         notifyViews();
     }
 
-
-    private boolean hasDrawnThisTurn = false;
     public void drawCardForPlayer(){
         if(!hasDrawnThisTurn){
             Card drawnCard = drawCard();
@@ -99,14 +95,13 @@ public class UnoModel {
             hasDrawnThisTurn = true;
 
             for(UnoView view : views){
-                view.updateStatus(currentPlayer.getName() + " has drawn a card.");
-                view.displayPlayerCards(currentPlayer);
+                status = Status.DREW_CARD;
+                notifyViews();
             }
         } else {
             for(UnoView view : views){
                 view.updateStatus("Cannot draw more than one card per turn.");
             }
-
         }
     }
 
@@ -140,7 +135,6 @@ public class UnoModel {
      * Moves to the next player's turn.
      */
     public void nextPlayer(){
-        hasDrawnThisTurn = false;
         int currentPlayerIndex = players.indexOf(currentPlayer);
         int nextPlayerIndex;
         if(isReversed){
@@ -150,6 +144,7 @@ public class UnoModel {
         }
         currentPlayer = players.get(nextPlayerIndex);
         hasDrawnThisTurn = false;
+        status = Status.PLAYER_TURN_CHANGED;
         notifyViews();
     }
 
@@ -216,7 +211,8 @@ public class UnoModel {
                 hasDrawnThisTurn = false;
                 notifyViews();
             } else {
-                updateViewsInvalidMove();
+                status = Status.INVALID_MOVE;
+                notifyViews();
             }
         } else {
             chosenCard = currentPlayer.getCard(cardIndex);
@@ -229,16 +225,9 @@ public class UnoModel {
                 status = Status.CARD_PLAYED;
                 notifyViews();
             } else {
-                updateViewsInvalidMove();
+                status = Status.INVALID_MOVE;
+                notifyViews();
             }
-        }
-    }
-
-
-
-    private void updateViewsInvalidMove(){
-        for(UnoView view: views){
-            view.updateStatus("Invalid move! Try Again");
         }
     }
 

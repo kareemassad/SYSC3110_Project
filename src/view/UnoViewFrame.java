@@ -31,7 +31,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
         topCardLabel = new JLabel();
         playerLabel = new JLabel();
 
-
         pCardPanel = new JPanel(new FlowLayout());
 
         draw = new JButton("Draw Card");
@@ -40,7 +39,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         draw.setActionCommand("DRAW");
         draw.addActionListener(uc);
         nextPlayer.setActionCommand("NEXT");
-
+        nextPlayer.addActionListener(uc);
 
         this.add(playerLabel, BorderLayout.NORTH);
         this.add(topCardLabel, BorderLayout.CENTER);
@@ -63,10 +62,11 @@ public class UnoViewFrame extends JFrame implements UnoView {
         updateTopCardLabel(model.getTopCard());
         displayPlayerCards(model.getPlayers().get(0));
 
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-
+        /**
         nextPlayer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,6 +80,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
                 handlePlayerTurnChanged(nextPlayer);
             }
         });
+         */
     }
 
     public void updateTopCardLabel(Card topCard) {
@@ -196,64 +197,14 @@ public class UnoViewFrame extends JFrame implements UnoView {
         view.setVisible(true);
     }
 
-//    @Override
-//    public void handleUnoStatusUpdate(UnoEvent e) {
-//        Object source = e.getSource();
-//        UnoModel.Status status = model.getStatus();
-//
-//        /**
-//        if (status == Uno.Status.UNDECIDED) {
-//            handleUndecided();
-//        }
-//         */
-//        if (status == UnoModel.Status.GAME_STARTED) {
-//            handleGameStarted();
-//        }
-//        else if (status == UnoModel.Status.PLAYER_TURN_CHANGED) {
-//            handlePlayerTurnChanged(e.getPlayer());
-//        }
-//        else if (status == UnoModel.Status.PLAYER_WON) {
-//            handlePlayerWon(e.getPlayer());
-//        }
-//        else if (status == UnoModel.Status.CARD_PLAYED) {
-//            handleCardPlayed(e.getPlayer(), e.getCard());
-//        }
-//        else if (status == UnoModel.Status.DRAW_PENALTY) {
-//            handleDrawPenalty(e.getPlayer(), e.getPenaltyCards());
-//        }
-//
-//        else if (status == UnoModel.Status.WILD_CARD_CHOSEN) {
-//            handleWildCardChosen(e.getPlayer(), e.getChosenColor());
-//        }
-//
-//        else if (status == UnoModel.Status.UNO_ANNOUNCED) {
-//            handleUnoAnnounced(e.getPlayer());
-//        }
-//        else if (status == UnoModel.Status.GAME_OVER) {
-//            handleGameOver();
-//        }
-//        else if (status == UnoModel.Status.INVALID_MOVE) {
-//            handleInvalidMove(e.getPlayer());
-//        }
-//        else if (status == UnoModel.Status.DECK_EMPTY) {
-//            handleDeckEmpty(e.getPlayer());
-//        }
-//        else if (status == UnoModel.Status.REVERSE_DIRECTION) {
-//            handleReverseDirection();
-//        }
-//
-//    }
 @Override
     public void handleUnoStatusUpdate(UnoEvent e) {
         UnoModel.Status status = model.getStatus();
    //     UnoModel.Status status = model.status;
         System.out.println(status);
         switch (status) {
-            case GAME_STARTED:
-                handleGameStarted();
-                break;
             case PLAYER_TURN_CHANGED:
-                handlePlayerTurnChanged(e.getPlayer());
+                handlePlayerTurnChanged();
                 break;
             case PLAYER_WON:
                 handlePlayerWon(e.getPlayer());
@@ -261,11 +212,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
             case CARD_PLAYED:
                 handleCardPlayed(e.getPlayer(), e.getCard());
                 break;
-            case DRAW_PENALTY:
-                handleDrawPenalty(e.getPlayer(), e.getPenaltyCards());
-                break;
-            case WILD_CARD_CHOSEN:
-                handleWildCardChosen(e.getChosenColor());
+            case DREW_CARD:
+                handleCardDrawn(e.getPlayer());
                 break;
             case UNO_ANNOUNCED:
                 handleUnoAnnounced(e.getPlayer());
@@ -288,11 +236,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
         }
     }
 
-    private void handleGameStarted() {
-        setStatus("The game has started");
-        enableDrawButton(true);
-        enableNextPlayerButton(true);
-    }
 
     private void handlePlayerWon(Player winningPlayer) {
         setStatus(winningPlayer.getName() + " wins!");
@@ -308,23 +251,23 @@ public class UnoViewFrame extends JFrame implements UnoView {
             setStatus("Played: " + playedCard);
         }
     }
-
-    private void handlePlayerTurnChanged(Player newPlayer) {
-        setPlayerName(newPlayer.getName());
-        pCardPanel.removeAll();
-        displayPlayerCards(newPlayer);
-        updateTopCardLabel(model.getTopCard());
-        setStatus(newPlayer.getName() + "'s turn.");
-
-        if (newPlayer instanceof AI) {
-            AI aiPlayer = (AI) newPlayer;
-            aiPlayer.AITurn(model);
-        }
-
+    private void handleCardDrawn(Player player){
+        setStatus(player.getName() + " drew a card.");
+        displayPlayerCards(player);
     }
 
+    private void handlePlayerTurnChanged() {
+        setPlayerName(model.getCurrentPlayer().getName());
+        pCardPanel.removeAll();
+        displayPlayerCards(model.getCurrentPlayer());
+        updateTopCardLabel(model.getTopCard());
+        setStatus(model.getCurrentPlayer().getName() + "'s turn.");
 
-
+        if (model.getCurrentPlayer() instanceof AI) {
+            AI aiPlayer = (AI) model.getCurrentPlayer();
+            aiPlayer.AITurn(model);
+        }
+    }
     @Override
     public void updateStatus(String status) {
         statusLabel.setText(status);
@@ -349,22 +292,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         );
         if(chosenColor != null && !chosenColor.isEmpty()){
             model.setWildCardColor(Card.Color.valueOf(chosenColor));
-
         }
-    }
-
-    private void handleDrawPenalty(Player player, int penaltyCards) {
-        setStatus(player.getName() + " drew " + penaltyCards + " penalty cards!");
-        displayPlayerCards(player);
-    }
-
-    private void handleCardClick(Card clickedCard) {
-        JOptionPane.showMessageDialog(this, "Clicked on card: " + clickedCard.getColor() + " " + clickedCard.getType());
-    }
-
-    private void handleWildCardChosen(Card chosenColor){
-        updateTopCardLabel(chosenColor);
-        setStatus("Wild card color chosen: " + chosenColor.getColor());
     }
 
     private void handleUnoAnnounced(Player player){
@@ -378,7 +306,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
     private void handleInvalidMove(){
-        setStatus("Invalid move!");
+        setStatus("Invalid move! Please try again.");
     }
 
     private void handleDeckEmpty(){
