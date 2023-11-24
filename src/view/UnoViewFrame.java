@@ -66,21 +66,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        /**
-        nextPlayer.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Player currentPlayer = model.getCurrentPlayer();
-                int currentPlayerIndex = model.getCurrentPlayerIndex();
-                int nextPlayerIndex = (currentPlayerIndex + 1) % model.getPlayers().size();
-
-                model.setCurrentPlayerIndex(nextPlayerIndex);
-
-                Player nextPlayer = model.getPlayers().get(nextPlayerIndex);
-                handlePlayerTurnChanged(nextPlayer);
-            }
-        });
-         */
     }
 
     public void updateTopCardLabel(Card topCard) {
@@ -239,6 +224,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
     private void handlePlayerWon(Player winningPlayer) {
         setStatus(winningPlayer.getName() + " wins!");
+        enableDrawButton(false);
+        enableNextPlayerButton(false);
     }
 
     private void handleCardPlayed(Player player, Card playedCard) {

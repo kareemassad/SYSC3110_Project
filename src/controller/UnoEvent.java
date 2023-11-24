@@ -13,18 +13,10 @@ public class UnoEvent extends EventObject {
     private int penaltyCards;
     private Card chosenColor;
 
-    public UnoEvent(Object source, UnoModel.Status status) {
+    public UnoEvent(Object source, UnoModel.Status status, Player player, Card card) {
         super(source);
         this.status = status;
-    }
-
-    public UnoEvent(Object source, UnoModel.Status status, Player player) {
-        this(source, status);
         this.player = player;
-    }
-
-    public UnoEvent(Object source, UnoModel.Status status, Player player, Card card) {
-        this(source, status, player);
         this.card = card;
     }
 

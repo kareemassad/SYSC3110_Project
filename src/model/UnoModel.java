@@ -234,9 +234,8 @@ public class UnoModel {
     public void checkWinCondition(){
         if(currentPlayer.getSize() == 0){
             gameRunning = false;
-            for (UnoView view : views){
-                view.updateStatus(currentPlayer.getName()  + " wins the round!");
-            }
+            status = Status.PLAYER_WON;
+            notifyViews();
         }
     }
 
