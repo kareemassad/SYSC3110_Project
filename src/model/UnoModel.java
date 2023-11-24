@@ -42,6 +42,8 @@ public class UnoModel {
     private static final String[] VALID_COLORS = {"RED", "BLUE", "GREEN", "YELLOW"};
     public Status status;
 
+    private Card chosenCard;
+
 
     public UnoModel() {
         deck = new Deck();
@@ -60,7 +62,7 @@ public class UnoModel {
     }
 
     private void notifyViews() {
-        UnoEvent event = new UnoEvent(this, getStatus());
+        UnoEvent event = new UnoEvent(this, getStatus(), currentPlayer, chosenCard);
         for (UnoView view : views) {
             view.handleUnoStatusUpdate(event);
         }
@@ -217,13 +219,14 @@ public class UnoModel {
                 updateViewsInvalidMove();
             }
         } else {
-            Card chosenCard = currentPlayer.getCard(cardIndex);
+            chosenCard = currentPlayer.getCard(cardIndex);
             if (isPlayable(chosenCard)) {
                 topCard = chosenCard;
                 currentPlayer.removeCard(cardIndex);
                 executeSpecialCardAction(chosenCard);
                 checkWinCondition();
                 hasDrawnThisTurn = false;
+                status = Status.CARD_PLAYED;
                 notifyViews();
             } else {
                 updateViewsInvalidMove();
