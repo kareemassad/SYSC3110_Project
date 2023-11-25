@@ -53,10 +53,14 @@ public class Deck {
                 // Add two of each special card for each color
                 deck.add(new Card(color, Card.Type.SKIP));
                 deck.add(new Card(color, Card.Type.SKIP));
+                deck.add(new Card(color, Card.Type.SKIP_EVERYONE));
+                deck.add(new Card(color, Card.Type.SKIP_EVERYONE));
                 deck.add(new Card(color, Card.Type.REVERSE));
                 deck.add(new Card(color, Card.Type.REVERSE));
                 deck.add(new Card(color, Card.Type.DRAW_ONE));
                 deck.add(new Card(color, Card.Type.DRAW_ONE));
+                deck.add(new Card(color, Card.Type.DRAW_FIVE));
+                deck.add(new Card(color, Card.Type.DRAW_FIVE));
             }
         }
 
@@ -64,6 +68,7 @@ public class Deck {
         for (int i = 0; i < 4; i++) {
             deck.add(new Card(Card.Color.WILD, Card.Type.WILD));
             deck.add(new Card(Card.Color.WILD, Card.Type.WILD_DRAW_TWO));
+            deck.add(new Card(Card.Color.WILD, Card.Type.WILD_DRAW_COLOR));
         }
 
         shuffle();

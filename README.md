@@ -1,18 +1,18 @@
-# SYSC 3110 Project: Uno Flip - Milestone 2
+# SYSC 3110 Project: Uno Flip - Milestone 3
 
 ## Project description
 The SYSC 3110 project is to basically create a simplified version of the card game Uno Flip. The simplified version would work identical to the original but with 
-lesser functionalities. In Milestone 2, the game is developed as GUI-based, allowing players to engage through a graphical display and use of mouse input.
+lesser functionalities. In Milestone 3, the game is developed as GUI-based, with added features sucha as AI players and Flip mechanism.
 
 ## Project members and authors
 Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Evan Baldwin and Kareem El Assad. The contributions of the members are listed below:
 
 | Member | Student number | Contributions                                                               |
 |--------|----------------|-----------------------------------------------------------------------------|
-| Mehedi | 101154128      | UnoModel, UnoView, UnoViewFrame, UnoController, UnoEvent, UML Class Diagram |
-| Rayat  | 101151001      | UnoModel, UnoViewFrame, test.UnoModelTest, README                           |
-| Evan   | 101222276      | UnoModel, UnoViewFrame, UnoController                                       |
-| Kareem | 101107739      | UnoModel, UnoViewFrame, UnoController                                       |
+| Mehedi | 101154128      | (add) |
+| Rayat  | 101151001      | Card, Deck, Player, test.UnoModelTest, README                           |
+| Evan   | 101222276      |                                       |
+| Kareem | 101107739      |                                      |
 
 ## How to run
 Options:
@@ -68,6 +68,10 @@ The following is a list of deliverable that were required in the milestone:
 	- Location: SYSC3110_Project/src
 	- Description: Junit test file for model.UnoModel.
 
+- model.AI.java:
+	- Location: SYSC3110_Project/src
+	- Description: class for implementing AI players.
+
 - /Diagrams/Milestone {Milestone Number}/Class Diagrams/
 	- Description: UML class diagram depicting the different relations between the classes.
 	
@@ -98,6 +102,3 @@ The following is a list of deliverable that were required in the milestone:
 
 
 ## Known issues:
-
-- Flip Mechanism is unimplemented, deferred to Milestone 3.
-- Some functionalities, like not playing cards or skip players, for the view remain incomplete and will be addressed in Milestone 3.
