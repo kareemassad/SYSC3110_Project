@@ -131,7 +131,8 @@ public class UnoModel {
      * Checks if a card can be played on the current card.
      */
     public boolean isPlayable(Card card){
-        return card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_TWO || card.getType() == topCard.getType() || card.getColor() == topCard.getColor();
+        return card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_TWO || card.getType() == Card.Type.WILD_FLIP ||
+                card.getType() == Card.Type.WILD_DRAW_COLOR || card.getType() == topCard.getType() || card.getColor() == topCard.getColor();
     }
 
     /**
@@ -281,13 +282,24 @@ public class UnoModel {
                 }
             }
             case WILD_FLIP -> promptForFlippedWildCardColor();
-            case WILD_DRAW_COLOR -> {}
+            case WILD_DRAW_COLOR -> {
+                promptForFlippedWildCardColor();
+                nextPlayer();
+                drawUntilColor();
+            }
             default -> {
             }
         }
         nextPlayer();
     }
 
+    public void drawUntilColor(){
+        int i = currentPlayer.getSize()-1;
+        while(currentPlayer.getCard(i).getColor() != topCard.getColor()){
+            currentPlayer.addCard(deck.drawCard());
+            i++;
+        }
+    }
     private void flipDeck(){
         for (Player player : players) {
             for (int i = 0; i < player.getSize(); i++) {
