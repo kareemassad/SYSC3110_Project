@@ -83,7 +83,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
     public void updateTopCardLabel(Card topCard) {
-        String imgPath = "src/images/" + topCard.getColor().toString().toLowerCase() + topCard.getType().toString().toLowerCase() + ".png";
+        String imgPath = "src/images/" + topCard.getColor().toString().toLowerCase() + "_" + topCard.getType().toString().toLowerCase() + ".png";
         ImageIcon icon = new ImageIcon(imgPath);
         Image image = icon.getImage();
         Image resized = image.getScaledInstance(200, 300, Image.SCALE_SMOOTH);
@@ -98,7 +98,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
         for (int i = 0; i < player.getSize(); i++) {
             Card card = player.getCard(i);
-            String imgPath = "src/images/" + card.getColor().toString().toLowerCase() + card.getType().toString().toLowerCase() + ".png";
+            String imgPath = "src/images/" + card.getColor().toString().toLowerCase() + "_" + card.getType().toString().toLowerCase() + ".png";
             ImageIcon icon = new ImageIcon(imgPath);
             Image image = icon.getImage();
             Image resized = image.getScaledInstance(100, 150, Image.SCALE_SMOOTH);

@@ -45,12 +45,16 @@ public class Player {
             score += (card.getType().ordinal() + 1);
         } else if (card.getType() == Card.Type.DRAW_ONE) {
             score += 10;
-        } else if (card.getType() == Card.Type.REVERSE || card.getType() == Card.Type.SKIP) {
+        } else if (card.getType() == Card.Type.REVERSE || card.getType() == Card.Type.SKIP || card.getType() == Card.Type.DRAW_FIVE || card.getType() == Card.Type.FLIP) {
             score += 20;
+        } else if (card.getType() == Card.Type.SKIP_EVERYONE) {
+            score += 30;
         } else if (card.getType() == Card.Type.WILD) {
             score += 40;
         } else if (card.getType() == Card.Type.WILD_DRAW_TWO) {
             score += 50;
+        } else if (card.getType() == Card.Type.WILD_DRAW_COLOR) {
+            score += 60;
         }
     }
 
