@@ -267,12 +267,31 @@ public class UnoModel {
             }
             case SKIP -> nextPlayer();
             case WILD -> promptForWildCardColor();
+            case FLIP -> flipDeck();
+            case DRAW_FIVE -> {
+                nextPlayer();
+                for (int i = 0; i < 4; i++){
+                    currentPlayer.addCard(deck.drawCard());
+                }
+            }
+            case SKIP_EVERYONE -> {
+
+            }
+            case WILD_FLIP -> promptForFlippedWildCardColor();
             default -> {
             }
         }
         nextPlayer();
     }
 
+    private void flipDeck(){
+        for (Player player : players) {
+            for (int i = 0; i < player.getSize(); i++) {
+                player.flipCard(i, flipped);
+            }
+        }
+        deck.flipDeck(flipped);
+    }
     /**
      * Allows the player to choose the color for Wild model.Card.
      */
@@ -289,7 +308,8 @@ public class UnoModel {
 //        }
 //    }
     public void setWildCardColor(Card.Color color){
-        if (topCard.getType()== Card.Type.WILD || topCard.getType()== Card.Type.WILD_DRAW_TWO){
+        if (topCard.getType()== Card.Type.WILD || topCard.getType()== Card.Type.WILD_DRAW_TWO
+                ||topCard.getType()== Card.Type.WILD_FLIP ||topCard.getType()== Card.Type.WILD_DRAW_COLOR){
             topCard.setColor(color);
             notifyViews();
         }
@@ -322,6 +342,11 @@ public class UnoModel {
     public  void promptForWildCardColor(){
         for(UnoView view : views){
             view.promptForColor();
+        }
+    }
+    public  void promptForFlippedWildCardColor(){
+        for(UnoView view : views){
+            view.promptForFlipColor();
         }
     }
 

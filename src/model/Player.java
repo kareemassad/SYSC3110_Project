@@ -91,6 +91,16 @@ public class Player {
     }
 
     /**
+     * This method flips the given card in hand.
+     */
+    public void flipCard(int i, boolean flipped){
+        if(i>=0 && i<cards.size()){
+            if(flipped){
+
+            }
+        }
+    }
+    /**
      * This method shows how  many cards a player has.
      */
     public int getSize() {return this.cards.size(); }

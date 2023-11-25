@@ -37,7 +37,9 @@ public class Deck {
      */
     private void newDeck(){
         deck.clear(); // Clear existing deck
-        for (Card.Color color : Card.Color.values()) {
+        Card.Color[] setColor = Card.Color.values();
+        for (int i = 0; i < 4; i++) {
+            Card.Color color = setColor[i];
             if (color != Card.Color.WILD) {
                 // Add one 0 card for each color
                 deck.add(new Card(color, Card.Type.ONE));
@@ -49,28 +51,20 @@ public class Deck {
                         deck.add(new Card(color, type));
                     }
                 }
-
                 // Add two of each special card for each color
                 deck.add(new Card(color, Card.Type.SKIP));
                 deck.add(new Card(color, Card.Type.SKIP));
-                deck.add(new Card(color, Card.Type.SKIP_EVERYONE));
-                deck.add(new Card(color, Card.Type.SKIP_EVERYONE));
                 deck.add(new Card(color, Card.Type.REVERSE));
                 deck.add(new Card(color, Card.Type.REVERSE));
                 deck.add(new Card(color, Card.Type.DRAW_ONE));
                 deck.add(new Card(color, Card.Type.DRAW_ONE));
-                deck.add(new Card(color, Card.Type.DRAW_FIVE));
-                deck.add(new Card(color, Card.Type.DRAW_FIVE));
             }
         }
-
         // Add Wild cards (4 of each)
         for (int i = 0; i < 4; i++) {
             deck.add(new Card(Card.Color.WILD, Card.Type.WILD));
             deck.add(new Card(Card.Color.WILD, Card.Type.WILD_DRAW_TWO));
-            deck.add(new Card(Card.Color.WILD, Card.Type.WILD_DRAW_COLOR));
         }
-
         shuffle();
     }
 
@@ -110,5 +104,13 @@ public class Deck {
             }
         }
         return false;
+    }
+
+    public void flipDeck(boolean flipped){
+        for (Card card: deck){
+            if(card.getColor().equals(Card.Color.RED)){
+                card.setColor(Card.Color.PINK);
+            }
+        }
     }
 }

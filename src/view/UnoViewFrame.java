@@ -263,7 +263,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
     @Override
     public void promptForColor(){
         Card.Color[] colors = Arrays.stream(Card.Color.values())
-                                    .filter(c -> c != Card.Color.WILD)
+                                    .filter(c -> c != Card.Color.WILD && c != Card.Color.PINK &&
+                                            c != Card.Color.ORANGE && c != Card.Color.PURPLE && c != Card.Color.TEAL)
                                     .toArray(Card.Color[]::new);
         String[] colorOptions = Arrays.stream(colors)
                                     .map(Enum::name)
@@ -281,7 +282,28 @@ public class UnoViewFrame extends JFrame implements UnoView {
             model.setWildCardColor(Card.Color.valueOf(chosenColor));
         }
     }
-
+    @Override
+    public void promptForFlipColor(){
+        Card.Color[] colors = Arrays.stream(Card.Color.values())
+                .filter(c -> c != Card.Color.WILD && c != Card.Color.RED &&
+                        c != Card.Color.BLUE && c != Card.Color.GREEN && c != Card.Color.YELLOW)
+                .toArray(Card.Color[]::new);
+        String[] colorOptions = Arrays.stream(colors)
+                .map(Enum::name)
+                .toArray(String[]::new);
+        String chosenColor = (String) JOptionPane.showInputDialog(
+                this,
+                "Choose a color for the wild card:",
+                "Wild Card Color Selection",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                colorOptions,
+                colorOptions[0] //default
+        );
+        if(chosenColor != null && !chosenColor.isEmpty()){
+            model.setWildCardColor(Card.Color.valueOf(chosenColor));
+        }
+    }
     private void handleUnoAnnounced(Player player){
         setStatus(player.getName() + "announced UNO!");
     }

@@ -8,6 +8,7 @@ public interface UnoView {
     void updateStatus(String status);
 
     void promptForColor();
+    void promptForFlipColor();
     void displayPlayerCards(Player player);
     void setPlayerName(String name);
 
