@@ -32,7 +32,8 @@ public class UnoModel {
         GAME_OVER,
         INVALID_MOVE,
         DECK_EMPTY,
-        REVERSE_DIRECTION
+        REVERSE_DIRECTION,
+        FLIP_CARDS
     }
 
     private static final int MIN_PLAYERS = 2;
@@ -275,9 +276,12 @@ public class UnoModel {
                 }
             }
             case SKIP_EVERYONE -> {
-
+                for (int i = 0; i < players.size(); i++){
+                    nextPlayer();
+                }
             }
             case WILD_FLIP -> promptForFlippedWildCardColor();
+            case WILD_DRAW_COLOR -> {}
             default -> {
             }
         }
@@ -291,6 +295,10 @@ public class UnoModel {
             }
         }
         deck.flipDeck(flipped);
+        topCard.flipCard(flipped);
+        flipped = !flipped;
+        status = Status.FLIP_CARDS;
+        notifyViews();
     }
     /**
      * Allows the player to choose the color for Wild model.Card.

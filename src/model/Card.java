@@ -39,6 +39,40 @@ public class Card {
     public void setColor(Color color) { this.color = color; }
 
     /**
+     * Default setter for card's type.
+     */
+    public void setType(Type type) {this.type = type;}
+
+    public void flipCard(Boolean flipped){
+        if(flipped){
+            switch(type){
+                case SKIP_EVERYONE -> setType(Card.Type.SKIP);
+                case DRAW_FIVE -> setType(Card.Type.DRAW_ONE);
+                case WILD_FLIP -> setType(Card.Type.WILD);
+                case WILD_DRAW_COLOR -> setType(Card.Type.WILD_DRAW_TWO);
+            }
+            switch(color){
+                case PINK -> setColor(Card.Color.RED);
+                case ORANGE -> setColor(Card.Color.BLUE);
+                case PURPLE -> setColor(Card.Color.GREEN);
+                case TEAL -> setColor(Card.Color.YELLOW);
+            }
+        }else{
+            switch(type){
+                case SKIP -> setType(Card.Type.SKIP_EVERYONE);
+                case DRAW_ONE -> setType(Card.Type.DRAW_FIVE);
+                case WILD -> setType(Card.Type.WILD_FLIP);
+                case WILD_DRAW_TWO -> setType(Card.Type.WILD_DRAW_COLOR);
+            }
+            switch(color) {
+                case RED -> setColor(Card.Color.PINK);
+                case BLUE -> setColor(Card.Color.ORANGE);
+                case GREEN -> setColor(Card.Color.PURPLE);
+                case YELLOW -> setColor(Card.Color.TEAL);
+            }
+        }
+    }
+    /**
      * toString method to represent the card in readable text format.
      */
     @Override

@@ -58,6 +58,8 @@ public class Deck {
                 deck.add(new Card(color, Card.Type.REVERSE));
                 deck.add(new Card(color, Card.Type.DRAW_ONE));
                 deck.add(new Card(color, Card.Type.DRAW_ONE));
+                deck.add(new Card(color, Card.Type.FLIP));
+                deck.add(new Card(color, Card.Type.FLIP));
             }
         }
         // Add Wild cards (4 of each)
@@ -108,9 +110,7 @@ public class Deck {
 
     public void flipDeck(boolean flipped){
         for (Card card: deck){
-            if(card.getColor().equals(Card.Color.RED)){
-                card.setColor(Card.Color.PINK);
-            }
+            card.flipCard(flipped);
         }
     }
 }

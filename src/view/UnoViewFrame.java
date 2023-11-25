@@ -215,6 +215,9 @@ public class UnoViewFrame extends JFrame implements UnoView {
             case REVERSE_DIRECTION:
                 handleReverseDirection();
                 break;
+            case FLIP_CARDS:
+                handleFlipCards();
+                break;
             default:
                 setStatus("Unhandled status: " + status);
                 break;
@@ -254,6 +257,14 @@ public class UnoViewFrame extends JFrame implements UnoView {
             AI aiPlayer = (AI) model.getCurrentPlayer();
             aiPlayer.AITurn(model);
         }
+    }
+
+    public void handleFlipCards(){
+        setPlayerName(model.getCurrentPlayer().getName());
+        pCardPanel.removeAll();
+        displayPlayerCards(model.getCurrentPlayer());
+        updateTopCardLabel(model.getTopCard());
+        setStatus("Flipped cards.");
     }
     @Override
     public void updateStatus(String status) {

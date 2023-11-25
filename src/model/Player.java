@@ -95,9 +95,8 @@ public class Player {
      */
     public void flipCard(int i, boolean flipped){
         if(i>=0 && i<cards.size()){
-            if(flipped){
-
-            }
+            Card card = getCard(i);
+            card.flipCard(flipped);
         }
     }
     /**
