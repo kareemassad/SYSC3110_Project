@@ -5,8 +5,8 @@ package model;
  */
 public class Card {
 
-    public enum Color {RED, GREEN, BLUE, YELLOW, WILD}
-    public enum Type {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, SKIP, REVERSE, DRAW_ONE, WILD, WILD_DRAW_TWO}
+    public enum Color {RED, GREEN, BLUE, YELLOW, ORANGE, PINK, PURPLE, TEAL, WILD}
+    public enum Type {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, SKIP, SKIP_EVERYONE, FLIP, REVERSE, DRAW_ONE, DRAW_FIVE, WILD, WILD_FLIP, WILD_DRAW_TWO, WILD_DRAW_COLOR}
     private Color color;
     private Type type;
 

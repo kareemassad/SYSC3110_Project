@@ -41,6 +41,7 @@ public class UnoModel {
     public Status status;
     private Card chosenCard;
     private boolean hasDrawnThisTurn = false;
+    private boolean flipped;
 
 
     public UnoModel() {
@@ -50,6 +51,7 @@ public class UnoModel {
         views = new ArrayList<>();
         runGame();
         status = Status.UNDECIDED;
+        flipped = false;
     }
 
     /**
@@ -235,6 +237,9 @@ public class UnoModel {
         if(currentPlayer.getSize() == 0){
             gameRunning = false;
             status = Status.PLAYER_WON;
+            notifyViews();
+        } else if(currentPlayer.getSize() == 1){
+            status = Status.UNO_ANNOUNCED;
             notifyViews();
         }
     }
