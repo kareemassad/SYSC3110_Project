@@ -192,7 +192,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
                 handlePlayerTurnChanged();
                 break;
             case PLAYER_WON:
-                handlePlayerWon(e.getPlayer());
+                handlePlayerWon(e.getPlayer(), e.getCard());
                 break;
             case CARD_PLAYED:
                 handleCardPlayed(e.getPlayer(), e.getCard());
@@ -225,10 +225,21 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
 
-    private void handlePlayerWon(Player winningPlayer) {
-        setStatus(winningPlayer.getName() + " wins!");
-        enableDrawButton(false);
-        enableNextPlayerButton(false);
+    private void handlePlayerWon(Player winningPlayer, Card lastCard) {
+
+        if(model.countScore(winningPlayer)){
+            setStatus(winningPlayer.getName() + " has surpassed 500 points. They win the game!");
+            enableDrawButton(false);
+            enableNextPlayerButton(false);
+            return;
+        }else{
+            setStatus(winningPlayer.getName() + " has won the round! They earned " + model.getScore(winningPlayer) + " points.");
+            updateTopCardLabel(lastCard);
+            displayPlayerCards(winningPlayer);
+            enableDrawButton(false);
+            enableNextPlayerButton(false);
+        }
+
     }
 
     private void handleCardPlayed(Player player, Card playedCard) {

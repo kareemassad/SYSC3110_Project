@@ -18,7 +18,6 @@ public class UnoModel {
     private boolean gameRunning;
     private List<UnoView> views;
     private Scanner sc = new Scanner(System.in);
-    private boolean flip = false;
     private int currentPlayerIndex = 0;
     private UnoModel model;
 
@@ -223,8 +222,11 @@ public class UnoModel {
             if (isPlayable(chosenCard)) {
                 topCard = chosenCard;
                 currentPlayer.removeCard(cardIndex);
-                executeSpecialCardAction(chosenCard);
                 checkWinCondition();
+                if(!gameRunning){
+                    return;
+                }
+                executeSpecialCardAction(chosenCard);
                 hasDrawnThisTurn = false;
                 status = Status.CARD_PLAYED;
                 notifyViews();
@@ -277,7 +279,7 @@ public class UnoModel {
                 }
             }
             case SKIP_EVERYONE -> {
-                for (int i = 0; i < players.size(); i++){
+                for (int i = 1; i < players.size(); i++){
                     nextPlayer();
                 }
             }
@@ -378,8 +380,24 @@ public class UnoModel {
         currentPlayerIndex = index;
     }
 
-//    public static void main(String[] args) {
-//        new UnoModel();
-//    }
+    public boolean countScore(Player winningPlayer){
+        for (Player player: players){
+            if (player != winningPlayer){
+                for(int i = 0; i < player.getSize(); i++){
+                    player.updateScore(player.getCard(i));
+                    winningPlayer.addTotalScore(player.getScore());
+                }
+            }
+        }
+        if(winningPlayer.getScore()>500){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    public int getScore(Player player){
+        return player.getTotalScore();
+    }
 
 }

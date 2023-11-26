@@ -16,6 +16,8 @@ public class Player {
      */
     private String name;
     private List<Card> cards;
+
+    private int totalScore;
     private int score;
 
 /**
@@ -111,5 +113,17 @@ public class Player {
             }
         }
         return -1;
+    }
+
+    /**
+     * This method sets the total game score of the player.
+     * @param score
+     */
+    public void addTotalScore(int score){
+        this.totalScore += score;
+    }
+
+    public int getTotalScore(){
+        return totalScore;
     }
 }
