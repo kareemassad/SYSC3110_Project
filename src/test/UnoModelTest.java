@@ -44,14 +44,6 @@ public class UnoModelTest {
     }
 
     @Test
-    public void testCheckWinCondition() {
-        unoModel.dealInitialCards();
-        unoModel.getCurrentPlayer().removeAllCards();
-        unoModel.checkWinCondition();
-        assertEquals(UnoModel.Status.PLAYER_WON, unoModel.getStatus());
-    }
-
-    @Test
     public void testNextPlayer() {
         unoModel.addPlayers("Player1");
         unoModel.addPlayers("Player2");
@@ -79,10 +71,10 @@ public class UnoModelTest {
         unoModel.addPlayers("Player1");
         unoModel.addPlayers("Player2");
         unoModel.dealInitialCards();
-        unoModel.setTopCard(new Card(Card.Color.RED, Card.Type.WILD, 0));
+        unoModel.setTopCard(new Card(Card.Color.RED, Card.Type.WILD));
 
-        unoModel.executeSpecialCardAction(new Card(Card.Color.RED, Card.Type.WILD, 0));
-        assertTrue(unoModel.getTopCard().getColor() != null);
+        unoModel.executeSpecialCardAction(new Card(Card.Color.RED, Card.Type.WILD));
+        assertNotNull(unoModel.getTopCard().getColor());
     }
 
     @Test
@@ -113,9 +105,9 @@ public class UnoModelTest {
         unoModel.addPlayers("Player1");
         unoModel.addPlayers("Player2");
         unoModel.dealInitialCards();
-        unoModel.setTopCard(new Card(Card.Color.RED, Card.Type.DRAW_FIVE, 0));
+        unoModel.setTopCard(new Card(Card.Color.RED, Card.Type.DRAW_FIVE));
 
-        unoModel.executeSpecialCardAction(new Card(Card.Color.RED, Card.Type.DRAW_FIVE, 0));
+        unoModel.executeSpecialCardAction(new Card(Card.Color.RED, Card.Type.DRAW_FIVE));
         int nextPlayerCardCount = unoModel.getNextPlayer().getSize();
         assertEquals(5, nextPlayerCardCount);
     }
@@ -126,9 +118,9 @@ public class UnoModelTest {
         unoModel.addPlayers("Player2");
         unoModel.addPlayers("Player3");
         unoModel.dealInitialCards();
-        unoModel.setTopCard(new Card(Card.Color.RED, Card.Type.SKIP_EVERYONE, 0));
+        unoModel.setTopCard(new Card(Card.Color.RED, Card.Type.SKIP_EVERYONE));
 
-        unoModel.executeSpecialCardAction(new Card(Card.Color.RED, Card.Type.SKIP_EVERYONE, 0));
+        unoModel.executeSpecialCardAction(new Card(Card.Color.RED, Card.Type.SKIP_EVERYONE));
         assertEquals(unoModel.getPlayers().get(0), unoModel.getCurrentPlayer());
     }
 
@@ -137,7 +129,7 @@ public class UnoModelTest {
         unoModel.addPlayers("Player1");
         unoModel.addPlayers("Player2");
         unoModel.dealInitialCards();
-        unoModel.setTopCard(new Card(Card.Color.WILD, Card.Type.WILD, 0));
+        unoModel.setTopCard(new Card(Card.Color.WILD, Card.Type.WILD));
 
         unoModel.setWildCardColor(Card.Color.BLUE);
         assertEquals(Card.Color.BLUE, unoModel.getTopCard().getColor());

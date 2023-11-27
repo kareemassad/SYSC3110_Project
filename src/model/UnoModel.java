@@ -238,7 +238,7 @@ public class UnoModel {
         }
     }
 
-    private Player getNextPlayer() {
+    public Player getNextPlayer() {
         int nextIndex = (currentPlayerIndex + 1) % players.size();
         if(isReversed){
             nextIndex = (currentPlayerIndex - 1 + players.size()) % players.size();
