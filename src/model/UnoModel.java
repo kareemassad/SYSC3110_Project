@@ -68,7 +68,7 @@ public class UnoModel {
         }
     }
 
-    public List<UnoView> getViews(){
+    public List<UnoView> getViews() {
         return this.views;
     }
 
@@ -90,18 +90,18 @@ public class UnoModel {
         notifyViews();
     }
 
-    public void drawCardForPlayer(){
-        if(!hasDrawnThisTurn){
+    public void drawCardForPlayer() {
+        if (!hasDrawnThisTurn) {
             Card drawnCard = drawCard();
             currentPlayer.addCard(drawnCard);
             hasDrawnThisTurn = true;
 
-            for(UnoView view : views){
+            for (UnoView view : views) {
                 status = Status.DREW_CARD;
                 notifyViews();
             }
         } else {
-            for(UnoView view : views){
+            for (UnoView view : views) {
                 view.updateStatus("Cannot draw more than one card per turn.");
             }
         }
@@ -126,10 +126,11 @@ public class UnoModel {
         currentPlayer = players.get(0);
         notifyViews();
     }
+
     /**
      * Checks if a card can be played on the current card.
      */
-    public boolean isPlayable(Card card){
+    public boolean isPlayable(Card card) {
         return card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_TWO || card.getType() == Card.Type.WILD_FLIP ||
                 card.getType() == Card.Type.WILD_DRAW_COLOR || card.getType() == topCard.getType() || card.getColor() == topCard.getColor();
     }
@@ -137,10 +138,10 @@ public class UnoModel {
     /**
      * Moves to the next player's turn.
      */
-    public void nextPlayer(){
+    public void nextPlayer() {
         int currentPlayerIndex = players.indexOf(currentPlayer);
         int nextPlayerIndex;
-        if(isReversed){
+        if (isReversed) {
             nextPlayerIndex = (currentPlayerIndex - 1 + players.size()) % players.size();
         } else {
             nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
@@ -158,7 +159,6 @@ public class UnoModel {
     public void reverseDirection() {
         isReversed = !isReversed;
     }
-
 
 
     /**
@@ -201,32 +201,20 @@ public class UnoModel {
 //        } while (!validCardChoice);
 //        nextPlayer();
 //    }
-
     public void playTurn(int cardIndex) {
         if (currentPlayer instanceof AI) {
-            AI aiPlayer = (AI) currentPlayer;
-            Card chosenCard = aiPlayer.AICard(model);
-            if (isPlayable(chosenCard)) {
-                topCard = chosenCard;
-                currentPlayer.removeCard(currentPlayer.findCardIndex(chosenCard));
-                executeSpecialCardAction(chosenCard);
-                checkWinCondition();
-                hasDrawnThisTurn = false;
-                notifyViews();
-            } else {
-                status = Status.INVALID_MOVE;
-                notifyViews();
-            }
+            ((AI) currentPlayer).AITurn(this);
+            nextPlayer();
         } else {
             chosenCard = currentPlayer.getCard(cardIndex);
             if (isPlayable(chosenCard)) {
                 topCard = chosenCard;
                 currentPlayer.removeCard(cardIndex);
+                executeSpecialCardAction(chosenCard);
                 checkWinCondition();
-                if(!gameRunning){
+                if (!gameRunning) {
                     return;
                 }
-                executeSpecialCardAction(chosenCard);
                 hasDrawnThisTurn = false;
                 status = Status.CARD_PLAYED;
                 notifyViews();
@@ -236,7 +224,6 @@ public class UnoModel {
             }
         }
     }
-
     public void checkWinCondition(){
         if(currentPlayer.getSize() == 0){
             gameRunning = false;
@@ -260,22 +247,25 @@ public class UnoModel {
         switch (card.getType()) {
             case REVERSE -> isReversed = !isReversed;
             case DRAW_ONE -> {
-                nextPlayer();
-                currentPlayer.addCard(deck.drawCard());
+//                nextPlayer();
+//                currentPlayer.addCard(deck.drawCard());
+                Player next = getNextPlayer();
+                next.addCard(deck.drawCard());
             }
             case WILD_DRAW_TWO -> {
                 promptForWildCardColor();
                 nextPlayer();
-                currentPlayer.addCard(deck.drawCard());
-                currentPlayer.addCard(deck.drawCard());
+                Player next = getNextPlayer();
+                next.addCard(deck.drawCard());
+                next.addCard(deck.drawCard());
             }
             case SKIP -> nextPlayer();
             case WILD -> promptForWildCardColor();
             case FLIP -> flipDeck();
             case DRAW_FIVE -> {
-                nextPlayer();
-                for (int i = 0; i < 4; i++){
-                    currentPlayer.addCard(deck.drawCard());
+                Player next = getNextPlayer();
+                for (int i = 0; i < 5; i++){
+                    next.addCard(deck.drawCard());
                 }
             }
             case SKIP_EVERYONE -> {
@@ -286,13 +276,24 @@ public class UnoModel {
             case WILD_FLIP -> promptForFlippedWildCardColor();
             case WILD_DRAW_COLOR -> {
                 promptForFlippedWildCardColor();
-                nextPlayer();
+                Player next = getNextPlayer();
                 drawUntilColor();
             }
             default -> {
             }
         }
-        nextPlayer();
+        if (card.getType() != Card.Type.DRAW_ONE && card.getType() != Card.Type.WILD_DRAW_TWO &&
+                card.getType() != Card.Type.DRAW_FIVE && card.getType() != Card.Type.WILD_DRAW_COLOR) {
+            nextPlayer();
+        }
+    }
+
+    private Player getNextPlayer() {
+        int nextIndex = (currentPlayerIndex + 1) % players.size();
+        if(isReversed){
+            nextIndex = (currentPlayerIndex - 1 + players.size()) % players.size();
+        }
+        return players.get(nextIndex);
     }
 
     public void drawUntilColor(){
