@@ -45,7 +45,7 @@ public class Player {
             score += (card.getType().ordinal() + 1);
         } else if (card.getType() == Card.Type.DRAW_ONE) {
             score += 10;
-        } else if (card.getType() == Card.Type.REVERSE || card.getType() == Card.Type.SKIP || card.getType() == Card.Type.DRAW_FIVE || card.getType() == Card.Type.FLIP) {
+        } else if (card.getType() == Card.Type.REVERSE || card.getType() == Card.Type.SKIP || card.getType() == Card.Type.DRAW_FIVE || card.getType() == Card.Type.FLIP || card.getType() == Card.Type.WILD_FLIP) {
             score += 20;
         } else if (card.getType() == Card.Type.SKIP_EVERYONE) {
             score += 30;

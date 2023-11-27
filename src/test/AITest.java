@@ -10,8 +10,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class AITest {
-    private UnoModel game;
-    private AI aiPlayer;
+    UnoModel game;
+    AI aiPlayer;
 
     @Before
     public void setUp() {

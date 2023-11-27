@@ -268,18 +268,6 @@ public class UnoModel {
     /**
      * Allows the player to choose the color for Wild model.Card.
      */
-//    private void chooseColorForWildCard() {
-//        System.out.println("Choose a color (RED, BLUE, GREEN, YELLOW): ");
-//        while (true){
-//            String chosenColor = sc.nextLine().toUpperCase();
-//            if(Arrays.asList(VALID_COLORS).contains(chosenColor)){
-//                topCard.setColor(Card.Color.valueOf(chosenColor));
-//                break;
-//            } else {
-//                System.out.println("Invalid color. Please choose again (RED, BLUE, GREEN, YELLOW): ");
-//            }
-//        }
-//    }
     public void setWildCardColor(Card.Color color){
         if (topCard.getType()== Card.Type.WILD || topCard.getType()== Card.Type.WILD_DRAW_TWO
                 ||topCard.getType()== Card.Type.WILD_FLIP ||topCard.getType()== Card.Type.WILD_DRAW_COLOR){

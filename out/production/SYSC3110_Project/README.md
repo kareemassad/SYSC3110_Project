@@ -9,7 +9,7 @@ Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Ev
 
 | Member | Student number | Contributions                                                       |
 |--------|----------------|---------------------------------------------------------------------|
-| Mehedi | 101154128      | (add)                                                               |
+| Mehedi | 101154128      | UnoModel, UnoViewFrame, UnoView, AI, UnoController, UMLClass        |
 | Rayat  | 101151001      | Card, Deck, Player, test.UnoModelTest, README                       |
 | Evan   | 101222276      | Flip implementation (Card, UnoModel, UnoViewFrame), GUI refactoring |
 | Kareem | 101107739      | AI Players                                                          |
@@ -74,9 +74,8 @@ The following is a list of deliverable that were required in the milestone:
 
 - /Diagrams/Milestone {Milestone Number}/Class Diagrams/
 	- Description: UML class diagram depicting the different relations between the classes.
-	
-- /Diagrams/Milestone {Milestone Number}/Sequence Diagrams/
-	- Description: UML sequence diagram depicting the interactions between the objects.
+   ![image](https://github.com/kareemassad/SYSC3110_Project/assets/91309756/8a3785dd-e303-48f4-9537-f2b0f46c2469)
+
 
 
 ##  Data structure explanation
