@@ -6,7 +6,7 @@ package model;
 public class Card {
 
     //Conversions: Red->Pink, Green->Purple, Blue->Orange, Yellow->Teal
-    public enum Color {RED, GREEN, BLUE, YELLOW, WILD,PINK, PURPLE, ORANGE, TEAL}
+    public enum Color {RED, GREEN, BLUE, YELLOW, PINK, PURPLE, ORANGE, TEAL, WILD}
     public enum Type {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, SKIP, SKIP_EVERYONE, FLIP, REVERSE, DRAW_ONE, DRAW_FIVE, WILD, WILD_FLIP, WILD_DRAW_TWO, WILD_DRAW_COLOR}
     private Color color;
     private Type type;

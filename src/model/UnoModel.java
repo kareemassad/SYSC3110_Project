@@ -17,9 +17,7 @@ public class UnoModel {
     private boolean isReversed = false;
     private boolean gameRunning;
     private List<UnoView> views;
-    private Scanner sc = new Scanner(System.in);
     private int currentPlayerIndex = 0;
-    private UnoModel model;
 
     public enum Status {
         UNDECIDED,
@@ -35,9 +33,6 @@ public class UnoModel {
         FLIP_CARDS
     }
 
-    private static final int MIN_PLAYERS = 2;
-    private static final int MAX_PLAYERS = 4;
-    private static final String[] VALID_COLORS = {"RED", "BLUE", "GREEN", "YELLOW"};
     public Status status;
     private Card chosenCard;
     private boolean hasDrawnThisTurn = false;
@@ -112,7 +107,6 @@ public class UnoModel {
      * Distributes initial cards to players and sets the Starting model.Card for the game.
      */
     public void dealInitialCards() {
-        int numberOfPlayers = players.size();
         for (Player player : players) {
             for (int i = 0; i < 7; i++) {
                 player.addCard(deck.drawCard());
@@ -160,47 +154,6 @@ public class UnoModel {
         isReversed = !isReversed;
     }
 
-
-    /**
-     * Handles the current player's turn, allowing them to play or draw cards and checks valid card play.
-     */
-//    public void playTurn(int cardIndex){
-//        boolean validCardChoice = false;
-//
-//        do {
-//            System.out.println("Enter card index to play or 0 to draw a card");
-//            if(cardIndex >= 0 && cardIndex < currentPlayer.getSize()){
-//                Card chosenCard = currentPlayer.getCard(cardIndex);
-//                if(isPlayable(chosenCard)){
-//                    topCard = chosenCard;
-//                    currentPlayer.removeCard(cardIndex);
-//                    validCardChoice=true;
-//                    System.out.println("Played: " + topCard);
-//                    executeSpecialCardAction();
-//                    if(currentPlayer.getSize() == 0){
-//                        gameRunning = false;
-//                        System.out.println(currentPlayer.getName() +  " wins the round");
-//                        for (Player player : players) {
-//                            for (int i = 0; i < player.getSize(); i++)
-//                                currentPlayer.updateScore(player.getCard(i));
-//                        }
-//                        return;
-//                    }
-//                } else {
-//                    System.out.println("Card cannot be played. Try again");
-//                    return;
-//                }
-//            } else if (cardIndex == -1){
-//                Card drawnCard = deck.drawCard();
-//                currentPlayer.addCard(drawnCard);
-//                System.out.println("You drew a " + drawnCard);
-//                validCardChoice=true;
-//            } else {
-//                System.out.println("Invalid choice. Try again.");
-//            }
-//        } while (!validCardChoice);
-//        nextPlayer();
-//    }
     public void playTurn(int cardIndex) {
         if (currentPlayer instanceof AI) {
             ((AI) currentPlayer).AITurn(this);
@@ -247,8 +200,6 @@ public class UnoModel {
         switch (card.getType()) {
             case REVERSE -> isReversed = !isReversed;
             case DRAW_ONE -> {
-//                nextPlayer();
-//                currentPlayer.addCard(deck.drawCard());
                 Player next = getNextPlayer();
                 next.addCard(deck.drawCard());
             }
@@ -276,7 +227,6 @@ public class UnoModel {
             case WILD_FLIP -> promptForFlippedWildCardColor();
             case WILD_DRAW_COLOR -> {
                 promptForFlippedWildCardColor();
-                Player next = getNextPlayer();
                 drawUntilColor();
             }
             default -> {
@@ -356,12 +306,6 @@ public class UnoModel {
         this.topCard = topCard;
     }
 
-    private void notifyViewsCardPlayed(Card card){
-        for (UnoView view : views){
-            view.updateStatus("Played: " + card);
-        }
-    }
-
     public  void promptForWildCardColor(){
         for(UnoView view : views){
             view.promptForColor();
@@ -373,14 +317,6 @@ public class UnoModel {
         }
     }
 
-    public int getCurrentPlayerIndex() {
-        return currentPlayerIndex;
-    }
-
-    public void setCurrentPlayerIndex(int index) {
-        currentPlayerIndex = index;
-    }
-
     public boolean countScore(Player winningPlayer){
         for (Player player: players){
             if (player != winningPlayer){
@@ -390,11 +326,7 @@ public class UnoModel {
                 }
             }
         }
-        if(winningPlayer.getScore()>500){
-            return true;
-        } else{
-            return false;
-        }
+        return winningPlayer.getScore() > 500;
     }
 
     public int getScore(Player player){

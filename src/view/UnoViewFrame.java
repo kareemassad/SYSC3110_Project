@@ -9,9 +9,6 @@ import model.UnoModel;
 
 import javax.swing.*;
 import java.awt.*;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 public class UnoViewFrame extends JFrame implements UnoView {
@@ -94,7 +91,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
             cardButton.setActionCommand("PLAY " + i);
             cardButton.addActionListener(uc);
 
-            pCardPanel.add(cardButton);;
+            pCardPanel.add(cardButton);
         }
 
         pCardPanel.revalidate();
@@ -106,7 +103,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         boolean validSetup = false;
 
         while(!validSetup) {
-            int numberOfPlayers = 0;
+            int numberOfPlayers;
             JPanel mainPanel = new JPanel();
 
             JTextField enterNumOfPlayers = new JTextField("Enter number of players (2-4):");
@@ -185,43 +182,20 @@ public class UnoViewFrame extends JFrame implements UnoView {
 @Override
     public void handleUnoStatusUpdate(UnoEvent e) {
         UnoModel.Status status = model.getStatus();
-   //     UnoModel.Status status = model.status;
         System.out.println(status);
-        switch (status) {
-            case PLAYER_TURN_CHANGED:
-                handlePlayerTurnChanged();
-                break;
-            case PLAYER_WON:
-                handlePlayerWon(e.getPlayer(), e.getCard());
-                break;
-            case CARD_PLAYED:
-                handleCardPlayed(e.getPlayer(), e.getCard());
-                break;
-            case DREW_CARD:
-                handleCardDrawn(e.getPlayer());
-                break;
-            case UNO_ANNOUNCED:
-                handleUnoAnnounced(e.getPlayer());
-                break;
-            case GAME_OVER:
-                handleGameOver();
-                break;
-            case INVALID_MOVE:
-                handleInvalidMove();
-                break;
-            case DECK_EMPTY:
-                handleDeckEmpty();
-                break;
-            case REVERSE_DIRECTION:
-                handleReverseDirection();
-                break;
-            case FLIP_CARDS:
-                handleFlipCards();
-                break;
-            default:
-                setStatus("Unhandled status: " + status);
-                break;
-        }
+    switch (status) {
+        case PLAYER_TURN_CHANGED -> handlePlayerTurnChanged();
+        case PLAYER_WON -> handlePlayerWon(e.getPlayer(), e.getCard());
+        case CARD_PLAYED -> handleCardPlayed(e.getPlayer(), e.getCard());
+        case DREW_CARD -> handleCardDrawn(e.getPlayer());
+        case UNO_ANNOUNCED -> handleUnoAnnounced(e.getPlayer());
+        case GAME_OVER -> handleGameOver();
+        case INVALID_MOVE -> handleInvalidMove();
+        case DECK_EMPTY -> handleDeckEmpty();
+        case REVERSE_DIRECTION -> handleReverseDirection();
+        case FLIP_CARDS -> handleFlipCards();
+        default -> setStatus("Unhandled status: " + status);
+    }
     }
 
 
@@ -229,16 +203,13 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
         if(model.countScore(winningPlayer)){
             setStatus(winningPlayer.getName() + " has surpassed 500 points. They win the game!");
-            enableDrawButton(false);
-            enableNextPlayerButton(false);
-            return;
         }else{
             setStatus(winningPlayer.getName() + " has won the round! They earned " + model.getScore(winningPlayer) + " points.");
             updateTopCardLabel(lastCard);
             displayPlayerCards(winningPlayer);
-            enableDrawButton(false);
-            enableNextPlayerButton(false);
         }
+        enableDrawButton(false);
+        enableNextPlayerButton(false);
 
     }
 

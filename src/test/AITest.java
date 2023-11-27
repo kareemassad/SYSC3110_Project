@@ -12,13 +12,12 @@ import static org.junit.Assert.*;
 public class AITest {
     private UnoModel game;
     private AI aiPlayer;
-    private Player humanPlayer;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         game = new UnoModel();
         aiPlayer = new AI("AIPlayer");
-        humanPlayer = new Player("HumanPlayer");
+        Player humanPlayer = new Player("HumanPlayer");
 
         game.addPlayers(humanPlayer.getName());
         game.addAIPlayer(aiPlayer.getName());
@@ -47,11 +46,6 @@ public class AITest {
 
         int initialHandSize = aiPlayer.getSize();
         aiPlayer.AITurn(game);
-
-        // Debugging information
-//        System.out.println("Initial hand size: " + initialHandSize);
-//        System.out.println("Current hand size: " + aiPlayer.getSize());
-//        System.out.println("Top card in game: " + game.getTopCard());
 
         // Assert that AI's hand size has increased
         assertTrue("AI should have drawn a card", aiPlayer.getSize() > initialHandSize);

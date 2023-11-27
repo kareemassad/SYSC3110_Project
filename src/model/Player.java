@@ -1,7 +1,5 @@
 package model;
 
-import model.Card;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,15 +107,6 @@ public class Player {
      * This method shows how  many cards a player has.
      */
     public int getSize() {return this.cards.size(); }
-
-    public int findCardIndex(Card card) {
-        for (int i = 0; i < cards.size(); i++) {
-            if (cards.get(i).equals(card)) {
-                return i;
-            }
-        }
-        return -1;
-    }
 
     /**
      * This method sets the total game score of the player.

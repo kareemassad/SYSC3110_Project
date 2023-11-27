@@ -9,18 +9,15 @@ public class AI extends Player {
     }
 
     public void AITurn(UnoModel aiGame) {
-        Card topCard = aiGame.getTopCard();
         boolean played = false;
 
         for (int i = 0; i < getSize(); i++) {
             Card card = getCard(i);
-//            System.out.println("Card is " + card.toString());
             if (aiGame.isPlayable(card)) {
                 handleWildCard(card);
                 aiGame.setTopCard(card);
                 removeCard(i);
                 aiGame.executeSpecialCardAction(card);
-//                System.out.println("Played card");
                 played=true;
                 break;
             }
@@ -37,17 +34,6 @@ public class AI extends Player {
             Card.Color chosenColor = colors[new Random().nextInt(colors.length)];
             card.setColor(chosenColor);
         }
-    }
-
-    public Card AICard(UnoModel aiGame) {
-        Card topCard = aiGame.getTopCard();
-        for (int i = 0; i < getSize(); i++) {
-            Card card = getCard(i);
-            if (aiGame.isPlayable(card)) {
-                return card;
-            }
-        }
-        return null;
     }
 
     public Card.Color chooseRandomFlipColor() {
