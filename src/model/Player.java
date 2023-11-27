@@ -92,6 +92,10 @@ public class Player {
         }
     }
 
+    public void removeAllCards(){
+        cards.clear();
+    }
+
     /**
      * This method flips the given card in hand.
      */

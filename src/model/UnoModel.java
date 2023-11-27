@@ -247,22 +247,25 @@ public class UnoModel {
         switch (card.getType()) {
             case REVERSE -> isReversed = !isReversed;
             case DRAW_ONE -> {
-                nextPlayer();
-                currentPlayer.addCard(deck.drawCard());
+//                nextPlayer();
+//                currentPlayer.addCard(deck.drawCard());
+                Player next = getNextPlayer();
+                next.addCard(deck.drawCard());
             }
             case WILD_DRAW_TWO -> {
                 promptForWildCardColor();
                 nextPlayer();
-                currentPlayer.addCard(deck.drawCard());
-                currentPlayer.addCard(deck.drawCard());
+                Player next = getNextPlayer();
+                next.addCard(deck.drawCard());
+                next.addCard(deck.drawCard());
             }
             case SKIP -> nextPlayer();
             case WILD -> promptForWildCardColor();
             case FLIP -> flipDeck();
             case DRAW_FIVE -> {
-                nextPlayer();
-                for (int i = 0; i < 4; i++){
-                    currentPlayer.addCard(deck.drawCard());
+                Player next = getNextPlayer();
+                for (int i = 0; i < 5; i++){
+                    next.addCard(deck.drawCard());
                 }
             }
             case SKIP_EVERYONE -> {
@@ -273,13 +276,24 @@ public class UnoModel {
             case WILD_FLIP -> promptForFlippedWildCardColor();
             case WILD_DRAW_COLOR -> {
                 promptForFlippedWildCardColor();
-                nextPlayer();
+                Player next = getNextPlayer();
                 drawUntilColor();
             }
             default -> {
             }
         }
-        nextPlayer();
+        if (card.getType() != Card.Type.DRAW_ONE && card.getType() != Card.Type.WILD_DRAW_TWO &&
+                card.getType() != Card.Type.DRAW_FIVE && card.getType() != Card.Type.WILD_DRAW_COLOR) {
+            nextPlayer();
+        }
+    }
+
+    private Player getNextPlayer() {
+        int nextIndex = (currentPlayerIndex + 1) % players.size();
+        if(isReversed){
+            nextIndex = (currentPlayerIndex - 1 + players.size()) % players.size();
+        }
+        return players.get(nextIndex);
     }
 
     public void drawUntilColor(){
