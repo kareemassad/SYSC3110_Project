@@ -9,7 +9,7 @@ Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Ev
 
 | Member | Student number | Contributions                                                       |
 |--------|----------------|---------------------------------------------------------------------|
-| Mehedi | 101154128      | (add)                                                               |
+| Mehedi | 101154128      | UnoModel, UnoViewFrame, UnoView, AI, UnoController, UMLClass        |
 | Rayat  | 101151001      | Card, Deck, Player, test.UnoModelTest, README                       |
 | Evan   | 101222276      | Flip implementation (Card, UnoModel, UnoViewFrame), GUI refactoring |
 | Kareem | 101107739      | AI Players                                                          |
