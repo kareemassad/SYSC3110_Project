@@ -14,13 +14,13 @@ public class AI extends Player {
 
         for (int i = 0; i < getSize(); i++) {
             Card card = getCard(i);
-            System.out.println("Card is " + card.toString());
+//            System.out.println("Card is " + card.toString());
             if (aiGame.isPlayable(card)) {
                 handleWildCard(card);
                 aiGame.setTopCard(card);
                 removeCard(i);
                 aiGame.executeSpecialCardAction(card);
-                System.out.println("Played card");
+//                System.out.println("Played card");
                 played=true;
                 break;
             }

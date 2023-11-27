@@ -49,9 +49,9 @@ public class AITest {
         aiPlayer.AITurn(game);
 
         // Debugging information
-        System.out.println("Initial hand size: " + initialHandSize);
-        System.out.println("Current hand size: " + aiPlayer.getSize());
-        System.out.println("Top card in game: " + game.getTopCard());
+//        System.out.println("Initial hand size: " + initialHandSize);
+//        System.out.println("Current hand size: " + aiPlayer.getSize());
+//        System.out.println("Top card in game: " + game.getTopCard());
 
         // Assert that AI's hand size has increased
         assertTrue("AI should have drawn a card", aiPlayer.getSize() > initialHandSize);
