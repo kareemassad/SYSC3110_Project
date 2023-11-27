@@ -7,12 +7,12 @@ lesser functionalities. In Milestone 3, the game is developed as GUI-based, with
 ## Project members and authors
 Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Evan Baldwin and Kareem El Assad. The contributions of the members are listed below:
 
-| Member | Student number | Contributions                                                               |
-|--------|----------------|-----------------------------------------------------------------------------|
-| Mehedi | 101154128      | (add)                                                                       |
-| Rayat  | 101151001      | Card, Deck, Player, test.UnoModelTest, README                               |
-| Evan   | 101222276      | Flip implementation/Scoring (Card, UnoModel, UnoViewFrame), GUI refactoring |
-| Kareem | 101107739      |                                                                             |
+| Member | Student number | Contributions                                                       |
+|--------|----------------|---------------------------------------------------------------------|
+| Mehedi | 101154128      | (add)                                                               |
+| Rayat  | 101151001      | Card, Deck, Player, test.UnoModelTest, README                       |
+| Evan   | 101222276      | Flip implementation (Card, UnoModel, UnoViewFrame), GUI refactoring |
+| Kareem | 101107739      | AI Players                                                          |
 
 ## How to run
 Options:
