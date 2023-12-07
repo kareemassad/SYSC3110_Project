@@ -9,6 +9,7 @@ import model.UnoModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 public class UnoViewFrame extends JFrame implements UnoView {
@@ -18,6 +19,10 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private JButton draw, nextPlayer;
     private UnoController uc;
     private JLabel statusLabel;
+    private JMenuItem save;
+    private JMenuItem load;
+    private JMenu fileMenu;
+    private JMenuBar menuBar;
 
     public UnoViewFrame(UnoController uc, UnoModel model){
         super("UNO Game");
@@ -50,6 +55,21 @@ public class UnoViewFrame extends JFrame implements UnoView {
         southPanel.add(statusLabel, BorderLayout.NORTH);
         southPanel.add(pCardPanel, BorderLayout.CENTER);
 
+        menuBar = new JMenuBar();
+        fileMenu = new JMenu("File");
+
+        save = new JMenuItem("Save");
+        load = new JMenuItem("Load");
+
+        save.addActionListener(uc.getSerializeListener());
+        load.addActionListener(uc.getDeserializeListener());
+
+        fileMenu.add(save);
+        fileMenu.add(load);
+
+        menuBar.add(fileMenu);
+        setJMenuBar(menuBar);
+
         this.add(southPanel, BorderLayout.SOUTH);
         this.add(draw, BorderLayout.WEST);
         this.add(nextPlayer, BorderLayout.EAST);
@@ -63,6 +83,14 @@ public class UnoViewFrame extends JFrame implements UnoView {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public void addSerializeListener(ActionListener listener){
+        this.save.addActionListener(listener);
+    }
+
+    public void addDeserializeListener(ActionListener listener){
+        this.load.addActionListener(listener);
     }
 
     public void updateTopCardLabel(Card topCard) {
@@ -175,6 +203,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         UnoModel model = new UnoModel();
         UnoController controller = new UnoController(model);
         UnoViewFrame view = new UnoViewFrame(controller, model);
+        controller.linkView(view);
         model.addUnoView(view);
         view.setVisible(true);
     }

@@ -1,8 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class AI extends Player {
+public class AI extends Player implements Serializable {
 
     public AI(String name) {
         super(name);

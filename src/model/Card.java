@@ -1,9 +1,11 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * This is the model.Card Class. model.Card class represents the number and special cards along with their colors using Enumeration.
  */
-public class Card {
+public class Card implements Serializable {
 
     //Conversions: Red->Pink, Green->Purple, Blue->Orange, Yellow->Teal
     public enum Color {RED, GREEN, BLUE, YELLOW, PINK, PURPLE, ORANGE, TEAL, WILD}

@@ -3,12 +3,16 @@ package model;
 import controller.UnoEvent;
 import view.UnoView;
 
+import javax.swing.*;
+import java.awt.*;
+import java.io.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * This is the main class. It shows the implementation of the game.
  */
-public class UnoModel {
+public class UnoModel implements Serializable {
     private Deck deck;
     private List<Player> players;
     private Card topCard;
@@ -18,6 +22,7 @@ public class UnoModel {
     private boolean gameRunning;
     private List<UnoView> views;
     private int currentPlayerIndex = 0;
+    private Component view;
 
     public enum Status {
         UNDECIDED,
@@ -177,24 +182,25 @@ public class UnoModel {
             }
         }
     }
-    public void checkWinCondition(){
-        if(currentPlayer.getSize() == 0){
+
+    public void checkWinCondition() {
+        if (currentPlayer.getSize() == 0) {
             gameRunning = false;
             status = Status.PLAYER_WON;
             notifyViews();
-        } else if(currentPlayer.getSize() == 1){
+        } else if (currentPlayer.getSize() == 1) {
             status = Status.UNO_ANNOUNCED;
             notifyViews();
         }
     }
 
-    public Player getCurrentPlayer(){
+    public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
     /**
-     *  Executes a special action on current card, such as reversing the game,
-     *  drawing cards, skipping or choosing a color for wild cards
+     * Executes a special action on current card, such as reversing the game,
+     * drawing cards, skipping or choosing a color for wild cards
      */
     public void executeSpecialCardAction(Card card) {
         switch (card.getType()) {
@@ -215,12 +221,12 @@ public class UnoModel {
             case FLIP -> flipDeck();
             case DRAW_FIVE -> {
                 Player next = getNextPlayer();
-                for (int i = 0; i < 5; i++){
+                for (int i = 0; i < 5; i++) {
                     next.addCard(deck.drawCard());
                 }
             }
             case SKIP_EVERYONE -> {
-                for (int i = 1; i < players.size(); i++){
+                for (int i = 1; i < players.size(); i++) {
                     nextPlayer();
                 }
             }
@@ -240,20 +246,21 @@ public class UnoModel {
 
     public Player getNextPlayer() {
         int nextIndex = (currentPlayerIndex + 1) % players.size();
-        if(isReversed){
+        if (isReversed) {
             nextIndex = (currentPlayerIndex - 1 + players.size()) % players.size();
         }
         return players.get(nextIndex);
     }
 
-    public void drawUntilColor(){
-        int i = currentPlayer.getSize()-1;
-        while(currentPlayer.getCard(i).getColor() != topCard.getColor()){
+    public void drawUntilColor() {
+        int i = currentPlayer.getSize() - 1;
+        while (currentPlayer.getCard(i).getColor() != topCard.getColor()) {
             currentPlayer.addCard(deck.drawCard());
             i++;
         }
     }
-    private void flipDeck(){
+
+    private void flipDeck() {
         for (Player player : players) {
             for (int i = 0; i < player.getSize(); i++) {
                 player.flipCard(i, flipped);
@@ -265,12 +272,13 @@ public class UnoModel {
         status = Status.FLIP_CARDS;
         notifyViews();
     }
+
     /**
      * Allows the player to choose the color for Wild model.Card.
      */
-    public void setWildCardColor(Card.Color color){
-        if (topCard.getType()== Card.Type.WILD || topCard.getType()== Card.Type.WILD_DRAW_TWO
-                ||topCard.getType()== Card.Type.WILD_FLIP ||topCard.getType()== Card.Type.WILD_DRAW_COLOR){
+    public void setWildCardColor(Card.Color color) {
+        if (topCard.getType() == Card.Type.WILD || topCard.getType() == Card.Type.WILD_DRAW_TWO
+                || topCard.getType() == Card.Type.WILD_FLIP || topCard.getType() == Card.Type.WILD_DRAW_COLOR) {
             topCard.setColor(color);
             notifyViews();
         }
@@ -280,7 +288,9 @@ public class UnoModel {
         return players;
     }
 
-    public Card getTopCard(){return topCard; }
+    public Card getTopCard() {
+        return topCard;
+    }
 
     public void addUnoView(UnoView view) {
         this.views.add(view);
@@ -294,21 +304,22 @@ public class UnoModel {
         this.topCard = topCard;
     }
 
-    public  void promptForWildCardColor(){
-        for(UnoView view : views){
+    public void promptForWildCardColor() {
+        for (UnoView view : views) {
             view.promptForColor();
         }
     }
-    public  void promptForFlippedWildCardColor(){
-        for(UnoView view : views){
+
+    public void promptForFlippedWildCardColor() {
+        for (UnoView view : views) {
             view.promptForFlipColor();
         }
     }
 
-    public boolean countScore(Player winningPlayer){
-        for (Player player: players){
-            if (player != winningPlayer){
-                for(int i = 0; i < player.getSize(); i++){
+    public boolean countScore(Player winningPlayer) {
+        for (Player player : players) {
+            if (player != winningPlayer) {
+                for (int i = 0; i < player.getSize(); i++) {
                     player.updateScore(player.getCard(i));
                     winningPlayer.addTotalScore(player.getScore());
                 }
@@ -317,8 +328,47 @@ public class UnoModel {
         return winningPlayer.getScore() > 500;
     }
 
-    public int getScore(Player player){
+    public int getScore(Player player) {
         return player.getTotalScore();
+    }
+
+    public void saveGame(String fileName) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            out.writeObject(this);
+            System.out.println("Game saved successfully: " + fileName);
+        } catch (IOException e) {
+            System.out.println("Error saving the game: " + e.getMessage());
+        }
+    }
+
+    public void loadGame(String fileName) {
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))) {
+            UnoModel loadedModel = (UnoModel) inputStream.readObject();
+            if (loadedModel != null) {
+                copyDataFrom(loadedModel);
+                JOptionPane.showMessageDialog(null, "Game loaded successfully!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to load the game. Check the file or try again.");
+            }
+        } catch (IOException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error loading the game: " + ex.getMessage());
+        }
+    }
+
+    private void copyDataFrom(UnoModel loadedModel) {
+        this.deck = loadedModel.deck;
+        this.players = loadedModel.players;
+        this.topCard = loadedModel.topCard;
+        this.currentPlayer = loadedModel.currentPlayer;
+        this.isReversed = loadedModel.isReversed;
+        this.gameRunning = loadedModel.gameRunning;
+        this.views = loadedModel.views;
+        this.currentPlayerIndex = loadedModel.currentPlayerIndex;
+        this.status = loadedModel.status;
+        this.chosenCard = loadedModel.chosenCard;
+        this.hasDrawnThisTurn = loadedModel.hasDrawnThisTurn;
+        this.flipped = loadedModel.flipped;
     }
 
 }
