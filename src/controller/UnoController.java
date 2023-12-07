@@ -10,6 +10,8 @@ import view.UnoViewFrame;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.io.Serializable;
 
 public class UnoController implements ActionListener, Serializable {
@@ -26,6 +28,7 @@ public class UnoController implements ActionListener, Serializable {
         this.view.addSerializeListener(new SerializeGameListener());
         this.view.addDeserializeListener(new DeserializeGameListener());
     }
+
 
     private class SerializeGameListener implements ActionListener {
         @Override

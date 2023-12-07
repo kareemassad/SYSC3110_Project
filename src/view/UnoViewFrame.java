@@ -10,17 +10,19 @@ import model.UnoModel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.util.Arrays;
 
 public class UnoViewFrame extends JFrame implements UnoView {
     private UnoModel model;
-    private JLabel topCardLabel, playerLabel;
-    private JPanel pCardPanel;
-    private JButton draw, nextPlayer;
+    private JLabel topCardLabel, playerLabel ,statusLabel;
+    private JToolBar buttonPanel;
+    private JPanel actionButtons, pCardPanel;
+    private JScrollPane scroll;
+    private JButton draw, nextPlayer, undo, redo;
     private UnoController uc;
-    private JLabel statusLabel;
-    private JMenuItem save;
-    private JMenuItem load;
+    private JMenuItem save, load;
     private JMenu fileMenu;
     private JMenuBar menuBar;
 
@@ -33,27 +35,43 @@ public class UnoViewFrame extends JFrame implements UnoView {
         topCardLabel = new JLabel();
         playerLabel = new JLabel();
 
-        pCardPanel = new JPanel(new FlowLayout());
+        pCardPanel = new JPanel();
+        buttonPanel = new JToolBar();
+
+        actionButtons = new JPanel(new BorderLayout());
 
         draw = new JButton("Draw Card");
         nextPlayer = new JButton("Next Player");
+        undo = new JButton("Undo");
+        redo = new JButton("Redo");
 
         draw.setActionCommand("DRAW");
         draw.addActionListener(uc);
         nextPlayer.setActionCommand("NEXT");
         nextPlayer.addActionListener(uc);
+        undo.setActionCommand("UNDO");
+        undo.addActionListener(uc);
+        redo.setActionCommand("REDO");
+        redo.addActionListener(uc);
 
         this.add(playerLabel, BorderLayout.NORTH);
         this.add(topCardLabel, BorderLayout.CENTER);
-        this.add(pCardPanel, BorderLayout.SOUTH);
+        this.add(actionButtons, BorderLayout.SOUTH);
 
         statusLabel = new JLabel("Welcome to UNO FLIP");
         statusLabel.setBorder(BorderFactory.createTitledBorder("Status"));
         statusLabel.setVisible(true);
 
-        JPanel southPanel = new JPanel(new BorderLayout());
-        southPanel.add(statusLabel, BorderLayout.NORTH);
-        southPanel.add(pCardPanel, BorderLayout.CENTER);
+        buttonPanel.add(nextPlayer);
+        buttonPanel.add(undo);
+        buttonPanel.add(redo);
+
+        actionButtons.add(statusLabel, BorderLayout.NORTH);
+        actionButtons.add(pCardPanel, BorderLayout.CENTER);
+        actionButtons.add(buttonPanel, BorderLayout.EAST);
+        actionButtons.add(draw, BorderLayout.WEST);
+
+        buttonPanel.setFloatable(false);
 
         menuBar = new JMenuBar();
         fileMenu = new JMenu("File");
@@ -66,18 +84,18 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
         fileMenu.add(save);
         fileMenu.add(load);
-
         menuBar.add(fileMenu);
         setJMenuBar(menuBar);
 
-        this.add(southPanel, BorderLayout.SOUTH);
-        this.add(draw, BorderLayout.WEST);
         this.add(nextPlayer, BorderLayout.EAST);
 
         playerSetup();
         model.dealInitialCards();
         updateTopCardLabel(model.getTopCard());
         displayPlayerCards(model.getPlayers().get(0));
+
+        scroll = new JScrollPane(pCardPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        actionButtons.add(scroll, BorderLayout.SOUTH);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
