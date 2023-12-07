@@ -183,6 +183,17 @@ public class UnoModel implements Serializable {
         }
     }
 
+    public void undo(){
+
+    }
+
+    public void redo(){
+
+    }
+
+    public void saveState(){
+
+    }
     public void checkWinCondition() {
         if (currentPlayer.getSize() == 0) {
             gameRunning = false;
@@ -237,10 +248,6 @@ public class UnoModel implements Serializable {
             }
             default -> {
             }
-        }
-        if (card.getType() != Card.Type.DRAW_ONE && card.getType() != Card.Type.WILD_DRAW_TWO &&
-                card.getType() != Card.Type.DRAW_FIVE && card.getType() != Card.Type.WILD_DRAW_COLOR) {
-            nextPlayer();
         }
     }
 

@@ -7,12 +7,12 @@ lesser functionalities. In Milestone 3, the game is developed as GUI-based, with
 ## Project members and authors
 Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Evan Baldwin and Kareem El Assad. The contributions of the members are listed below:
 
-| Member | Student number | Contributions                                                       |
-|--------|----------------|---------------------------------------------------------------------|
-| Mehedi | 101154128      | UnoModel, UnoViewFrame, UnoView, AI, UnoController, UMLClass        |
-| Rayat  | 101151001      | Card, Deck, Player, test.UnoModelTest, README                       |
-| Evan   | 101222276      | Flip implementation (Card, UnoModel, UnoViewFrame), GUI refactoring |
-| Kareem | 101107739      | AI Players                                                          |
+| Member | Student number | Contributions                                                                       |
+|--------|----------------|-------------------------------------------------------------------------------------|
+| Mehedi | 101154128      | Serialize/Deserialize, UnoModel, UnoViewFrame, UnoView, AI, UnoController, UMLClass |
+| Rayat  | 101151001      | Card, Deck, Player, test.UnoModelTest, README                                       |
+| Evan   | 101222276      | Flip implementation (Card, UnoModel, UnoViewFrame), GUI refactoring                 |
+| Kareem | 101107739      | AI Players                                                                          |
 
 ## How to run
 Options:
@@ -74,8 +74,6 @@ The following is a list of deliverable that were required in the milestone:
 
 - /Diagrams/Milestone {Milestone Number}/Class Diagrams/
 	- Description: UML class diagram depicting the different relations between the classes.
-   ![image](https://github.com/kareemassad/SYSC3110_Project/assets/91309756/8a3785dd-e303-48f4-9537-f2b0f46c2469)
-
 
 
 ##  Data structure explanation
@@ -101,3 +99,4 @@ The following is a list of deliverable that were required in the milestone:
 
 
 ## Known issues:
+- Replay and other functionalities delayed to Milestone 4.

@@ -80,8 +80,12 @@ public class UnoController implements ActionListener, Serializable {
             String cmd =  e.getActionCommand();
             int cardIndex = Integer.parseInt(cmd.split(" ")[1]);
             model.playTurn(cardIndex);
-        } else if(e.getActionCommand().equals("NEXT")){
+        } else if(e.getActionCommand().equals("NEXT")) {
             model.nextPlayer();
+        } else if(e.getActionCommand().equals("UNDO")) {
+            model.undo();
+        } else if(e.getActionCommand().equals("REDO")){
+            model.redo();
             /**
             Player currentPlayer = model.getCurrentPlayer();
             for(UnoView view: model.getViews()){

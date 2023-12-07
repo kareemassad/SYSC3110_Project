@@ -10,8 +10,7 @@ import model.UnoModel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class UnoViewFrame extends JFrame implements UnoView {
@@ -25,11 +24,13 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private JMenuItem save, load;
     private JMenu fileMenu;
     private JMenuBar menuBar;
+    private ArrayList<JButton> buttons;
 
     public UnoViewFrame(UnoController uc, UnoModel model){
         super("UNO Game");
         this.uc = uc;
         this.model = model;
+        this.buttons = new ArrayList<JButton>();
 
         this.setLayout(new BorderLayout());
         topCardLabel = new JLabel();
@@ -134,6 +135,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
             icon = new ImageIcon(resized);
 
             JButton cardButton = new JButton(icon);
+            buttons.add(cardButton);
             cardButton.setActionCommand("PLAY " + i);
             cardButton.addActionListener(uc);
 
@@ -264,14 +266,23 @@ public class UnoViewFrame extends JFrame implements UnoView {
         if (playedCard.getType() == Card.Type.REVERSE) {
             model.reverseDirection();
             setStatus("Reverse card played by " + player.getName() + ". Direction reversed.");
+            for(JButton button: buttons){
+                button.setEnabled(false);
+            }
+            draw.setEnabled(false);
         } else {
             updateTopCardLabel(playedCard);
             displayPlayerCards(player);
             setStatus("Played: " + playedCard);
+            for(JButton button: buttons){
+                button.setEnabled(false);
+            }
+            draw.setEnabled(false);
         }
     }
     private void handleCardDrawn(Player player){
         setStatus(player.getName() + " drew a card.");
+        draw.setEnabled(false);
         displayPlayerCards(player);
     }
 
@@ -282,6 +293,10 @@ public class UnoViewFrame extends JFrame implements UnoView {
         displayPlayerCards(model.getCurrentPlayer());
         updateTopCardLabel(model.getTopCard());
         setStatus(model.getCurrentPlayer().getName() + "'s turn.");
+        for(JButton button: buttons){
+            button.setEnabled(true);
+        }
+        draw.setEnabled(true);
 
         if (currentPlayer instanceof AI) {
             ((AI) currentPlayer).AITurn(model);
