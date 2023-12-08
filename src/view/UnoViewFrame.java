@@ -19,11 +19,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private JToolBar buttonPanel;
     private JPanel actionButtons, pCardPanel;
     private JScrollPane scroll;
-    private JButton draw, nextPlayer, undo, redo;
+    private JButton draw, nextPlayer, undo, redo, load, save;
     private UnoController uc;
-    private JMenuItem save, load;
-    private JMenu fileMenu;
-    private JMenuBar menuBar;
     private ArrayList<JButton> buttons;
 
     public UnoViewFrame(UnoController uc, UnoModel model){
@@ -45,6 +42,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
         nextPlayer = new JButton("Next Player");
         undo = new JButton("Undo");
         redo = new JButton("Redo");
+        save = new JButton("Save");
+        load = new JButton("Load");
 
         draw.setActionCommand("DRAW");
         draw.addActionListener(uc);
@@ -54,6 +53,10 @@ public class UnoViewFrame extends JFrame implements UnoView {
         undo.addActionListener(uc);
         redo.setActionCommand("REDO");
         redo.addActionListener(uc);
+        save.setActionCommand("SAVE");
+        save.addActionListener(uc);
+        load.setActionCommand("LOAD");
+        load.addActionListener(uc);
 
         this.add(playerLabel, BorderLayout.NORTH);
         this.add(topCardLabel, BorderLayout.CENTER);
@@ -66,6 +69,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
         buttonPanel.add(nextPlayer);
         buttonPanel.add(undo);
         buttonPanel.add(redo);
+        buttonPanel.add(save);
+        buttonPanel.add(load);
 
         actionButtons.add(statusLabel, BorderLayout.NORTH);
         actionButtons.add(pCardPanel, BorderLayout.CENTER);
@@ -75,20 +80,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
         buttonPanel.setFloatable(false);
         undo.setEnabled(false);
         redo.setEnabled(false);
-
-        menuBar = new JMenuBar();
-        fileMenu = new JMenu("File");
-
-        save = new JMenuItem("Save");
-        load = new JMenuItem("Load");
-
-        save.addActionListener(uc.getSerializeListener());
-        load.addActionListener(uc.getDeserializeListener());
-
-        fileMenu.add(save);
-        fileMenu.add(load);
-        menuBar.add(fileMenu);
-        setJMenuBar(menuBar);
 
         this.add(nextPlayer, BorderLayout.EAST);
 
@@ -149,30 +140,20 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
 
 
-    private void playerSetup(){
+    private void playerSetup() {
         boolean validSetup = false;
 
-        while(!validSetup) {
-            int numberOfPlayers;
-            JPanel mainPanel = new JPanel();
+        while (!validSetup) {
+            String[] options = {"2", "3", "4"};
+            Object selectedOption = JOptionPane.showInputDialog(this, "Select number of players:", "Setup",
+                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
-            JTextField enterNumOfPlayers = new JTextField("Enter number of players (2-4):");
-            enterNumOfPlayers.setEditable(false);
-            mainPanel.add(enterNumOfPlayers);
-
-            JTextField getPlayers = new JTextField(10);
-            mainPanel.add(getPlayers);
-            JOptionPane.showOptionDialog(this, mainPanel, "Setup", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-            try {
-                numberOfPlayers = Integer.parseInt(getPlayers.getText());
-            }catch(NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Invalid number of players, must be between 2 to 4 players");
-                continue;
-            }
-
-            if (numberOfPlayers < 2 || numberOfPlayers > 4) {
-                JOptionPane.showMessageDialog(this, "Invalid number of players, must be between 2 to 4 players");
+            if (selectedOption == null) {
+                validSetup = true;
             } else {
+                String selectedOptionString = (String) selectedOption;
+                int numberOfPlayers = Integer.parseInt(selectedOptionString.split(" ")[0]);
+
                 addPlayerNames(numberOfPlayers);
                 validSetup = true;
             }
@@ -283,6 +264,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         redo.setEnabled(false);
         nextPlayer.setEnabled(true);
     }
+
     private void handleCardDrawn(Player player){
         setStatus(player.getName() + " drew a card.");
         draw.setEnabled(false);
@@ -320,6 +302,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         updateTopCardLabel(model.getTopCard());
         setStatus("Flipped cards.");
     }
+
     @Override
     public void updateStatus(String status) {
         statusLabel.setText(status);
@@ -354,6 +337,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
             }
         }
     }
+
     @Override
     public void promptForFlipColor() {
         Player currentPlayer = model.getCurrentPlayer();

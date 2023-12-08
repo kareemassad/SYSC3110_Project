@@ -25,52 +25,8 @@ public class UnoController implements ActionListener, Serializable {
 
     public void linkView(UnoViewFrame view) {
         this.view = view;
-        this.view.addSerializeListener(new SerializeGameListener());
-        this.view.addDeserializeListener(new DeserializeGameListener());
     }
 
-
-    private class SerializeGameListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String fileName = JOptionPane.showInputDialog(view, "Enter filename for serialization:");
-            if (fileName != null && !fileName.trim().isEmpty()) {
-                model.saveGame(fileName + ".ser");
-                JOptionPane.showMessageDialog(view, "Game saved successfully!");
-            } else {
-                JOptionPane.showMessageDialog(view, "Invalid filename or no filename entered.");
-            }
-        }
-    }
-
-    private class DeserializeGameListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            String fileName = JOptionPane.showInputDialog(view, "Enter filename for deserialization:");
-            if (fileName != null && !fileName.trim().isEmpty()) {
-                if (!fileName.toLowerCase().endsWith(".ser")) {
-                    fileName += ".ser";
-                }
-                loadedModel.loadGame(fileName);
-                if (loadedModel != null) {
-                    model = loadedModel;
-                    JOptionPane.showMessageDialog(view, "Game loaded successfully!");
-                } else {
-                    JOptionPane.showMessageDialog(view, "Failed to load the game. Check the file or try again.");
-                }
-            } else {
-                JOptionPane.showMessageDialog(view, "Please provide a valid file name.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    }
-
-    public ActionListener getSerializeListener() {
-        return new SerializeGameListener();
-    }
-
-    public ActionListener getDeserializeListener() {
-        return new DeserializeGameListener();
-    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("DRAW")){
@@ -86,23 +42,29 @@ public class UnoController implements ActionListener, Serializable {
             model.undo();
         } else if(e.getActionCommand().equals("REDO")){
             model.redo();
-            /**
-            Player currentPlayer = model.getCurrentPlayer();
-            for(UnoView view: model.getViews()){
-                view.setPlayerName(currentPlayer.getName());
-                view.displayPlayerCards(model.getCurrentPlayer());
-           }
-            if (currentPlayer instanceof AI) {
-                AI aiPlayer = (AI) currentPlayer;
-                Card chosenCard = aiPlayer.AICard(model);
-                if (chosenCard != null) {
-                    int cardIndex = currentPlayer.findCardIndex(chosenCard);
-                    model.playTurn(cardIndex);
-                } else {
-                    model.drawCardForPlayer();
-                }
+        } else if (e.getActionCommand().equals("SAVE")) {
+            String fileName = JOptionPane.showInputDialog(view, "Enter filename to save:");
+            if (fileName != null && !fileName.trim().isEmpty()) {
+                model.saveGame(fileName + ".ser");
+            } else {
+                JOptionPane.showMessageDialog(view, "Invalid filename or no filename entered.");
             }
-             */
+        } else if (e.getActionCommand().equals("LOAD")) {
+            String fileName = JOptionPane.showInputDialog(view, "Enter filename for deserialization:");
+            if (fileName != null && !fileName.trim().isEmpty()) {
+                if (!fileName.toLowerCase().endsWith(".ser")) {
+                    fileName += ".ser";
+                }
+                loadedModel.loadGame(fileName);
+                if (loadedModel != null) {
+                    model = loadedModel;
+                    JOptionPane.showMessageDialog(view, "Game loaded successfully!");
+                } else {
+                    JOptionPane.showMessageDialog(view, "Failed to load the game. Check the file or try again.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(view, "Please provide a valid file name.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 

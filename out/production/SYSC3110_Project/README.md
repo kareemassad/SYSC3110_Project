@@ -1,8 +1,8 @@
-# SYSC 3110 Project: Uno Flip - Milestone 3
+# SYSC 3110 Project: Uno Flip - Milestone 4
 
 ## Project description
 The SYSC 3110 project is to basically create a simplified version of the card game Uno Flip. The simplified version would work identical to the original but with 
-lesser functionalities. In Milestone 3, the game is developed as GUI-based, with added features sucha as AI players and Flip mechanism.
+lesser functionalities. In Milestone 4, the game is developed as GUI-based, with remaining additional features such as undo/redo, restarting the game and save/loading the game.
 
 ## Project members and authors
 Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Evan Baldwin and Kareem El Assad. The contributions of the members are listed below:
@@ -10,8 +10,8 @@ Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Ev
 | Member | Student number | Contributions                                                                       |
 |--------|----------------|-------------------------------------------------------------------------------------|
 | Mehedi | 101154128      | Serialize/Deserialize, UnoModel, UnoViewFrame, UnoView, AI, UnoController, UMLClass |
-| Rayat  | 101151001      | Card, Deck, Player, test.UnoModelTest, README                                       |
-| Evan   | 101222276      | Flip implementation (Card, UnoModel, UnoViewFrame), GUI refactoring                 |
+| Rayat  | 101151001      | Serializae, Deserialize, UnoModel, Tests                                       |
+| Evan   | 101222276      | Undo/Redo implementation, (UnoController, UnoModel, UnoViewFrame), GUI refactoring  |
 | Kareem | 101107739      | AI Players                                                                          |
 
 ## How to run
@@ -94,9 +94,9 @@ The following is a list of deliverable that were required in the milestone:
 
 ### Changes to structure and UML
 
-- We included the model, view, controller along with the previous classes in the UML class diagram. No changes were made in sequence as the logic remained same.
+- No significant changes in the UML diagrams as only a few methods were added.
 - There were no particular changes in data structures either.
 
 
 ## Known issues:
-- Replay and other functionalities delayed to Milestone 4.
+- 

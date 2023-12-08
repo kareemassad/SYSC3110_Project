@@ -132,7 +132,6 @@ public class UnoModel implements Serializable {
         if (topCard.getType() == Card.Type.WILD || topCard.getType() == Card.Type.WILD_DRAW_TWO) {
             promptForWildCardColor();
         }
-        System.out.println("Starting Card: " + topCard);
         currentPlayer = players.get(0);
         notifyViews();
     }
@@ -385,7 +384,6 @@ public class UnoModel implements Serializable {
     public void saveGame(String fileName) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
             out.writeObject(this);
-            System.out.println("Game saved successfully: " + fileName);
         } catch (IOException e) {
             System.out.println("Error saving the game: " + e.getMessage());
         }
@@ -396,13 +394,11 @@ public class UnoModel implements Serializable {
             UnoModel loadedModel = (UnoModel) inputStream.readObject();
             if (loadedModel != null) {
                 copyDataFrom(loadedModel);
-                JOptionPane.showMessageDialog(null, "Game loaded successfully!");
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to load the game. Check the file or try again.");
             }
         } catch (IOException | ClassNotFoundException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error loading the game: " + ex.getMessage());
         }
     }
 
