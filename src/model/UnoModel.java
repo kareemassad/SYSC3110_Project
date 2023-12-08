@@ -3,7 +3,6 @@ package model;
 import controller.UnoEvent;
 import view.UnoView;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
@@ -382,39 +381,40 @@ public class UnoModel implements Serializable {
     }
 
     public void saveGame(String fileName) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            out.writeObject(this);
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(this);
         } catch (IOException e) {
-            System.out.println("Error saving the game: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     public void loadGame(String fileName) {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName))) {
-            UnoModel loadedModel = (UnoModel) inputStream.readObject();
-            if (loadedModel != null) {
-                copyDataFrom(loadedModel);
-            } else {
-                JOptionPane.showMessageDialog(null, "Failed to load the game. Check the file or try again.");
-            }
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.printStackTrace();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            UnoModel loadedGame = (UnoModel) ois.readObject();
+            copyState(loadedGame);
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
-    private void copyDataFrom(UnoModel loadedModel) {
-        this.deck = loadedModel.deck;
-        this.players = loadedModel.players;
-        this.topCard = loadedModel.topCard;
-        this.currentPlayer = loadedModel.currentPlayer;
-        this.isReversed = loadedModel.isReversed;
-        this.gameRunning = loadedModel.gameRunning;
-        this.views = loadedModel.views;
-        this.currentPlayerIndex = loadedModel.currentPlayerIndex;
-        this.status = loadedModel.status;
-        this.chosenCard = loadedModel.chosenCard;
-        this.hasDrawnThisTurn = loadedModel.hasDrawnThisTurn;
-        this.flipped = loadedModel.flipped;
+    private void copyState(UnoModel loadedGame) {
+        this.deck = loadedGame.deck;
+        this.players = loadedGame.players;
+        this.topCard = loadedGame.topCard;
+        this.currentPlayer = loadedGame.currentPlayer;
+        this.gameRunning = loadedGame.gameRunning;
+        this.isReversed = loadedGame.isReversed;
+        this.views = loadedGame.views;
+        this.currentPlayerIndex = loadedGame.currentPlayerIndex;
+        this.view = loadedGame.view;
+        this.status = loadedGame.status;
+        this.chosenCard = loadedGame.chosenCard;
+        this.hasDrawnThisTurn = loadedGame.hasDrawnThisTurn;
+        this.flipped = loadedGame.flipped;
+        this.skipped = loadedGame.skipped;
+        this.savedTop = loadedGame.savedTop;
+        this.savedDrawn = loadedGame.savedDrawn;
+        this.savedPlayers = loadedGame.savedPlayers;
     }
 
 }

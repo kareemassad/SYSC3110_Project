@@ -9,7 +9,6 @@ import model.UnoModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -95,14 +94,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-    }
-
-    public void addSerializeListener(ActionListener listener){
-        this.save.addActionListener(listener);
-    }
-
-    public void addDeserializeListener(ActionListener listener){
-        this.load.addActionListener(listener);
     }
 
     public void updateTopCardLabel(Card topCard) {
@@ -410,6 +401,28 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
     public void setPlayerName(String name) {
         playerLabel.setText(name);
+    }
+
+    public void saveGame() {
+        String fileName = JOptionPane.showInputDialog(this, "Enter filename to save:");
+        if (fileName != null && !fileName.trim().isEmpty()) {
+            model.saveGame(fileName + ".ser");
+        } else {
+            JOptionPane.showMessageDialog(this, "Invalid filename or no filename entered.");
+        }
+    }
+
+    public void loadGame() {
+        String fileName = JOptionPane.showInputDialog("Enter filename for deserialization:");
+        if (fileName != null && !fileName.trim().isEmpty()) {
+            if (!fileName.toLowerCase().endsWith(".ser")) {
+                fileName += ".ser";
+            }
+
+            model.loadGame(fileName);
+        } else {
+            JOptionPane.showMessageDialog(this, "Please provide a valid file name.");
+        }
     }
 
 }
