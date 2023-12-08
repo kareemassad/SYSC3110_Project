@@ -279,7 +279,7 @@ public class UnoModel implements Serializable {
                 skipped = true;
             }
             case SKIP_EVERYONE -> {
-                for (int i = 1; i < players.size(); i++) {
+                for (int i = 2; i < players.size(); i++) {
                     nextPlayer();
                 }
                 skipped = true;
@@ -296,6 +296,7 @@ public class UnoModel implements Serializable {
     }
 
     public Player getNextPlayer() {
+        int currentPlayerIndex = players.indexOf(currentPlayer);
         int nextIndex = (currentPlayerIndex + 1) % players.size();
         if (isReversed) {
             nextIndex = (currentPlayerIndex - 1 + players.size()) % players.size();
