@@ -35,14 +35,18 @@ public class UnoModel implements Serializable {
         INVALID_MOVE,
         DECK_EMPTY,
         REVERSE_DIRECTION,
-        FLIP_CARDS
+        FLIP_CARDS,
+        UNDO,
+        REDO
     }
 
     public Status status;
     private Card chosenCard;
     private boolean hasDrawnThisTurn = false;
-    private boolean flipped;
+    private boolean flipped, skipped;
 
+    private Card savedTop, savedDrawn;
+    private List<Player> savedPlayers;
 
     public UnoModel() {
         deck = new Deck();
@@ -52,6 +56,7 @@ public class UnoModel implements Serializable {
         runGame();
         status = Status.UNDECIDED;
         flipped = false;
+        skipped = false;
     }
 
     /**
@@ -92,6 +97,12 @@ public class UnoModel implements Serializable {
 
     public void drawCardForPlayer() {
         if (!hasDrawnThisTurn) {
+            if(savedDrawn != null){
+                currentPlayer.addCard(savedDrawn);
+                status = Status.DREW_CARD;
+                notifyViews();
+                return;
+            }
             Card drawnCard = drawCard();
             currentPlayer.addCard(drawnCard);
             hasDrawnThisTurn = true;
@@ -146,6 +157,10 @@ public class UnoModel implements Serializable {
             nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
         }
         currentPlayer = players.get(nextPlayerIndex);
+        if(skipped){
+            skipped = false;
+            nextPlayer();
+        }
         hasDrawnThisTurn = false;
         status = Status.PLAYER_TURN_CHANGED;
         notifyViews();
@@ -166,6 +181,7 @@ public class UnoModel implements Serializable {
         } else {
             chosenCard = currentPlayer.getCard(cardIndex);
             if (isPlayable(chosenCard)) {
+                saveState(topCard);
                 topCard = chosenCard;
                 currentPlayer.removeCard(cardIndex);
                 executeSpecialCardAction(chosenCard);
@@ -184,15 +200,39 @@ public class UnoModel implements Serializable {
     }
 
     public void undo(){
+        if(!hasDrawnThisTurn){
+            Card temp = savedTop;
+            savedTop = topCard;
+            topCard = temp;
+            currentPlayer.addCard(savedTop);
 
+        }else{
+            deck.addCard(currentPlayer.getCard(currentPlayer.getSize()-1));
+            savedDrawn = currentPlayer.getCard(currentPlayer.getSize()-1);
+            currentPlayer.removeCard(currentPlayer.getSize()-1);
+            hasDrawnThisTurn = false;
+        }
+        status = Status.UNDO;
+        notifyViews();
     }
 
     public void redo(){
-
+        if(savedDrawn != null){
+            currentPlayer.addCard(savedDrawn);
+            savedDrawn = null;
+            hasDrawnThisTurn = true;
+        }else{
+            Card temp = savedTop;
+            savedTop = topCard;
+            topCard = temp;
+        }
+        status = Status.REDO;
+        notifyViews();
     }
 
-    public void saveState(){
-
+    public void saveState(Card savedCard){
+        savedTop = savedCard;
+        savedPlayers = players;
     }
     public void checkWinCondition() {
         if (currentPlayer.getSize() == 0) {
@@ -219,15 +259,16 @@ public class UnoModel implements Serializable {
             case DRAW_ONE -> {
                 Player next = getNextPlayer();
                 next.addCard(deck.drawCard());
+                skipped = true;
             }
             case WILD_DRAW_TWO -> {
                 promptForWildCardColor();
-                nextPlayer();
                 Player next = getNextPlayer();
                 next.addCard(deck.drawCard());
                 next.addCard(deck.drawCard());
+                skipped = true;
             }
-            case SKIP -> nextPlayer();
+            case SKIP -> skipped = true;
             case WILD -> promptForWildCardColor();
             case FLIP -> flipDeck();
             case DRAW_FIVE -> {
@@ -235,16 +276,19 @@ public class UnoModel implements Serializable {
                 for (int i = 0; i < 5; i++) {
                     next.addCard(deck.drawCard());
                 }
+                skipped = true;
             }
             case SKIP_EVERYONE -> {
                 for (int i = 1; i < players.size(); i++) {
                     nextPlayer();
                 }
+                skipped = true;
             }
             case WILD_FLIP -> promptForFlippedWildCardColor();
             case WILD_DRAW_COLOR -> {
                 promptForFlippedWildCardColor();
-                drawUntilColor();
+                Player next = getNextPlayer();
+                drawUntilColor(next);
             }
             default -> {
             }
@@ -259,10 +303,10 @@ public class UnoModel implements Serializable {
         return players.get(nextIndex);
     }
 
-    public void drawUntilColor() {
-        int i = currentPlayer.getSize() - 1;
-        while (currentPlayer.getCard(i).getColor() != topCard.getColor()) {
-            currentPlayer.addCard(deck.drawCard());
+    public void drawUntilColor(Player player) {
+        int i = player.getSize() - 1;
+        while (player.getCard(i).getColor() != topCard.getColor()) {
+            player.addCard(deck.drawCard());
             i++;
         }
     }

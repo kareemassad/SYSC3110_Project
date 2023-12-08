@@ -114,4 +114,8 @@ public class Deck implements Serializable {
             card.flipCard(flipped);
         }
     }
+
+    public void addCard(Card givenCard){
+        deck.add(givenCard);
+    }
 }

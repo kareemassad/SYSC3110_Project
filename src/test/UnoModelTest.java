@@ -85,7 +85,7 @@ public class UnoModelTest {
         unoModel.setTopCard(new Card(Card.Color.RED, Card.Type.FIVE));
 
         unoModel.getCurrentPlayer().addCard(new Card(Card.Color.BLUE, Card.Type.THREE));
-        unoModel.drawUntilColor();
+        unoModel.drawUntilColor(unoModel.getNextPlayer());
         assertEquals(Card.Color.RED, unoModel.getTopCard().getColor());
     }
 

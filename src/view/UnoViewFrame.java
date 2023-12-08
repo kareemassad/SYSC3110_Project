@@ -73,6 +73,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
         actionButtons.add(draw, BorderLayout.WEST);
 
         buttonPanel.setFloatable(false);
+        undo.setEnabled(false);
+        redo.setEnabled(false);
 
         menuBar = new JMenuBar();
         fileMenu = new JMenu("File");
@@ -243,6 +245,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
         case DECK_EMPTY -> handleDeckEmpty();
         case REVERSE_DIRECTION -> handleReverseDirection();
         case FLIP_CARDS -> handleFlipCards();
+        case UNDO -> handleUndo();
+        case REDO -> handleRedo();
         default -> setStatus("Unhandled status: " + status);
     }
     }
@@ -270,6 +274,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
                 button.setEnabled(false);
             }
             draw.setEnabled(false);
+            undo.setEnabled(true);
+            redo.setEnabled(false);
         } else {
             updateTopCardLabel(playedCard);
             displayPlayerCards(player);
@@ -278,11 +284,14 @@ public class UnoViewFrame extends JFrame implements UnoView {
                 button.setEnabled(false);
             }
             draw.setEnabled(false);
+            undo.setEnabled(true);
         }
     }
     private void handleCardDrawn(Player player){
         setStatus(player.getName() + " drew a card.");
         draw.setEnabled(false);
+        undo.setEnabled(true);
+        redo.setEnabled(false);
         displayPlayerCards(player);
     }
 
@@ -297,11 +306,12 @@ public class UnoViewFrame extends JFrame implements UnoView {
             button.setEnabled(true);
         }
         draw.setEnabled(true);
-
+        undo.setEnabled(false);
         if (currentPlayer instanceof AI) {
             ((AI) currentPlayer).AITurn(model);
             model.nextPlayer();
         }
+
     }
 
     public void handleFlipCards(){
@@ -395,6 +405,24 @@ public class UnoViewFrame extends JFrame implements UnoView {
         setStatus("Play direction reversed");
     }
 
+    private void handleUndo(){
+        undo.setEnabled(false);
+        redo.setEnabled(true);
+        draw.setEnabled(true);
+        pCardPanel.removeAll();
+        displayPlayerCards(model.getCurrentPlayer());
+        updateTopCardLabel(model.getTopCard());
+        setStatus("Undid last move.");
+    }
+    private void handleRedo(){
+        undo.setEnabled(true);
+        redo.setEnabled(false);
+        draw.setEnabled(false);
+        pCardPanel.removeAll();
+        displayPlayerCards(model.getCurrentPlayer());
+        updateTopCardLabel(model.getTopCard());
+        setStatus("Redid last move.");
+    }
     public void setPlayerName(String name) {
         playerLabel.setText(name);
     }
