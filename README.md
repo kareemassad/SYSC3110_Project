@@ -11,7 +11,7 @@ Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Ev
 |--------|----------------|-------------------------------------------------------------------------------------|
 | Mehedi | 101154128      | Serialize/Deserialize, UnoModel, UnoViewFrame, UnoView, AI, UnoController, UMLClass |
 | Rayat  | 101151001      | Card, Deck, Player, test.UnoModelTest, README                                       |
-| Evan   | 101222276      | Flip implementation (Card, UnoModel, UnoViewFrame), GUI refactoring                 |
+| Evan   | 101222276      | Undo/Redo implementation, (UnoController, UnoModel, UnoViewFrame), GUI refactoring  |
 | Kareem | 101107739      | AI Players                                                                          |
 
 ## How to run
