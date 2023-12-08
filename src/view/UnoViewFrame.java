@@ -270,28 +270,25 @@ public class UnoViewFrame extends JFrame implements UnoView {
         if (playedCard.getType() == Card.Type.REVERSE) {
             model.reverseDirection();
             setStatus("Reverse card played by " + player.getName() + ". Direction reversed.");
-            for(JButton button: buttons){
-                button.setEnabled(false);
-            }
-            draw.setEnabled(false);
-            undo.setEnabled(true);
-            redo.setEnabled(false);
         } else {
             updateTopCardLabel(playedCard);
             displayPlayerCards(player);
             setStatus("Played: " + playedCard);
-            for(JButton button: buttons){
-                button.setEnabled(false);
-            }
-            draw.setEnabled(false);
-            undo.setEnabled(true);
         }
+        for(JButton button: buttons){
+            button.setEnabled(false);
+        }
+        draw.setEnabled(false);
+        undo.setEnabled(true);
+        redo.setEnabled(false);
+        nextPlayer.setEnabled(true);
     }
     private void handleCardDrawn(Player player){
         setStatus(player.getName() + " drew a card.");
         draw.setEnabled(false);
         undo.setEnabled(true);
         redo.setEnabled(false);
+        nextPlayer.setEnabled(true);
         displayPlayerCards(player);
     }
 
@@ -308,6 +305,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         draw.setEnabled(true);
         undo.setEnabled(false);
         redo.setEnabled(false);
+        nextPlayer.setEnabled(false);
         if (currentPlayer instanceof AI) {
             ((AI) currentPlayer).AITurn(model);
             model.nextPlayer();
@@ -410,6 +408,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         undo.setEnabled(false);
         redo.setEnabled(true);
         draw.setEnabled(true);
+        nextPlayer.setEnabled(false);
         pCardPanel.removeAll();
         displayPlayerCards(model.getCurrentPlayer());
         updateTopCardLabel(model.getTopCard());
@@ -419,6 +418,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         undo.setEnabled(true);
         redo.setEnabled(false);
         draw.setEnabled(false);
+        nextPlayer.setEnabled(true);
         pCardPanel.removeAll();
         displayPlayerCards(model.getCurrentPlayer());
         updateTopCardLabel(model.getTopCard());
