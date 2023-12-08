@@ -18,8 +18,7 @@ public class UnoModel implements Serializable {
     private Card topCard;
 
     public Player currentPlayer;
-    private boolean isReversed = false;
-    private boolean gameRunning;
+    private boolean gameRunning, isReversed;
     private List<UnoView> views;
     private int currentPlayerIndex = 0;
     private Component view;
@@ -56,6 +55,7 @@ public class UnoModel implements Serializable {
         runGame();
         status = Status.UNDECIDED;
         flipped = false;
+        isReversed = false;
         skipped = false;
     }
 
@@ -149,18 +149,17 @@ public class UnoModel implements Serializable {
      * Moves to the next player's turn.
      */
     public void nextPlayer() {
+        if(!hasDrawnThisTurn){
+            executeSpecialCardAction(topCard);
+        }
         int currentPlayerIndex = players.indexOf(currentPlayer);
         int nextPlayerIndex;
         if (isReversed) {
-            nextPlayerIndex = (currentPlayerIndex - 1 + players.size()) % players.size();
+            nextPlayerIndex = (currentPlayerIndex - 1) % players.size();
         } else {
             nextPlayerIndex = (currentPlayerIndex + 1) % players.size();
         }
         currentPlayer = players.get(nextPlayerIndex);
-        if(skipped){
-            skipped = false;
-            nextPlayer();
-        }
         hasDrawnThisTurn = false;
         status = Status.PLAYER_TURN_CHANGED;
         notifyViews();
@@ -184,7 +183,6 @@ public class UnoModel implements Serializable {
                 saveState(topCard);
                 topCard = chosenCard;
                 currentPlayer.removeCard(cardIndex);
-                executeSpecialCardAction(chosenCard);
                 checkWinCondition();
                 if (!gameRunning) {
                     return;
@@ -205,7 +203,6 @@ public class UnoModel implements Serializable {
             savedTop = topCard;
             topCard = temp;
             currentPlayer.addCard(savedTop);
-
         }else{
             deck.addCard(currentPlayer.getCard(currentPlayer.getSize()-1));
             savedDrawn = currentPlayer.getCard(currentPlayer.getSize()-1);
@@ -225,6 +222,7 @@ public class UnoModel implements Serializable {
             Card temp = savedTop;
             savedTop = topCard;
             topCard = temp;
+            currentPlayer.removeCard(currentPlayer.getSize()-1);
         }
         status = Status.REDO;
         notifyViews();
@@ -259,16 +257,16 @@ public class UnoModel implements Serializable {
             case DRAW_ONE -> {
                 Player next = getNextPlayer();
                 next.addCard(deck.drawCard());
-                skipped = true;
+                currentPlayer = next;
             }
             case WILD_DRAW_TWO -> {
                 promptForWildCardColor();
                 Player next = getNextPlayer();
                 next.addCard(deck.drawCard());
                 next.addCard(deck.drawCard());
-                skipped = true;
+                currentPlayer = getNextPlayer();
             }
-            case SKIP -> skipped = true;
+            case SKIP -> currentPlayer = getNextPlayer();
             case WILD -> promptForWildCardColor();
             case FLIP -> flipDeck();
             case DRAW_FIVE -> {
@@ -276,19 +274,19 @@ public class UnoModel implements Serializable {
                 for (int i = 0; i < 5; i++) {
                     next.addCard(deck.drawCard());
                 }
-                skipped = true;
+                currentPlayer = next;
             }
             case SKIP_EVERYONE -> {
-                for (int i = 2; i < players.size(); i++) {
-                    nextPlayer();
+                for (int i = 1; i < players.size(); i++) {
+                    currentPlayer = getNextPlayer();
                 }
-                skipped = true;
             }
             case WILD_FLIP -> promptForFlippedWildCardColor();
             case WILD_DRAW_COLOR -> {
                 promptForFlippedWildCardColor();
                 Player next = getNextPlayer();
                 drawUntilColor(next);
+                currentPlayer = next;
             }
             default -> {
             }

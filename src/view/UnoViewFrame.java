@@ -307,6 +307,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         }
         draw.setEnabled(true);
         undo.setEnabled(false);
+        redo.setEnabled(false);
         if (currentPlayer instanceof AI) {
             ((AI) currentPlayer).AITurn(model);
             model.nextPlayer();
