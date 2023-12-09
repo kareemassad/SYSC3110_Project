@@ -18,14 +18,32 @@ public class UnoController implements ActionListener, Serializable {
     private UnoModel model;
     private UnoViewFrame view;
 
+    /**
+     * Default constructor for UnoController, takes
+     * as input the model to be acted upon.
+     *
+     * @param model The model associated with the UnoController.
+     */
     public UnoController(UnoModel model) {
         this.model = model;
     }
 
+    /**
+     * Associates a view component that can act upon
+     * this UnoController.
+     * @param view The view associated with the UnoController.
+     */
     public void linkView(UnoViewFrame view) {
         this.view = view;
     }
 
+    /**
+     * Determines the action being performed within the action event
+     * triggered in the view and processes the information to
+     * the UnoModel so it can react accordingly.
+     *
+     * @param e The event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("DRAW")){
