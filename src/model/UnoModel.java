@@ -22,20 +22,9 @@ public class UnoModel implements Serializable {
     private int currentPlayerIndex = 0;
     private Component view;
 
+
     public enum Status {
-        UNDECIDED,
-        PLAYER_TURN_CHANGED,
-        DREW_CARD,
-        PLAYER_WON,
-        CARD_PLAYED,
-        UNO_ANNOUNCED,
-        GAME_OVER,
-        INVALID_MOVE,
-        DECK_EMPTY,
-        REVERSE_DIRECTION,
-        FLIP_CARDS,
-        UNDO,
-        REDO
+        UNDECIDED, PLAYER_TURN_CHANGED, DREW_CARD, PLAYER_WON, CARD_PLAYED, UNO_ANNOUNCED, GAME_OVER, INVALID_MOVE, DECK_EMPTY, REVERSE_DIRECTION, FLIP_CARDS, UNDO, NEW_ROUND_STARTED, REDO
     }
 
     public Status status;
@@ -80,6 +69,34 @@ public class UnoModel implements Serializable {
         return status;
     }
 
+    public void resetForNewRound() {
+        deck = new Deck();
+        deck.shuffle();
+
+        for (Player player : players) {
+            player.removeAllCards();
+            for (int i = 0; i < 7; i++) {
+                player.addCard(deck.drawCard());
+            }
+        }
+        do {
+            topCard = deck.drawCard();
+        } while (topCard.getType() == Card.Type.WILD || topCard.getType() == Card.Type.WILD_DRAW_TWO || topCard.getType() == Card.Type.WILD_FLIP || topCard.getType() == Card.Type.WILD_DRAW_COLOR);
+//        deck.addCard(topCard);
+//        deck.shuffle();
+//        topCard = deck.drawCard();
+        //reset game vars
+        currentPlayer = players.get(0);
+        hasDrawnThisTurn = false;
+        isReversed = false;
+        flipped = false;
+        skipped = false;
+
+
+        status = Status.NEW_ROUND_STARTED;
+        notifyViews();
+    }
+
     /**
      * Adds players to the Uno Game.
      */
@@ -96,7 +113,7 @@ public class UnoModel implements Serializable {
 
     public void drawCardForPlayer() {
         if (!hasDrawnThisTurn) {
-            if(savedDrawn != null){
+            if (savedDrawn != null) {
                 currentPlayer.addCard(savedDrawn);
                 status = Status.DREW_CARD;
                 notifyViews();
@@ -139,15 +156,17 @@ public class UnoModel implements Serializable {
      * Checks if a card can be played on the current card.
      */
     public boolean isPlayable(Card card) {
-        return card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_TWO || card.getType() == Card.Type.WILD_FLIP ||
-                card.getType() == Card.Type.WILD_DRAW_COLOR || card.getType() == topCard.getType() || card.getColor() == topCard.getColor();
+        return card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_TWO ||
+                card.getType() == Card.Type.WILD_FLIP || card.getType() == Card.Type.WILD_DRAW_COLOR ||
+                card.getType() == topCard.getType() || card.getColor() == topCard.getColor();
     }
+
 
     /**
      * Moves to the next player's turn.
      */
     public void nextPlayer() {
-        if(!hasDrawnThisTurn){
+        if (!hasDrawnThisTurn) {
             executeSpecialCardAction(topCard);
         }
         int currentPlayerIndex = players.indexOf(currentPlayer);
@@ -176,18 +195,23 @@ public class UnoModel implements Serializable {
             ((AI) currentPlayer).AITurn(this);
             nextPlayer();
         } else {
-            chosenCard = currentPlayer.getCard(cardIndex);
-            if (isPlayable(chosenCard)) {
-                saveState(topCard);
-                topCard = chosenCard;
-                currentPlayer.removeCard(cardIndex);
-                checkWinCondition();
-                if (!gameRunning) {
-                    return;
+            if (cardIndex >= 0 && cardIndex < currentPlayer.getSize()) {
+                chosenCard = currentPlayer.getCard(cardIndex);
+                if (isPlayable(chosenCard)) {
+                    saveState(topCard);
+                    topCard = chosenCard;
+                    currentPlayer.removeCard(cardIndex);
+                    checkWinCondition();
+                    if (!gameRunning) {
+                        return;
+                    }
+                    hasDrawnThisTurn = false;
+                    status = Status.CARD_PLAYED;
+                    notifyViews();
+                } else {
+                    status = Status.INVALID_MOVE;
+                    notifyViews();
                 }
-                hasDrawnThisTurn = false;
-                status = Status.CARD_PLAYED;
-                notifyViews();
             } else {
                 status = Status.INVALID_MOVE;
                 notifyViews();
@@ -195,41 +219,42 @@ public class UnoModel implements Serializable {
         }
     }
 
-    public void undo(){
-        if(!hasDrawnThisTurn){
+    public void undo() {
+        if (!hasDrawnThisTurn) {
             Card temp = savedTop;
             savedTop = topCard;
             topCard = temp;
             currentPlayer.addCard(savedTop);
-        }else{
-            deck.addCard(currentPlayer.getCard(currentPlayer.getSize()-1));
-            savedDrawn = currentPlayer.getCard(currentPlayer.getSize()-1);
-            currentPlayer.removeCard(currentPlayer.getSize()-1);
+        } else {
+            deck.addCard(currentPlayer.getCard(currentPlayer.getSize() - 1));
+            savedDrawn = currentPlayer.getCard(currentPlayer.getSize() - 1);
+            currentPlayer.removeCard(currentPlayer.getSize() - 1);
             hasDrawnThisTurn = false;
         }
         status = Status.UNDO;
         notifyViews();
     }
 
-    public void redo(){
-        if(savedDrawn != null){
+    public void redo() {
+        if (savedDrawn != null) {
             currentPlayer.addCard(savedDrawn);
             savedDrawn = null;
             hasDrawnThisTurn = true;
-        }else{
+        } else {
             Card temp = savedTop;
             savedTop = topCard;
             topCard = temp;
-            currentPlayer.removeCard(currentPlayer.getSize()-1);
+            currentPlayer.removeCard(currentPlayer.getSize() - 1);
         }
         status = Status.REDO;
         notifyViews();
     }
 
-    public void saveState(Card savedCard){
+    public void saveState(Card savedCard) {
         savedTop = savedCard;
         savedPlayers = players;
     }
+
     public void checkWinCondition() {
         if (currentPlayer.getSize() == 0) {
             gameRunning = false;
@@ -325,8 +350,7 @@ public class UnoModel implements Serializable {
      * Allows the player to choose the color for Wild model.Card.
      */
     public void setWildCardColor(Card.Color color) {
-        if (topCard.getType() == Card.Type.WILD || topCard.getType() == Card.Type.WILD_DRAW_TWO
-                || topCard.getType() == Card.Type.WILD_FLIP || topCard.getType() == Card.Type.WILD_DRAW_COLOR) {
+        if (topCard.getType() == Card.Type.WILD || topCard.getType() == Card.Type.WILD_DRAW_TWO || topCard.getType() == Card.Type.WILD_FLIP || topCard.getType() == Card.Type.WILD_DRAW_COLOR) {
             topCard.setColor(color);
             notifyViews();
         }

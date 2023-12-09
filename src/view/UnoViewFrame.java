@@ -207,6 +207,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         UnoModel.Status status = model.getStatus();
         System.out.println(status);
     switch (status) {
+        case NEW_ROUND_STARTED -> handleNewRoundStarted();
         case PLAYER_TURN_CHANGED -> handlePlayerTurnChanged();
         case PLAYER_WON -> handlePlayerWon(e.getPlayer(), e.getCard());
         case CARD_PLAYED -> handleCardPlayed(e.getPlayer(), e.getCard());
@@ -223,19 +224,49 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
     }
 
+    private void handleNewRoundStarted() {
+//        model.dealInitialCards();
+        updateTopCardLabel(model.getTopCard());
+        displayPlayerCards(model.getCurrentPlayer());
+
+        setStatus("New round started. It's " + model.getCurrentPlayer().getName() + "'s turn");
+        enableDrawButton(true);
+        enableNextPlayerButton(false);
+
+        if (model.getCurrentPlayer() instanceof AI) {
+            ((AI) model.getCurrentPlayer()).AITurn(model);
+            model.nextPlayer();
+        }
+    }
+
 
     private void handlePlayerWon(Player winningPlayer, Card lastCard) {
 
         if(model.countScore(winningPlayer)){
             setStatus(winningPlayer.getName() + " has surpassed 500 points. They win the game!");
+            endGame();
         }else{
             setStatus(winningPlayer.getName() + " has won the round! They earned " + model.getScore(winningPlayer) + " points.");
             updateTopCardLabel(lastCard);
             displayPlayerCards(winningPlayer);
+
+            // Ask the player if they want to continue
+            int response = JOptionPane.showConfirmDialog(this, "Do you want to keep playing?", "Continue Playing?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+            if (response == JOptionPane.YES_OPTION) {
+                model.resetForNewRound();
+            } else {
+                endGame();
+            }
         }
         enableDrawButton(false);
         enableNextPlayerButton(false);
 
+    }
+
+
+    private void endGame(){
+        this.dispose();
     }
 
     private void handleCardPlayed(Player player, Card playedCard) {
