@@ -45,6 +45,13 @@ public class Card implements Serializable {
      */
     public void setType(Type type) {this.type = type;}
 
+    /**
+     * Contains logic to flip each individual card in a possible
+     * Uno deck by changing the colour for every card, and the type
+     * for cards with unique actions.
+     *
+     * @param flipped The state of the clipped card.
+     */
     public void flipCard(Boolean flipped){
         if(flipped){
             switch(type){

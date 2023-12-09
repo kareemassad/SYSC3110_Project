@@ -97,6 +97,8 @@ public class Player implements Serializable {
 
     /**
      * This method flips the given card in hand.
+     * @param flipped The state of the card being flipped.
+     * @param i The cardIndex of the card to be flipped.
      */
     public void flipCard(int i, boolean flipped){
         if(i>=0 && i<cards.size()){
@@ -106,6 +108,7 @@ public class Player implements Serializable {
     }
     /**
      * This method shows how  many cards a player has.
+     * @return The size of the player hand.
      */
     public int getSize() {return this.cards.size(); }
 
@@ -117,6 +120,10 @@ public class Player implements Serializable {
         this.totalScore += score;
     }
 
+    /**
+     * This method gets the total game score.
+     * @return totalScore The score of the game.
+     */
     public int getTotalScore(){
         return totalScore;
     }
