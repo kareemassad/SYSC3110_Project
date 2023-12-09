@@ -95,6 +95,12 @@ The following is a list of deliverable that were required in the milestone:
   - Cons:
     - More complex than an ArrayList 
     - Worse access than ArrayLists
+      
+Our UNO game application is designed to support easy extension and modification without disrupting existing modules. Follow these guidelines:
+
+Encapsulate Changes: Kept modifications localized within separate classes or methods to avoid affecting the fundamental logic.This ensures high cohesion due to modularity.
+Utilize Interfaces and Inheritance: Use interfaces for new functionalities and inheritance for extending behaviors, ensuring compatibility with existing components. This ensures loose coupling between classes.
+Unit Testing: Develop unit tests for new functionalities or modified behaviors to maintain stability.
 
 ### Changes to structure and UML
 
