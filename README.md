@@ -9,10 +9,10 @@ Our group, Group #11, consists of 4 members: Mehedi Mostofa, Rayat Md Kibria, Ev
 
 | Member | Student number | Contributions                                                                       |
 |--------|----------------|-------------------------------------------------------------------------------------|
-| Mehedi | 101154128      | Serialize/Deserialize, UnoModel, UnoViewFrame, UnoView, AI, UnoController, UMLClass |
-| Rayat  | 101151001      | Serializae, Deserialize, UnoModel, Tests                                       |
-| Evan   | 101222276      | Undo/Redo implementation, (UnoController, UnoModel, UnoViewFrame), GUI refactoring  |
-| Kareem | 101107739      | AI Players                                                                          |
+| Mehedi | 101154128      | Serialize/Deserialize, UnoModel, UnoViewFrame, UnoController, UMLClass |
+| Rayat  | 101151001      | Serialize, Deserialize, UnoModel, UnoViewFrame, Tests                                       |
+| Evan   | 101222276      | Undo/Redo, UnoController, UnoModel, UnoViewFrame, GUI refactoring  |
+| Kareem | 101107739      | Replaying, UnoModel, UnoViewFrame                                                                          |
 
 ## How to run
 Options:
@@ -72,6 +72,10 @@ The following is a list of deliverable that were required in the milestone:
 	- Location: SYSC3110_Project/src
 	- Description: class for implementing AI players.
 
+- test.AITest.java:
+	- Location: SYSC3110_Project/src
+	- Description: Junit test file for model.AI.
+
 - /Diagrams/Milestone {Milestone Number}/Class Diagrams/
 	- Description: UML class diagram depicting the different relations between the classes.
 
@@ -97,6 +101,5 @@ The following is a list of deliverable that were required in the milestone:
 - No significant changes in the UML diagrams as only a few methods were added.
 - There were no particular changes in data structures either.
 
-
 ## Known issues:
-- 
+- Save and load works in GUi as no errors show, but it doesn't save the right stuff.
