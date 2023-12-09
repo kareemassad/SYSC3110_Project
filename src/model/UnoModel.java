@@ -61,10 +61,6 @@ public class UnoModel implements Serializable {
         }
     }
 
-    public List<UnoView> getViews() {
-        return this.views;
-    }
-
     public Status getStatus() {
         return status;
     }
@@ -82,10 +78,6 @@ public class UnoModel implements Serializable {
         do {
             topCard = deck.drawCard();
         } while (topCard.getType() == Card.Type.WILD || topCard.getType() == Card.Type.WILD_DRAW_TWO || topCard.getType() == Card.Type.WILD_FLIP || topCard.getType() == Card.Type.WILD_DRAW_COLOR);
-//        deck.addCard(topCard);
-//        deck.shuffle();
-//        topCard = deck.drawCard();
-        //reset game vars
         currentPlayer = players.get(0);
         hasDrawnThisTurn = false;
         isReversed = false;
@@ -123,10 +115,8 @@ public class UnoModel implements Serializable {
             currentPlayer.addCard(drawnCard);
             hasDrawnThisTurn = true;
 
-            for (UnoView view : views) {
-                status = Status.DREW_CARD;
-                notifyViews();
-            }
+            status = Status.DREW_CARD;
+            notifyViews();
         } else {
             for (UnoView view : views) {
                 view.updateStatus("Cannot draw more than one card per turn.");
@@ -366,10 +356,6 @@ public class UnoModel implements Serializable {
 
     public void addUnoView(UnoView view) {
         this.views.add(view);
-    }
-
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
     }
 
     public void setTopCard(Card topCard) {

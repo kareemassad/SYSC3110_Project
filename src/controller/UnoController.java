@@ -1,17 +1,10 @@
 package controller;
 
-import model.AI;
-import model.Player;
 import model.UnoModel;
-import model.Card;
-import view.UnoView;
 import view.UnoViewFrame;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.io.Serializable;
 
 public class UnoController implements ActionListener, Serializable {
