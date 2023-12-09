@@ -5,6 +5,7 @@ import model.UnoModel;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.io.*;
 
 public class UnoModelTest {
     UnoModel unoModel;
@@ -160,6 +161,38 @@ public class UnoModelTest {
         unoModel.countScore(player);
 
         assertEquals(0, unoModel.getScore(player));
+    }
+
+    @Test
+    public void testSaveGame() {
+        // Assuming you have a suitable file name for testing
+        String fileName = "testSaveGame.ser";
+
+        unoModel.saveGame(fileName);
+
+        // Assertions to verify that the saveGame method works correctly
+        File savedFile = new File(fileName);
+        assertTrue(savedFile.exists());
+        // Add more assertions based on the expected behavior of saveGame()
+    }
+
+    @Test
+    public void testLoadGame() {
+        // Assuming you have a suitable file name for testing
+        String fileName = "testSaveGame.ser";
+
+        // Save the game first to have something to load
+        unoModel.saveGame(fileName);
+
+        // Load the game and compare states or check if the loaded game is not null
+        UnoModel loadedGame = new UnoModel();
+        loadedGame.loadGame(fileName);
+
+        // Assertions to verify that the loadGame method works correctly
+        assertNotNull(loadedGame);
+        assertEquals(unoModel.getStatus(), loadedGame.getStatus());
+        assertEquals(unoModel.getCurrentPlayer().getSize(), loadedGame.getCurrentPlayer().getSize());
+        // Add more assertions based on the expected behavior of loadGame()
     }
 
 }
