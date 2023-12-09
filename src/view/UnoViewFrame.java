@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 public class UnoViewFrame extends JFrame implements UnoView {
     private UnoModel model;
-    private JLabel topCardLabel, playerLabel ,statusLabel;
+    private JLabel topCardLabel, playerLabel, statusLabel;
     private JToolBar buttonPanel;
     private JPanel actionButtons, pCardPanel;
     private JScrollPane scroll;
@@ -22,7 +22,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private UnoController uc;
     private ArrayList<JButton> buttons;
 
-    public UnoViewFrame(UnoController uc, UnoModel model){
+    public UnoViewFrame(UnoController uc, UnoModel model) {
         super("UNO Game");
         this.uc = uc;
         this.model = model;
@@ -151,7 +151,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         }
     }
 
-    public void setStatus(String status){
+    public void setStatus(String status) {
         statusLabel.setText(status);
     }
 
@@ -190,7 +190,9 @@ public class UnoViewFrame extends JFrame implements UnoView {
     public void enableDrawButton(boolean enable) {
         draw.setEnabled(enable);
     }
-    public void enableNextPlayerButton(boolean enabled) {nextPlayer.setEnabled(enabled);
+
+    public void enableNextPlayerButton(boolean enabled) {
+        nextPlayer.setEnabled(enabled);
     }
 
     public static void main(String[] args) {
@@ -202,40 +204,61 @@ public class UnoViewFrame extends JFrame implements UnoView {
         view.setVisible(true);
     }
 
-@Override
+    @Override
     public void handleUnoStatusUpdate(UnoEvent e) {
         UnoModel.Status status = model.getStatus();
         System.out.println(status);
-    switch (status) {
-        case PLAYER_TURN_CHANGED -> handlePlayerTurnChanged();
-        case PLAYER_WON -> handlePlayerWon(e.getPlayer(), e.getCard());
-        case CARD_PLAYED -> handleCardPlayed(e.getPlayer(), e.getCard());
-        case DREW_CARD -> handleCardDrawn(e.getPlayer());
-        case UNO_ANNOUNCED -> handleUnoAnnounced(e.getPlayer());
-        case GAME_OVER -> handleGameOver();
-        case INVALID_MOVE -> handleInvalidMove();
-        case DECK_EMPTY -> handleDeckEmpty();
-        case REVERSE_DIRECTION -> handleReverseDirection();
-        case FLIP_CARDS -> handleFlipCards();
-        case UNDO -> handleUndo();
-        case REDO -> handleRedo();
-        default -> setStatus("Unhandled status: " + status);
-    }
+        switch (status) {
+            case PLAYER_TURN_CHANGED -> handlePlayerTurnChanged();
+            case PLAYER_WON -> handlePlayerWon(e.getPlayer(), e.getCard());
+            case CARD_PLAYED -> handleCardPlayed(e.getPlayer(), e.getCard());
+            case DREW_CARD -> handleCardDrawn(e.getPlayer());
+            case UNO_ANNOUNCED -> handleUnoAnnounced(e.getPlayer());
+            case GAME_OVER -> handleGameOver();
+            case INVALID_MOVE -> handleInvalidMove();
+            case DECK_EMPTY -> handleDeckEmpty();
+            case REVERSE_DIRECTION -> handleReverseDirection();
+            case FLIP_CARDS -> handleFlipCards();
+            case UNDO -> handleUndo();
+            case REDO -> handleRedo();
+            default -> setStatus("Unhandled status: " + status);
+        }
     }
 
 
     private void handlePlayerWon(Player winningPlayer, Card lastCard) {
-
-        if(model.countScore(winningPlayer)){
+        model.countScore(winningPlayer);
+        if (winningPlayer.getTotalScore() >= 500) {
             setStatus(winningPlayer.getName() + " has surpassed 500 points. They win the game!");
-        }else{
+        } else {
             setStatus(winningPlayer.getName() + " has won the round! They earned " + model.getScore(winningPlayer) + " points.");
-            updateTopCardLabel(lastCard);
-            displayPlayerCards(winningPlayer);
+//            updateTopCardLabel(lastCard);
+//            displayPlayerCards(winningPlayer);
+            askToContinue();
         }
         enableDrawButton(false);
         enableNextPlayerButton(false);
 
+    }
+
+    private void askToContinue() {
+        int dialogResult = JOptionPane.showConfirmDialog(this, "Do you want to play another round? ", "Continue Game", JOptionPane.YES_NO_OPTION);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            resetGameState();
+        } else {
+            System.exit(0);
+        }
+    }
+
+    private void resetGameState() {
+        model.resetGame();
+        for(Player player : model.getPlayers()){
+            player.removeAllCards();
+            model.dealInitialCards();
+        }
+        updateTopCardLabel(model.getTopCard());
+        displayPlayerCards(model.getCurrentPlayer());
+        setStatus("New Round Started");
     }
 
     private void handleCardPlayed(Player player, Card playedCard) {
@@ -247,7 +270,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
             displayPlayerCards(player);
             setStatus("Played: " + playedCard);
         }
-        for(JButton button: buttons){
+        for (JButton button : buttons) {
             button.setEnabled(false);
         }
         draw.setEnabled(false);
@@ -256,7 +279,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         nextPlayer.setEnabled(true);
     }
 
-    private void handleCardDrawn(Player player){
+    private void handleCardDrawn(Player player) {
         setStatus(player.getName() + " drew a card.");
         draw.setEnabled(false);
         undo.setEnabled(true);
@@ -272,7 +295,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         displayPlayerCards(model.getCurrentPlayer());
         updateTopCardLabel(model.getTopCard());
         setStatus(model.getCurrentPlayer().getName() + "'s turn.");
-        for(JButton button: buttons){
+        for (JButton button : buttons) {
             button.setEnabled(true);
         }
         draw.setEnabled(true);
@@ -286,7 +309,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
     }
 
-    public void handleFlipCards(){
+    public void handleFlipCards() {
         setPlayerName(model.getCurrentPlayer().getName());
         pCardPanel.removeAll();
         displayPlayerCards(model.getCurrentPlayer());
@@ -357,29 +380,30 @@ public class UnoViewFrame extends JFrame implements UnoView {
             }
         }
     }
-    private void handleUnoAnnounced(Player player){
+
+    private void handleUnoAnnounced(Player player) {
         setStatus(player.getName() + "announced UNO!");
     }
 
-    private void handleGameOver(){
+    private void handleGameOver() {
         setStatus("Game Over.");
         enableDrawButton(false);
         enableNextPlayerButton(false);
     }
 
-    private void handleInvalidMove(){
+    private void handleInvalidMove() {
         setStatus("Invalid move! Please try again.");
     }
 
-    private void handleDeckEmpty(){
+    private void handleDeckEmpty() {
         setStatus("Deck is empty, reshuffling");
     }
 
-    private void handleReverseDirection(){
+    private void handleReverseDirection() {
         setStatus("Play direction reversed");
     }
 
-    private void handleUndo(){
+    private void handleUndo() {
         undo.setEnabled(false);
         redo.setEnabled(true);
         draw.setEnabled(true);
@@ -389,7 +413,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
         updateTopCardLabel(model.getTopCard());
         setStatus("Undid last move.");
     }
-    private void handleRedo(){
+
+    private void handleRedo() {
         undo.setEnabled(true);
         redo.setEnabled(false);
         draw.setEnabled(false);
@@ -399,6 +424,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         updateTopCardLabel(model.getTopCard());
         setStatus("Redid last move.");
     }
+
     public void setPlayerName(String name) {
         playerLabel.setText(name);
     }

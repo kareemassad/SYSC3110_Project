@@ -22,6 +22,14 @@ public class UnoModel implements Serializable {
     private int currentPlayerIndex = 0;
     private Component view;
 
+    public void resetGame() {
+        deck = new Deck();
+        topCard = null;
+        currentPlayer = players.get(0);
+        gameRunning = true;
+        status = Status.UNDECIDED;
+    }
+
     public enum Status {
         UNDECIDED,
         PLAYER_TURN_CHANGED,
@@ -96,7 +104,7 @@ public class UnoModel implements Serializable {
 
     public void drawCardForPlayer() {
         if (!hasDrawnThisTurn) {
-            if(savedDrawn != null){
+            if (savedDrawn != null) {
                 currentPlayer.addCard(savedDrawn);
                 status = Status.DREW_CARD;
                 notifyViews();
@@ -117,9 +125,9 @@ public class UnoModel implements Serializable {
         }
     }
 
-
     /**
-     * Distributes initial cards to players and sets the Starting model.Card for the game.
+     * Distributes initial cards to players and sets the Starting model.Card for the
+     * game.
      */
     public void dealInitialCards() {
         for (Player player : players) {
@@ -139,15 +147,17 @@ public class UnoModel implements Serializable {
      * Checks if a card can be played on the current card.
      */
     public boolean isPlayable(Card card) {
-        return card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_TWO || card.getType() == Card.Type.WILD_FLIP ||
-                card.getType() == Card.Type.WILD_DRAW_COLOR || card.getType() == topCard.getType() || card.getColor() == topCard.getColor();
+        return card.getType() == Card.Type.WILD || card.getType() == Card.Type.WILD_DRAW_TWO
+                || card.getType() == Card.Type.WILD_FLIP ||
+                card.getType() == Card.Type.WILD_DRAW_COLOR || card.getType() == topCard.getType()
+                || card.getColor() == topCard.getColor();
     }
 
     /**
      * Moves to the next player's turn.
      */
     public void nextPlayer() {
-        if(!hasDrawnThisTurn){
+        if (!hasDrawnThisTurn) {
             executeSpecialCardAction(topCard);
         }
         int currentPlayerIndex = players.indexOf(currentPlayer);
@@ -195,41 +205,42 @@ public class UnoModel implements Serializable {
         }
     }
 
-    public void undo(){
-        if(!hasDrawnThisTurn){
+    public void undo() {
+        if (!hasDrawnThisTurn) {
             Card temp = savedTop;
             savedTop = topCard;
             topCard = temp;
             currentPlayer.addCard(savedTop);
-        }else{
-            deck.addCard(currentPlayer.getCard(currentPlayer.getSize()-1));
-            savedDrawn = currentPlayer.getCard(currentPlayer.getSize()-1);
-            currentPlayer.removeCard(currentPlayer.getSize()-1);
+        } else {
+            deck.addCard(currentPlayer.getCard(currentPlayer.getSize() - 1));
+            savedDrawn = currentPlayer.getCard(currentPlayer.getSize() - 1);
+            currentPlayer.removeCard(currentPlayer.getSize() - 1);
             hasDrawnThisTurn = false;
         }
         status = Status.UNDO;
         notifyViews();
     }
 
-    public void redo(){
-        if(savedDrawn != null){
+    public void redo() {
+        if (savedDrawn != null) {
             currentPlayer.addCard(savedDrawn);
             savedDrawn = null;
             hasDrawnThisTurn = true;
-        }else{
+        } else {
             Card temp = savedTop;
             savedTop = topCard;
             topCard = temp;
-            currentPlayer.removeCard(currentPlayer.getSize()-1);
+            currentPlayer.removeCard(currentPlayer.getSize() - 1);
         }
         status = Status.REDO;
         notifyViews();
     }
 
-    public void saveState(Card savedCard){
+    public void saveState(Card savedCard) {
         savedTop = savedCard;
         savedPlayers = players;
     }
+
     public void checkWinCondition() {
         if (currentPlayer.getSize() == 0) {
             gameRunning = false;
@@ -364,16 +375,16 @@ public class UnoModel implements Serializable {
         }
     }
 
-    public boolean countScore(Player winningPlayer) {
+    public void countScore(Player winningPlayer) {
+        int roundScore = 0;
         for (Player player : players) {
             if (player != winningPlayer) {
                 for (int i = 0; i < player.getSize(); i++) {
-                    player.updateScore(player.getCard(i));
-                    winningPlayer.addTotalScore(player.getScore());
+                    roundScore += player.getCard(i).getScoreValue();
                 }
             }
         }
-        return winningPlayer.getScore() > 500;
+        winningPlayer.addTotalScore(roundScore);
     }
 
     public int getScore(Player player) {
