@@ -114,7 +114,6 @@ public class Player implements Serializable {
 
     /**
      * This method sets the total game score of the player.
-     * @param score
      */
     public void addTotalScore(int score){
         this.totalScore += score;

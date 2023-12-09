@@ -15,10 +15,11 @@ import java.util.Arrays;
 public class UnoViewFrame extends JFrame implements UnoView {
     private UnoModel model;
     private JLabel topCardLabel, playerLabel ,statusLabel;
-    private JToolBar buttonPanel;
-    private JPanel actionButtons, pCardPanel;
-    private JScrollPane scroll;
-    private JButton draw, nextPlayer, undo, redo, load, save;
+    private JPanel pCardPanel;
+    private JButton draw;
+    private JButton nextPlayer;
+    private JButton undo;
+    private JButton redo;
     private UnoController uc;
     private ArrayList<JButton> buttons;
 
@@ -33,23 +34,23 @@ public class UnoViewFrame extends JFrame implements UnoView {
         super("UNO Game");
         this.uc = uc;
         this.model = model;
-        this.buttons = new ArrayList<JButton>();
+        this.buttons = new ArrayList<>();
 
         this.setLayout(new BorderLayout());
         topCardLabel = new JLabel();
         playerLabel = new JLabel();
 
         pCardPanel = new JPanel();
-        buttonPanel = new JToolBar();
+        JToolBar buttonPanel = new JToolBar();
 
-        actionButtons = new JPanel(new BorderLayout());
+        JPanel actionButtons = new JPanel(new BorderLayout());
 
         draw = new JButton("Draw Card");
         nextPlayer = new JButton("Next Player");
         undo = new JButton("Undo");
         redo = new JButton("Redo");
-        save = new JButton("Save");
-        load = new JButton("Load");
+        JButton save = new JButton("Save");
+        JButton load = new JButton("Load");
 
         draw.setActionCommand("DRAW");
         draw.addActionListener(uc);
@@ -94,7 +95,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
         updateTopCardLabel(model.getTopCard());
         displayPlayerCards(model.getPlayers().get(0));
 
-        scroll = new JScrollPane(pCardPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        JScrollPane scroll = new JScrollPane(pCardPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         actionButtons.add(scroll, BorderLayout.SOUTH);
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -161,15 +162,13 @@ public class UnoViewFrame extends JFrame implements UnoView {
             Object selectedOption = JOptionPane.showInputDialog(this, "Select number of players:", "Setup",
                     JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
-            if (selectedOption == null) {
-                validSetup = true;
-            } else {
+            if (selectedOption != null) {
                 String selectedOptionString = (String) selectedOption;
                 int numberOfPlayers = Integer.parseInt(selectedOptionString.split(" ")[0]);
 
                 addPlayerNames(numberOfPlayers);
-                validSetup = true;
             }
+            validSetup = true;
         }
     }
 
@@ -415,21 +414,25 @@ public class UnoViewFrame extends JFrame implements UnoView {
                     .filter(c -> c != Card.Color.WILD && c != Card.Color.PINK &&
                             c != Card.Color.ORANGE && c != Card.Color.PURPLE && c != Card.Color.TEAL)
                     .toArray(Card.Color[]::new);
-            String[] colorOptions = Arrays.stream(colors)
-                    .map(Enum::name)
-                    .toArray(String[]::new);
-            String chosenColor = (String) JOptionPane.showInputDialog(
-                    this,
-                    "Choose a color for the wild card:",
-                    "Wild Card Color Selection",
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    colorOptions,
-                    colorOptions[0] //default
-            );
-            if (chosenColor != null && !chosenColor.isEmpty()) {
-                model.setWildCardColor(Card.Color.valueOf(chosenColor));
-            }
+            colorOptions(colors);
+        }
+    }
+
+    private void colorOptions(Card.Color[] colors) {
+        String[] colorOptions = Arrays.stream(colors)
+                .map(Enum::name)
+                .toArray(String[]::new);
+        String chosenColor = (String) JOptionPane.showInputDialog(
+                this,
+                "Choose a color for the wild card:",
+                "Wild Card Color Selection",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                colorOptions,
+                colorOptions[0] //default
+        );
+        if (chosenColor != null && !chosenColor.isEmpty()) {
+            model.setWildCardColor(Card.Color.valueOf(chosenColor));
         }
     }
 
@@ -449,21 +452,7 @@ public class UnoViewFrame extends JFrame implements UnoView {
                     .filter(c -> c != Card.Color.WILD && c != Card.Color.RED &&
                             c != Card.Color.BLUE && c != Card.Color.GREEN && c != Card.Color.YELLOW)
                     .toArray(Card.Color[]::new);
-            String[] colorOptions = Arrays.stream(colors)
-                    .map(Enum::name)
-                    .toArray(String[]::new);
-            String chosenColor = (String) JOptionPane.showInputDialog(
-                    this,
-                    "Choose a color for the wild card:",
-                    "Wild Card Color Selection",
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    colorOptions,
-                    colorOptions[0] //default
-            );
-            if (chosenColor != null && !chosenColor.isEmpty()) {
-                model.setWildCardColor(Card.Color.valueOf(chosenColor));
-            }
+            colorOptions(colors);
         }
     }
 
@@ -471,7 +460,6 @@ public class UnoViewFrame extends JFrame implements UnoView {
      * The Uno_Announced status was triggered, updates
      * the status on the GUI to reflect the state.
      *
-     * @param player
      */
     private void handleUnoAnnounced(Player player){
         setStatus(player.getName() + "announced UNO!");

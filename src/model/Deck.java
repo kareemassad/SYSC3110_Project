@@ -1,9 +1,10 @@
 package model;
 
-import model.Card;
-
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 /**
  *This is the model.Deck Class. This builds a deck with the required cards and draws them.
@@ -11,7 +12,7 @@ import java.util.*;
 public class Deck implements Serializable {
 
     private List<Card> deck;
-    private Random random = new Random();
+    private Random random;
     public Deck(){
         this.random = new Random();
         deck = new ArrayList<>();
