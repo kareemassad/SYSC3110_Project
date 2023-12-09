@@ -1,6 +1,5 @@
 package model;
 
-import java.io.Serializable;
 import java.util.Random;
 
 public class AI extends Player {
