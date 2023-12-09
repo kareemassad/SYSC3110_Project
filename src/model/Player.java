@@ -42,21 +42,7 @@ public class Player implements Serializable {
      * Method to update the score of the player depending on the type of the card
      */
     public void updateScore(Card card) {
-        if (card.getType() == Card.Type.ONE || card.getType() == Card.Type.TWO || card.getType() == Card.Type.THREE || card.getType() == Card.Type.FOUR || card.getType() == Card.Type.FIVE || card.getType() == Card.Type.SIX || card.getType() == Card.Type.SEVEN || card.getType() == Card.Type.EIGHT || card.getType() == Card.Type.NINE) {
-            score += (card.getType().ordinal() + 1);
-        } else if (card.getType() == Card.Type.DRAW_ONE) {
-            score += 10;
-        } else if (card.getType() == Card.Type.REVERSE || card.getType() == Card.Type.SKIP || card.getType() == Card.Type.DRAW_FIVE || card.getType() == Card.Type.FLIP || card.getType() == Card.Type.WILD_FLIP) {
-            score += 20;
-        } else if (card.getType() == Card.Type.SKIP_EVERYONE) {
-            score += 30;
-        } else if (card.getType() == Card.Type.WILD) {
-            score += 40;
-        } else if (card.getType() == Card.Type.WILD_DRAW_TWO) {
-            score += 50;
-        } else if (card.getType() == Card.Type.WILD_DRAW_COLOR) {
-            score += 60;
-        }
+        this.score += card.getScoreValue();
     }
 
     /**

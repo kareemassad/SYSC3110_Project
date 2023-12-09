@@ -232,8 +232,8 @@ public class UnoViewFrame extends JFrame implements UnoView {
             setStatus(winningPlayer.getName() + " has surpassed 500 points. They win the game!");
         } else {
             setStatus(winningPlayer.getName() + " has won the round! They earned " + model.getScore(winningPlayer) + " points.");
-//            updateTopCardLabel(lastCard);
-//            displayPlayerCards(winningPlayer);
+            updateTopCardLabel(lastCard);
+            displayPlayerCards(winningPlayer);
             askToContinue();
         }
         enableDrawButton(false);

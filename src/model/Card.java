@@ -8,8 +8,6 @@ import java.io.Serializable;
  */
 public class Card implements Serializable {
 
-    public int getScoreValue;
-
     // Conversions: Red->Pink, Green->Purple, Blue->Orange, Yellow->Teal
     public enum Color {
         RED, GREEN, BLUE, YELLOW, PINK, PURPLE, ORANGE, TEAL, WILD
