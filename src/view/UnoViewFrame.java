@@ -22,6 +22,13 @@ public class UnoViewFrame extends JFrame implements UnoView {
     private UnoController uc;
     private ArrayList<JButton> buttons;
 
+    /**
+     * Establishes a UNO GUI displaying all necessary components
+     * to play UNO Flip.
+     *
+     * @param uc The controller that reacts to GUI inputs.
+     * @param model The model that simulates the UNO game.
+     */
     public UnoViewFrame(UnoController uc, UnoModel model){
         super("UNO Game");
         this.uc = uc;
@@ -96,6 +103,12 @@ public class UnoViewFrame extends JFrame implements UnoView {
         this.setVisible(true);
     }
 
+    /**
+     * Retrieves the image associated with an UNO card
+     * and displays it on the topCardLabel.
+     *
+     * @param topCard The card to be displayed.
+     */
     public void updateTopCardLabel(Card topCard) {
         String imgPath = "src/images/" + topCard.getColor().toString().toLowerCase() + "_" + topCard.getType().toString().toLowerCase() + ".png";
         ImageIcon icon = new ImageIcon(imgPath);
@@ -106,6 +119,12 @@ public class UnoViewFrame extends JFrame implements UnoView {
         topCardLabel.setText(topCard.getColor().toString() + " " + topCard.getType().toString());
     }
 
+    /**
+     * Retrieves the image associate with each card in the
+     * hand of the given player and displays them on the GUI.
+     *
+     * @param player The player whose hand will be displayed.
+     */
     @Override
     public void displayPlayerCards(Player player) {
         pCardPanel.removeAll();
@@ -130,7 +149,10 @@ public class UnoViewFrame extends JFrame implements UnoView {
         pCardPanel.repaint();
     }
 
-
+    /**
+     * Prompts the player to establish the number
+     * of players who will join the UNO game.
+     */
     private void playerSetup() {
         boolean validSetup = false;
 
@@ -151,10 +173,22 @@ public class UnoViewFrame extends JFrame implements UnoView {
         }
     }
 
+    /**
+     * Writes the status to be displayed on the GUI.
+     *
+     * @param status The status to be displayed.
+     */
     public void setStatus(String status){
         statusLabel.setText(status);
     }
 
+    /**
+     * Prompts the user to name each of the players given
+     * by the parameter before establishing them as players
+     * in the UNO model.
+     *
+     * @param numberOfPlayers The number of players given.
+     */
     public void addPlayerNames(int numberOfPlayers) {
         for (int i = 0; i < numberOfPlayers; i++) {
             JPanel playerAddPanel = new JPanel();
@@ -186,13 +220,31 @@ public class UnoViewFrame extends JFrame implements UnoView {
         }
     }
 
-
+    /**\
+     * Toggles the status of the draw button
+     * on the GUI depending on the input given.
+     *
+     * @param enable The state the button should be changed to.
+     */
     public void enableDrawButton(boolean enable) {
         draw.setEnabled(enable);
     }
+
+    /**
+     * Toggles the status of the nextPlayer button
+     * on the GUI depending on the input given.
+     *
+     * @param enabled The state the button should be changed to.
+     */
     public void enableNextPlayerButton(boolean enabled) {nextPlayer.setEnabled(enabled);
     }
 
+    /**
+     * Main executable that establishes the mode, controller,
+     * and view before linking them together.
+     *
+     * @param args Default parameter of main().
+     */
     public static void main(String[] args) {
         UnoModel model = new UnoModel();
         UnoController controller = new UnoController(model);
@@ -202,12 +254,17 @@ public class UnoViewFrame extends JFrame implements UnoView {
         view.setVisible(true);
     }
 
-@Override
+    /**
+     * Given an event that occurs, processes the view
+     * based on the status of the event.
+     *
+     * @param e The UnoEvent to be processed.
+     */
+    @Override
     public void handleUnoStatusUpdate(UnoEvent e) {
         UnoModel.Status status = model.getStatus();
         System.out.println(status);
     switch (status) {
-        case NEW_ROUND_STARTED -> handleNewRoundStarted();
         case PLAYER_TURN_CHANGED -> handlePlayerTurnChanged();
         case PLAYER_WON -> handlePlayerWon(e.getPlayer(), e.getCard());
         case CARD_PLAYED -> handleCardPlayed(e.getPlayer(), e.getCard());
@@ -224,51 +281,37 @@ public class UnoViewFrame extends JFrame implements UnoView {
     }
     }
 
-    private void handleNewRoundStarted() {
-//        model.dealInitialCards();
-        updateTopCardLabel(model.getTopCard());
-        displayPlayerCards(model.getCurrentPlayer());
-
-        setStatus("New round started. It's " + model.getCurrentPlayer().getName() + "'s turn");
-        enableDrawButton(true);
-        enableNextPlayerButton(false);
-
-        if (model.getCurrentPlayer() instanceof AI) {
-            ((AI) model.getCurrentPlayer()).AITurn(model);
-            model.nextPlayer();
-        }
-    }
-
-
+    /**
+     * The Player_Won status was triggered, checks the
+     * total score of the player before disabling
+     * buttons on the GUI.
+     *
+     * @param winningPlayer The player who has won.
+     * @param lastCard The last card that was played.
+     */
     private void handlePlayerWon(Player winningPlayer, Card lastCard) {
 
         if(model.countScore(winningPlayer)){
             setStatus(winningPlayer.getName() + " has surpassed 500 points. They win the game!");
-            endGame();
         }else{
             setStatus(winningPlayer.getName() + " has won the round! They earned " + model.getScore(winningPlayer) + " points.");
             updateTopCardLabel(lastCard);
             displayPlayerCards(winningPlayer);
-
-            // Ask the player if they want to continue
-            int response = JOptionPane.showConfirmDialog(this, "Do you want to keep playing?", "Continue Playing?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-
-            if (response == JOptionPane.YES_OPTION) {
-                model.resetForNewRound();
-            } else {
-                endGame();
-            }
         }
         enableDrawButton(false);
         enableNextPlayerButton(false);
 
     }
 
-
-    private void endGame(){
-        this.dispose();
-    }
-
+    /**
+     * The Card_Player status was triggered, checks if
+     * the model should be reversed before updating the
+     * cards and status on the GUI. Enables/disables certain
+     * buttons to avoid unwanted player behaviour.
+     *
+     * @param player The player who played the card.
+     * @param playedCard The card that was played.
+     */
     private void handleCardPlayed(Player player, Card playedCard) {
         if (playedCard.getType() == Card.Type.REVERSE) {
             model.reverseDirection();
@@ -287,6 +330,13 @@ public class UnoViewFrame extends JFrame implements UnoView {
         nextPlayer.setEnabled(true);
     }
 
+    /**
+     * The Drew_Card status was triggered, updates the
+     * GUI status and disables further drawing of cards
+     * and allowing player to undo.
+     *
+     * @param player The player who drew a card.
+     */
     private void handleCardDrawn(Player player){
         setStatus(player.getName() + " drew a card.");
         draw.setEnabled(false);
@@ -296,6 +346,12 @@ public class UnoViewFrame extends JFrame implements UnoView {
         displayPlayerCards(player);
     }
 
+    /**
+     * The Player_Turn_Changed status was triggered, gets the
+     * information of the new player and displays it on the GUI
+     * while enabling/disabling certain buttons to avoid
+     * unwanted player behaviour.
+     */
     private void handlePlayerTurnChanged() {
         Player currentPlayer = model.getCurrentPlayer();
         setPlayerName(model.getCurrentPlayer().getName());
@@ -317,6 +373,11 @@ public class UnoViewFrame extends JFrame implements UnoView {
 
     }
 
+    /**
+     * The Flip_Cards status was triggered, refreshes
+     * the information on the GUI to reflect the current
+     * state of the UnoModel.
+     */
     public void handleFlipCards(){
         setPlayerName(model.getCurrentPlayer().getName());
         pCardPanel.removeAll();
@@ -325,11 +386,23 @@ public class UnoViewFrame extends JFrame implements UnoView {
         setStatus("Flipped cards.");
     }
 
+    /**
+     * Updates the status label within the GUI with
+     * the current status of UnoModel.
+     *
+     * @param status The status to be displayed.
+     */
     @Override
     public void updateStatus(String status) {
         statusLabel.setText(status);
     }
 
+    /**
+     * Opens a prompt allowing the player to choose from
+     * the possible colours of the game, before setting the
+     * card to that colour. That wild card can then be
+     * displayed as the topCard.
+     */
     @Override
     public void promptForColor() {
         Player currentPlayer = model.getCurrentPlayer();
@@ -360,6 +433,11 @@ public class UnoViewFrame extends JFrame implements UnoView {
         }
     }
 
+    /**
+     * Opens a prompts asking the user to choose from
+     * the possible flipped colour and proceeds to set
+     * the played wild card to that colour.
+     */
     @Override
     public void promptForFlipColor() {
         Player currentPlayer = model.getCurrentPlayer();
@@ -388,28 +466,61 @@ public class UnoViewFrame extends JFrame implements UnoView {
             }
         }
     }
+
+    /**
+     * The Uno_Announced status was triggered, updates
+     * the status on the GUI to reflect the state.
+     *
+     * @param player
+     */
     private void handleUnoAnnounced(Player player){
         setStatus(player.getName() + "announced UNO!");
     }
 
+    /**
+     * The Game_Over status was triggered, updates the
+     * status and disables certain buttons on the GUI
+     * to reflect a finished game.
+     */
     private void handleGameOver(){
         setStatus("Game Over.");
         enableDrawButton(false);
         enableNextPlayerButton(false);
     }
 
+    /**
+     * The Invalid_Move status was triggered, sets the
+     * status of the GUI to inform a player that the
+     * current move is invalid.
+     */
     private void handleInvalidMove(){
         setStatus("Invalid move! Please try again.");
     }
 
+    /**
+     * The Deck_Empty status was triggered, sets the status
+     * of the GUI to inform players that the current deck
+     * has been reshuffled.
+     */
     private void handleDeckEmpty(){
         setStatus("Deck is empty, reshuffling");
     }
 
+    /**
+     * The Reverse_Direction status was triggered, sets
+     * the status of the GUI to inform players that the
+     * current game direction is now reversed.
+     */
     private void handleReverseDirection(){
         setStatus("Play direction reversed");
     }
 
+    /**
+     * The Undo status was triggered, alters the state
+     * of several buttons to avoid unwanted results
+     * and refreshes the GUI to reflect the current
+     * topCard/hand of the player.
+     */
     private void handleUndo(){
         undo.setEnabled(false);
         redo.setEnabled(true);
@@ -420,6 +531,13 @@ public class UnoViewFrame extends JFrame implements UnoView {
         updateTopCardLabel(model.getTopCard());
         setStatus("Undid last move.");
     }
+
+    /**
+     * The Redo status was triggered, alters the state
+     * of several buttons to avoid unwanted player inputs
+     * and refreshes the GUI to reflect the current
+     * topCard/hand of the player.
+     */
     private void handleRedo(){
         undo.setEnabled(true);
         redo.setEnabled(false);
@@ -430,10 +548,21 @@ public class UnoViewFrame extends JFrame implements UnoView {
         updateTopCardLabel(model.getTopCard());
         setStatus("Redid last move.");
     }
+
+    /**
+     * Set the player label on the GUI to
+     * the given string parameter.
+     * @param name The name to be set.
+     */
     public void setPlayerName(String name) {
         playerLabel.setText(name);
     }
 
+    /**
+     * Allows a user to save the current state of the
+     * game with a specified filename, and checks to
+     * ensure that the filename is valid.
+     */
     public void saveGame() {
         String fileName = JOptionPane.showInputDialog(this, "Enter filename to save:");
         if (fileName != null && !fileName.trim().isEmpty()) {
@@ -443,6 +572,12 @@ public class UnoViewFrame extends JFrame implements UnoView {
         }
     }
 
+    /**
+     * Allows a user to load a previously saved state
+     * of the game by entering a specified filename,
+     * and prompts the model to load the filename if
+     * it is detected to be valid.
+     */
     public void loadGame() {
         String fileName = JOptionPane.showInputDialog("Enter filename for deserialization:");
         if (fileName != null && !fileName.trim().isEmpty()) {

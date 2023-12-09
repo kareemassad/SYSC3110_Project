@@ -109,12 +109,23 @@ public class Deck implements Serializable {
         return false;
     }
 
+    /**
+     * Flips each card in the current deck by calling
+     * a method for each individual card.
+     *
+     * @param flipped The stats of the flipped deck.
+     */
     public void flipDeck(boolean flipped){
         for (Card card: deck){
             card.flipCard(flipped);
         }
     }
 
+    /**
+     * Adds a given card to the deck.
+     *
+     * @param givenCard The card to be added.
+     */
     public void addCard(Card givenCard){
         deck.add(givenCard);
     }
